@@ -1,7 +1,13 @@
 package com.qna;
 /**QNA 답변형 게시판
  * qnaNum : qna게시글 번호(기본키)
- * userId :
+ * userId : 아이디(외래키)
+ * userName : 이름
+ * subject : 제목
+ * content : 내용
+ * created : 작성일자
+ * status : 답변상태 ex)status가 값 1을 가지고있으면 그 질문에는 답변을 달지 못하도록 하는 용도
+ * 
  * @author SIST
  *
  */
