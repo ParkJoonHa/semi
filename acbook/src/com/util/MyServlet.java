@@ -22,7 +22,7 @@ public abstract class MyServlet extends HttpServlet{
 	}
 
 	protected void forward(HttpServletRequest req, HttpServletResponse resp, String path) throws ServletException, IOException {
-		// Æ÷¿öµùÀ» À§ÇÑ ¸Ş¼Òµå
+		// í¬ì›Œë”©ì„ ìœ„í•œ ë©”ì†Œë“œ
 		RequestDispatcher rd=req.getRequestDispatcher(path);
 		rd.forward(req, resp);
 	}
