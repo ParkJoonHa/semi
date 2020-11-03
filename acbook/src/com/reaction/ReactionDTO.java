@@ -12,7 +12,7 @@ public class ReactionDTO {
 	private int likeNum;
 	private int boastNum;
 	private String userId;
-	private String usserName;
+	private String userName;
 	
 	public int getLikeNum() {
 		return likeNum;
@@ -32,11 +32,11 @@ public class ReactionDTO {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getUsserName() {
-		return usserName;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUsserName(String usserName) {
-		this.usserName = usserName;
+	public void setUserName(String usserName) {
+		this.userName = usserName;
 	}
 	
 	
