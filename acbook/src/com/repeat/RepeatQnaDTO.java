@@ -6,26 +6,17 @@ package com.repeat;
  * subject : 제목
  * content : 내용
  * created : 글 등록일
- * status : test
  * @author SIST
  *
  */
-public class RepeatQNA {
+public class RepeatQnaDTO {
 	private int repeatNum;
 	private String userId;
 	private String userName;
 	private String subject;
 	private String content;
 	private String created;
-	private String status;
 	
-	
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
 	public int getRepeatNum() {
 		return repeatNum;
 	}
