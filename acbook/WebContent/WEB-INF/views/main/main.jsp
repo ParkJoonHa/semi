@@ -34,7 +34,7 @@
 					<h1>자랑 게시판</h1>
 				</div>
 				<article class="article1">
-					<!-- 여기가 게시글 올리는곳 -->
+					<!-- 여기가 게시글 올리는곳  : 테스 -->
 					<div>
 						<table class="table1">
 							<tr>
