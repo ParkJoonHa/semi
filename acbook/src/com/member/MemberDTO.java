@@ -3,7 +3,7 @@ package com.member;
  * userId : 아이디(member1,2 기본키)
  * userName : 이름
  * userPwd : 비밀번호
- * status : 계정 상태 판별 ex) 1이면 운영자 2면 임시정지 3이면 영구정지...
+ * status : 계정 상태 판별 ex) 디폴트는 0, 1이면 운영자 2면 임시정지 3이면 영구정지...
  * c_date : 계정생성일
  * m_date : 계정 정보 수정일
  * email : 이메일 1+2 통합본 ex) email1+"@"+email2 = email
