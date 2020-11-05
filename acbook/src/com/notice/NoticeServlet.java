@@ -189,7 +189,7 @@ public class NoticeServlet extends MyUploadServlet {
 
 		req.setAttribute("mode", "created");
 		req.setAttribute("rows", rows);
-		forward(req, resp, "WEB-INF/views/notice/created.jsp");
+		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 	}
 
 	private void createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -21,13 +21,19 @@ public class NoticeDAOImpl implements NoticeDAO {
 
 		try {
 			// 먼저 시퀀스 값 가져와서 num에 대입 (시퀀스 currval로 가져올 시 문제생길 수 있어서 먼저하기)
-			sb.append("SELECT notice_number.NEXTVAL FROM dual ");
+			sb.append("SELECT notice_seq.NEXTVAL FROM dual ");
 			pstmt = conn.prepareStatement(sb.toString());
 			rs = pstmt.executeQuery();
-			int noticeNum = rs.getInt(1);
-
+			int noticeNum=0;
+			
+			if (rs.next()) {
+				noticeNum = rs.getInt(1);								
+			}
+			
+			rs.close();
 			pstmt.close();
 
+			sb.setLength(0);
 			// 내용 테이블 추가
 			if (dto.getSaveFiles() != null) { // 첨부 파일이 있으면
 				for (int i = 0; i < dto.getSaveFiles().length; i++) {
@@ -39,13 +45,14 @@ public class NoticeDAOImpl implements NoticeDAO {
 			}
 			
 			sb.append("INSERT INTO notice ");
-			sb.append(" (userId, subject, content, hitCount, created) ");
-			sb.append(" VALUES (?, ?, ?, 0, SYSDATE) ");
+			sb.append(" (noticeNum, userId, subject, content, hitCount, created) ");
+			sb.append(" VALUES (?, ?, ?, ?, 0, SYSDATE) ");
 
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setString(1, dto.getUserId());
-			pstmt.setString(2, dto.getSubject());
-			pstmt.setString(3, dto.getContent());
+			pstmt.setInt(1, noticeNum);
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(4, dto.getContent());
 
 			result = pstmt.executeUpdate();
 			
@@ -205,9 +212,9 @@ public class NoticeDAOImpl implements NoticeDAO {
 			sb.append(" FROM notice n "
 					+ " JOIN member1 m ON n.userId=m.userId ");
 			sb.append(" LEFT OUTER JOIN multiFile f ON n.noticeNum=f.noticeNum");
-			sb.append(" ORDER BY num DESC  ");
-			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
-
+			sb.append(" ORDER BY noticeNum DESC  ");
+			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ");
+			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, rows);
@@ -217,7 +224,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 			while(rs.next()) {
 				NoticeDTO dto=new NoticeDTO();
 				
-				dto.setNoticeNum(rs.getInt("num"));
+				dto.setNoticeNum(rs.getInt("noticeNum"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
@@ -270,7 +277,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 			} else {
 				sb.append(" WHERE INSTR(" + condition + ", ?) >= 1  ");
 			}
-			sb.append(" ORDER BY num DESC  ");
+			sb.append(" ORDER BY noticeNum DESC  ");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
             
 			pstmt=conn.prepareStatement(sb.toString());
