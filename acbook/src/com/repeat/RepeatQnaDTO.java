@@ -1,6 +1,7 @@
 package com.repeat;
 /** 자주하는 질문 게시판
  * repreatNum : 자주하는 질문 게시판 글번호(기본키)
+ * listNum : 리스트 번호 
  * userId : 아이디(외래키)
  * userName : 이름
  * subject : 제목
@@ -11,6 +12,7 @@ package com.repeat;
  */
 public class RepeatQnaDTO {
 	private int repeatNum;
+	private int listNum;
 	private String userId;
 	private String userName;
 	private String subject;
@@ -52,6 +54,12 @@ public class RepeatQnaDTO {
 	}
 	public void setCreated(String created) {
 		this.created = created;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
 	}
 	
 	
