@@ -20,7 +20,7 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 		String sql;
 		
 		try {
-			sql = "INSERT INTO repeat (repeatNum, userId, subject, content, created) VALUES (repeat_seq, ?, ?, ?, SYSDATE)";
+			sql = "INSERT INTO repeat (repeatNum, userId, subject, content, created) VALUES (repeat_seq.NEXTVAL, ?, ?, ?, SYSDATE)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getSubject());
@@ -116,7 +116,7 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 			sql = "SELECT repeatNum, rp.userId, userName, subject, content, created "
 					+ " FROM repeat rp "
 					+ " JOIN member1 m1 ON rp.userId = m1.userId "
-					+ " WHERE num = ?";
+					+ " WHERE repeatNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 			
@@ -193,9 +193,13 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 		try {
 			if(condition.equalsIgnoreCase("created")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-        		sql="SELECT NVL(COUNT(*), 0) FROM repeat rp JOIN member1 m1 ON rp.userId = m1.userId WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ";
+        		sql="SELECT NVL(COUNT(*), 0) "
+        				+ " FROM repeat rp JOIN member1 m1 ON rp.userId = m1.userId " 
+        				+ " WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ";
 			} else {
-				sql="SELECT NVL(COUNT(*), 0) FROM repeat rp JOIN member1 m1 ON rp.userId = m1.userId WHERE  INSTR(" + condition + ", ?) >= 1 ";
+				sql="SELECT NVL(COUNT(*), 0) "
+					+	" FROM repeat rp JOIN member1 m1 ON rp.userId = m1.userId "
+					+	" WHERE  INSTR(" + condition + ", ?) >= 1 ";
 			}
 			
 			pstmt = conn.prepareStatement(sql);
@@ -233,7 +237,7 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 		String sql;
 		
 		try {
-			sql = "SELECT repeatNum, rp.userId, userName, subject, created "
+			sql = "SELECT repeatNum, rp.userId, userName, subject, content, TO_CHAR(created,'YYYY-MM-DD') created "
 					+ " FROM repeat rp JOIN member1 m1 ON rp.userId = m1.userId "
 					+ " ORDER BY repeatNum DESC "
 					+ " OFFSET ? ROWS FETCH FIRST ? ROWS ONLY ";
@@ -248,9 +252,10 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 				RepeatQnaDTO dto = new RepeatQnaDTO();
 				
 				dto.setRepeatNum(rs.getInt("repeatNum"));
-				dto.setUserId(rs.getString("uesrId"));
+				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
+				dto.setContent(rs.getString("content"));
 				dto.setCreated(rs.getString("created"));
 				
 				list.add(dto);
@@ -283,7 +288,7 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("SELECT repeatNum, rp.userId, userName, subject, created ");
+			sb.append("SELECT repeatNum, rp.userId, userName, subject, content, TO_CHAR(created,'YYYY-MM-DD') created ");
 			sb.append(" FROM repeat rp JOIN member1 m1 ON rp.userId = m1.userId ");
 			if(condition.equalsIgnoreCase("created")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
@@ -307,6 +312,7 @@ public class RepeatQnaDAOImpl implements RepeatQnaDAO{
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
+				dto.setContent(rs.getString("content"));
 				dto.setCreated(rs.getString("created"));
 				
 				list.add(dto);
