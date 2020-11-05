@@ -11,7 +11,7 @@
 				
 				<a href="${pageContext.request.contextPath}/member/login.do">로그인</a>
 					&nbsp;&nbsp;|&nbsp;&nbsp; 
-				<a href="${pageContext.request.contextPath}/member/">회원가입</a>
+				<a href="${pageContext.request.contextPath}/member/member.do">회원가입</a>
 				
 			</c:if>
 

@@ -18,7 +18,15 @@ public class NewsDTO {
 	private String content;
 	private String photoFileName;
 	private String created;
+	private String hitCount;
 	
+	
+	public String getHitCount() {
+		return hitCount;
+	}
+	public void setHitCount(String hitCount) {
+		this.hitCount = hitCount;
+	}
 	public int getNewsNum() {
 		return newsNum;
 	}

@@ -9,15 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/resource/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/layout.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
 <title>Document</title>
+
 </head>
 
 <body>
-
 	<div id="mainBody">
 
 		<header class="header-font">
@@ -31,10 +31,9 @@
 
 			<section>
 				<div class="innerNav">
-					<h1>자랑 게시판</h1>
+					<h3>공유도 공유하는 정보 공유</h3>
 				</div>
 				<article class="article1">
-					<!-- 여기가 게시글 올리는곳 -->
 					<div>
 						<table class="table1">
 							<tr>
@@ -45,19 +44,22 @@
 								<td width="70">조회수</td>
 							</tr>
 						</table>
-
+					<c:forEach var="dto" items="${list}">
 						<table class="table2">
 							<tr>
-								<td width="50">1</td>
-								<td><a href="">난중 가계부</a></td>
-								<td width="100">이순신</td>
-								<td width="100">1866-04-25</td>
+								<td width="50">${dto.newsNum}</td>
+								<td><a href="">${dto.subject}</a></td>
+								<td width="100">${dto.userName}</td>
+								<td width="100">${dto.created}</td>
 								<td width="70">1</td>
 							</tr>
+							
 						</table>
+					</c:forEach>
 					</div>
 				</article>
 				<article class="article2">
+			
 					<table class="table3">
 						<tr>
 							<td><button class="btn btn1">새로고침</button></td>
@@ -72,10 +74,11 @@
 								<button class="btn btn2" type="button">검색</button>
 							</td>
 							<td align="right">
-								<button class="btn btn3" type="button">글올리기</button>
+								<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/created.do';">글올리기</button>
 							</td>
 						</tr>
 					</table>
+			
 				</article>
 			</section>
 		</main>

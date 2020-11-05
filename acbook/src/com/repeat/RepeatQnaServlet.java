@@ -8,7 +8,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.member.SessionInfo;
 import com.util.MyServlet;
 @WebServlet("/repeat/*")
 public class RepeatQnaServlet extends MyServlet {
@@ -33,7 +35,8 @@ public class RepeatQnaServlet extends MyServlet {
 		String rows = req.getParameter("rows");
 		
 		//세션 객체
-		
+		HttpSession session=req.getSession();
+	      SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
 		// admin(관리자)가 아니면 글을 작성할 수 없음
 		if(! info.getUserId().equals("admin")) {
@@ -50,6 +53,9 @@ public class RepeatQnaServlet extends MyServlet {
 		RepeatQnaDAO dao = new RepeatQnaDAOImpl();
 		RepeatQnaDTO dto = new RepeatQnaDTO();
 		String cp = req.getContextPath();
+		
+		HttpSession session=req.getSession();
+	    SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
 		try {
 			// 세션 객체
@@ -134,6 +140,9 @@ public class RepeatQnaServlet extends MyServlet {
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
 		String query = "page="+page;
+		
+		HttpSession session=req.getSession();
+	      SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
 		try {
 			// 세션 객체
