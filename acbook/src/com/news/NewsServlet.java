@@ -324,8 +324,15 @@ public class NewsServlet extends MyUploadServlet {
 			
 			keyword=URLDecoder.decode(keyword,"utf-8");
 			if(keyword.length()!=0) {
-				query+="&condition="+condition+
+				query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword,"utf-8");
 			}
+			NewsDTO dto=new NewsDTO();
+			dto.setNewsNum(Integer.parseInt(req.getParameter("newsNum")));
+			dto.setSubject(req.getParameter("subject"));
+			dto.setContent(req.getParameter("content"));
+			
+			dao.updateNews(dto);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
