@@ -80,11 +80,15 @@ function sendOk() {
 				</article>
 				<article class="article2">
 						<table class="table3">
+						<c:if test="${mode=='update'}">
+						<input type="hidden" name="page" value="${page}">
+						<input type="hidden" name="newsNum" value="${dto.newsNum}">
+						</c:if>
 							<tr>
 								<td align="center">
-									<button class="btn btn3" type="button" onclick="sendOk();">등록하기</button>
+									<button class="btn btn3" type="button" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 									<button class="btn btn3" type="reset">다시입력</button>
-									<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/main.do';">등록취소</button>
+									<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}'/news/main.do;">${mode=='update'?'수정취소':'등록취소' }</button>
 								</td>
 							</tr>
 						</table>

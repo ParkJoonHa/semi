@@ -14,8 +14,8 @@ public interface NewsDAO {
 	public List<NewsDTO> listNews(int offset, int rows);
 	public List<NewsDTO> listNews(int offset, int rows, String condition, String keyword);
 	
-	public int updateHitCount(int num) throws SQLException;
-	public NewsDTO readNews(int num);
-	public NewsDTO preReadNews(int num, String condition, String keyword);
-	public NewsDTO nextReadNews(int num, String condition, String keyword);
+	public int updateHitCount(int newsNum) throws SQLException;
+	public NewsDTO readNews(int newsNum);
+	public NewsDTO preReadNews(int newsNum, String condition, String keyword);
+	public NewsDTO nextReadNews(int newsNum, String condition, String keyword);
 }

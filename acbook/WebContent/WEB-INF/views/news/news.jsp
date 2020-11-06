@@ -48,7 +48,7 @@
 						<table class="table2">
 							<tr>
 								<td width="50">${dto.newsNum}</td>
-								<td><a href="">${dto.subject}</a></td>
+								<td><a href="${articleUrl}&newsNum=${dto.newsNum}">${dto.subject}</a></td>
 								<td width="100">${dto.userName}</td>
 								<td width="100">${dto.created}</td>
 								<td width="70">1</td>

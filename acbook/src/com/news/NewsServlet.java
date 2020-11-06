@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -123,32 +126,32 @@ public class NewsServlet extends MyUploadServlet {
 		}
 		// 리스트 번호 만들기
 
-//		  Date curDate=new Date();
-//		  SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		  int listNum, n=0;
-//		  long gap;
-//		  for(NewsDTO dto:list) {
-//			  listNum=dataCount-(offset+n);
-//			  dto.setListNum(listNum);
-//			  
-//			  try {
-//				Date date=sdf.parse(dto.getCreated());
-//				gap=(curDate.getTime()- date.getTime())/(1000*60*60);
-//				dto.setGap(gap);
-//			} catch (Exception e) {
-//				
-//			}
-//			  dto.setCreated(dto.getCreated().substring(0,10));
-//			  
-//			  n++;
-//		  }
+		Date curDate=new Date();
+		  SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		  int listNum, n=0;
+		  long gap;
+		  for(NewsDTO dto:list) {
+			  listNum=dataCount-(offset+n);
+			  dto.setListNum(listNum);
+			  
+			  try {
+				Date date=sdf.parse(dto.getCreated());
+				gap=(curDate.getTime()- date.getTime())/(1000*60*60);
+				dto.setGap(gap);
+			} catch (Exception e) {
+				
+			}
+			  dto.setCreated(dto.getCreated().substring(0,10));
+			  
+			  n++;
+		  }
 
 		String query = "";
 		if (keyword.length() != 0) {
 			query = "condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
 		}
-		String listUrl = cp + "/bbs/list.do";
-		String articleUrl = cp + "/bbs/article.do?page=" + current_page;
+		String listUrl = cp + "/news/main.do";
+		String articleUrl = cp + "/news/article.do?page=" + current_page;
 		if (query.length() != 0) {
 			listUrl += "?" + query;
 			articleUrl += "&" + query;
@@ -177,13 +180,12 @@ public class NewsServlet extends MyUploadServlet {
 
 	}
 
-	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
 		NewsDTO dto = new NewsDTO();
 		NewsDAO dao = new NewsDAOImpl();
-		String cp = req.getContextPath();
+		
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 
 		try {
 			dto.setUserId(info.getUserId());
@@ -196,25 +198,138 @@ public class NewsServlet extends MyUploadServlet {
 			if (map != null) {
 				filename = map.get("saveFilename");
 				dto.setPhotoFileName(filename);
-				dao.insertNews(dto);
 			}
+			dao.insertNews(dto);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		resp.sendRedirect(cp + "/news/main.do");
+		String cp=req.getContextPath();
+	    resp.sendRedirect(cp+"/news/main.do");
 	}
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		NewsDAO dao=new NewsDAOImpl();
+		String cp=req.getContextPath();
+		
+		try {
+			int newsNum=Integer.parseInt(req.getParameter("newsNum"));
+			String page=req.getParameter("page");
+			
+			String condition=req.getParameter("condition");
+			String keyword=req.getParameter("keyword");
+			if(condition==null) {
+				condition="all";
+				keyword="";
+			}
+			keyword=URLDecoder.decode(keyword,"utf-8");
+			
+			String query="page="+page;
+			if(keyword.length()!=0) {
+				query+="&condition="+condition+"&keyword="+
+			         URLEncoder.encode(keyword,"utf-8");
+			}
+			
+	
+			dao.updateHitCount(newsNum);
+			
+			
+			NewsDTO dto=dao.readNews(newsNum);
+			if(dto==null) {
+				resp.sendRedirect(cp+"/news/main.do?"+query);
+				return;
+			}
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+			
+		
+			NewsDTO preReadDto=dao.preReadNews(newsNum, condition, keyword);
+			NewsDTO nextReadDto=dao.nextReadNews(newsNum, condition, keyword);
+			
+			req.setAttribute("dto", dto);
+			req.setAttribute("preReadDto", preReadDto);
+			req.setAttribute("nextReadDto", nextReadDto);
+			req.setAttribute("query", query);
+			req.setAttribute("page", page);
+			
+			String path="/WEB-INF/views/news/article.jsp";
+			forward(req, resp, path);
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp+"/news/main.do");
+		
 	}
 
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		NewsDAO dao=new NewsDAOImpl();
+		String cp=req.getContextPath();
+		String page=req.getParameter("page");
+		String query="page="+page;
+		
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		try {
+			String condition=req.getParameter("condition");
+			String keyword=req.getParameter("keyword");
+			if(condition==null) {
+				condition="all";
+				keyword="";
+			}
+			keyword=URLDecoder.decode(keyword, "utf-8");
+			if(keyword.length()!=0) {
+				query+="&condition="+condition+"&keyword="+
+			       URLEncoder.encode(keyword, "utf-8");
+			}
+			
+			int newsNum=Integer.parseInt(req.getParameter("newsNum"));
+			NewsDTO dto=dao.readNews(newsNum);
+			if(dto==null || ! dto.getUserId().equals(info.getUserId())) {
+				resp.sendRedirect(cp+"/news/main.do?"+query);
+				return;
+			}
+			
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("mode", "update");
+			req.setAttribute("condition", condition);
+			req.setAttribute("keyword", keyword);
+			
+			forward(req, resp, "/WEB-INF/views/news/created.jsp");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp+"/board/main.do?"+query);
 	}
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		String cp=req.getContextPath();
+		String page=req.getParameter("page");
+		String query="page="+page;
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp+"/news/main.do");
+			return;
+		}
+		
+		NewsDAO dao=new NewsDAOImpl();
+		try {
+			String condition=req.getParameter("condition");
+			String keyword=req.getParameter("keyword");
+			if(condition ==null) {
+				condition="all";
+				keyword="";
+			}
+			
+			keyword=URLDecoder.decode(keyword,"utf-8");
+			if(keyword.length()!=0) {
+				query+="&condition="+condition+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp+"/news/main.do?"+query);
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

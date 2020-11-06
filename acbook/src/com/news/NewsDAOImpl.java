@@ -43,12 +43,35 @@ public class NewsDAOImpl implements NewsDAO{
 
 	@Override
 	public int updateNews(NewsDTO dto) throws SQLException {
-	
-		return 0;
+		PreparedStatement pstmt=null;
+		int result=0;
+		String sql;
+		
+		try {
+			sql="UPDATE news SET subject=? ,content=? WHERE newsNum=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getNewsNum());
+			
+			result=pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public int deleteNews(int num, String userId) throws SQLException {
+	public int deleteNews(int newsNum, String userId) throws SQLException {
 		
 		return 0;
 	}
@@ -124,25 +147,68 @@ public class NewsDAOImpl implements NewsDAO{
 	}
 
 	@Override
-	public int updateHitCount(int num) throws SQLException {
+	public int updateHitCount(int newsNum) throws SQLException {
 		
 		return 0;
 	}
 
 	@Override
-	public NewsDTO readNews(int num) {
-	
-		return null;
+	public NewsDTO readNews(int newsNum) {
+		NewsDTO dto =null;
+		PreparedStatement pstmt=null;
+		String sql;
+		ResultSet rs=null;
+		
+		try {
+			sql="SELECT newsNum, n.userId,userName,subject,content,photoFilename,created,hitCount"
+			  + " FROM news n "
+			  + " JOIN member1 m ON n.userId =m.userId WHERE newsNum=? ";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setInt(1, newsNum);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto=new NewsDTO();
+				dto.setNewsNum(rs.getInt("newsNum"));
+				dto.setUserId(rs.getNString("userId"));
+				dto.setUserName(rs.getNString("userName"));
+				dto.setSubject(rs.getNString("subject"));
+				dto.setContent(rs.getString("content"));
+				dto.setPhotoFileName(rs.getNString("photoFileName"));
+				dto.setCreated(rs.getString("created"));
+				dto.setHitCount(rs.getString("hitCount"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		}
+		
+		return dto;
 	}
 
 	@Override
-	public NewsDTO preReadNews(int num, String condition, String keyword) {
+	public NewsDTO preReadNews(int newsNum, String condition, String keyword) {
 		
 		return null;
 	}
 
 	@Override
-	public NewsDTO nextReadNews(int num, String condition, String keyword) {
+	public NewsDTO nextReadNews(int newsNum, String condition, String keyword) {
 		
 		return null;
 	}

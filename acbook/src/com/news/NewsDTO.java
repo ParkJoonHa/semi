@@ -12,6 +12,7 @@ package com.news;
  */
 public class NewsDTO {
 	private int newsNum;
+	private int listNum;
 	private String userId;
 	private String userName;
 	private String subject;
@@ -19,8 +20,21 @@ public class NewsDTO {
 	private String photoFileName;
 	private String created;
 	private String hitCount;
+	private long gap;
 	
 	
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
 	public String getHitCount() {
 		return hitCount;
 	}
