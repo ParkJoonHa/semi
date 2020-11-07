@@ -340,6 +340,33 @@ public class NewsServlet extends MyUploadServlet {
 	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		String cp=req.getContextPath();
+		String page=req.getParameter("page");
+		String quary="page="+page;
+		NewsDAO dao= new NewsDAOImpl();
+		
+		try {
+			HttpSession session =req.getSession();
+			SessionInfo info= (SessionInfo)session.getAttribute("member");
+			
+			String userId=info.getUserId();
+			int newsNum=Integer.parseInt(req.getParameter("newsNum"));
+			dao.deleteNews(newsNum, userId);
+			
+			String condition =req.getParameter("condition");
+			String keyword =req.getParameter("keyword");
+			if(condition==null) {
+				condition="all";
+				keyword="";
+			}
+			keyword=URLDecoder.decode(keyword, "utf-8");
+			if(keyword.length()!=0) {
+				quary+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "utf-8");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.sendRedirect(cp+"/news/main.do?"+quary);
+		
 	}
 }

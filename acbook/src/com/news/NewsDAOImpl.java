@@ -72,8 +72,31 @@ public class NewsDAOImpl implements NewsDAO{
 
 	@Override
 	public int deleteNews(int newsNum, String userId) throws SQLException {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
 		
-		return 0;
+		
+		try {
+			if(userId.equals("admin")) {
+				sql="DELETE FROM news WHERE newsNum=?";
+			}else {
+				sql="DELETE FORM news WHERE newsNum=? AND useId=?";	
+			}
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, newsNum);
+			if(!userId.equals("admin")) {
+				pstmt.setString(2, "userId");
+			}
+			result=pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -84,8 +107,16 @@ public class NewsDAOImpl implements NewsDAO{
 
 	@Override
 	public int dataCount(String condition, String keyword) {
+		int result =0;
+		PreparedStatement pstmt=null;
+		String sql;
+		ResultSet rs=null;
 		
-		return 0;
+		try {
+			
+		} catch (Exception e) {
+		}
+		return result;
 	}
 
 	@Override

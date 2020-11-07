@@ -55,7 +55,7 @@
 									<button type="button" onclick="script:location.href='${pageContext.request.contextPath}/news/update.do?page=${page}&newsNum=${dto.newsNum}';">수정</button>
 								</td>
 								<td>
-									<button>삭제</button>
+									<button type="button" onclick="script:location.href='${pageContext.request.contextPath}/news/delete.do?page=${page}&newsNum=${dto.newsNum}';">삭제</button>
 								</td>
 							</tr>
 						</table>
