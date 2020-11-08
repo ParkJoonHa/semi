@@ -31,51 +31,79 @@
 
 			<section>
 				<div class="innerNav">
-					<h1>자랑 게시판</h1>
+					<h1>공지사항</h1>
 				</div>
 				<article class="article1">
 					<!-- 여기가 게시글 올리는곳  : 테스 -->
-					<div>
-						<table class="table1">
-							<tr>
-								<td width="50">번호</td>
-								<td>제 &nbsp;목</td>
-								<td width="100">작성자</td>
-								<td width="100">작성일</td>
-								<td width="70">조회수</td>
-							</tr>
-						</table>
+								<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="center">
+				   ${dto.subject}
+			    </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td width="50%" align="left" style="padding-left: 5px;">
+			       이름 : ${dto.userName}
+			    </td>
+			    <td width="50%" align="right" style="padding-right: 5px;">
+			        ${dto.created} | 조회 ${dto.hitCount}
+			    </td>
+			</tr>
+			
+			<tr style="border-bottom: 1px solid #cccccc;">
+			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			      ${dto.content}
+			   </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			       첨&nbsp;&nbsp;부 :
+		           <c:if test="${not empty dto.saveFilename}"> <!-- 서버 컴퓨터에서 파일을 지운 경우, 다운로드가 되지 않음. 때문에 다운로드가 반드시 된다고 보장할 수 없다. -->
+		                   <a href="${pageContext.request.contextPath}/notice/download.do?noticeNum=${dto.noticeNum}">${dto.originalFilename}</a>
+		                    (<fmt:formatNumber value="${dto.fileSize/1024}" pattern="0.00"/> Kbyte)
+		           </c:if>
+			    </td>
+			</tr>
 
-						<table class="table2">
-							<tr>
-								<td width="50">1</td>
-								<td><a href="">난중 가계부</a></td>
-								<td width="100">이순신</td>
-								<td width="100">1866-04-25</td>
-								<td width="70">1</td>
-							</tr>
-						</table>
-					</div>
-				</article>
-				<article class="article2">
-					<table class="table3">
-						<tr>
-							<td><button class="btn btn1">새로고침</button></td>
-							<td align="right"><select name="" id="serch">
-									<option value="#">검색</option>
-									<option value="">작성자 검색</option>
-									<option value="">제목으로 검색</option>
-							</select></td>
-							<td align="center" width="300"><input class="ipt"
-								type="text" name=""></td>
-							<td>
-								<button class="btn btn2" type="button">검색</button>
-							</td>
-							<td align="right">
-								<button class="btn btn3" type="button">글올리기</button>
-							</td>
-						</tr>
-					</table>
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			       이전글 :
+			         <c:if test="${not empty preReadDto}">
+			              <a href="${pageContext.request.contextPath}/notice/article.do?${query}&noticeNum=${preReadDto.num}">${preReadDto.subject}</a>
+			        </c:if>
+			    </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			    다음글 :
+			         <c:if test="${not empty nextReadDto}">
+			              <a href="${pageContext.request.contextPath}/notice/article.do?${query}&noticeNum=${nextReadDto.num}">${nextReadDto.subject}</a>
+			        </c:if>
+			    </td>
+			</tr>
+			</table>
+			
+			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
+			<tr height="45">
+			    <td width="300" align="left">
+			       <c:if test="${sessionScope.member.userId==dto.userId}">				    
+			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/update.do?noticeNum=${dto.noticeNum}&page=${page}&rows=${rows}';">수정</button>
+			       </c:if>
+			       <c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">				    
+			          <button type="button" class="btn" onclick="deleteNotice('${dto.noticeNum}');">삭제</button>
+			       </c:if>
+			    </td>
+			
+			    <td align="right">
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list.do?${query}';">리스트</button>
+			    </td>
+			</tr>
+			</table>
+					
+					
 				</article>
 			</section>
 		</main>

@@ -83,7 +83,14 @@
 					<div>
 						<table class="table1">
 							<tr>
-								<td width="50"></td>
+							  	  <c:if test="${sessionScope.member.userId=='admin'}">
+								  	  <td width="50" style="color: #787878;">
+								  	  	<input type="checkbox" name="chkAll" id="chkAll" style="margin-top: 3px;">
+								  	  </td>
+							  	  </c:if>
+							  	  <c:if test="${sessionScope.member.userId!='admin'}">
+							  	  		<td width="50"></td>
+							  	  </c:if> 																
 								<td width="50">번호</td>
 								<td>제 &nbsp;목</td>
 								<td width="100">작성자</td>
@@ -91,25 +98,17 @@
 								<td width="70">조회수</td>
 							</tr>
 						</table>
-
+ 
 						<table class="table2">
-							<tr>								
-								<td width="50"></td>
-								<td width="50">1</td>
-								<td><a href="">난중 가계부</a></td>
-								<td width="100">이순신</td>
-								<td width="100">1866-04-25</td>
-								<td width="70">1</td>
-							</tr>
 							<c:forEach var="dto" items= "${list}">
 								<tr>
-							   	  <c:if test="${sessionScope.member.userId=='admin'}">
 							   	     <td width="50">
-							   	  		<input type="checkbox" name="nums" value="${dto.num}" style="margin-top: 3px;" data-filename="${dto.saveFilename}">
-							   	  	 </td>
+							   	  <c:if test="${sessionScope.member.userId=='admin'}">
+							   	  		<input type="checkbox" name="nums" value="${dto.noticeNum}" style="margin-top: 3px;" data-filename="${dto.saveFilename}">
 							  	  </c:if>									
-									<td width="50">${dto.noticeNum}</td>
-									<td><a href="${articleUrl}&num=${dto.num}">${dto.subject}</a></td>
+							   	  	 </td>
+									<td width="50">${dto.noticeNum}</td> <!-- listNum으로 확인 후 고치기 -->
+									<td><a href="${articleUrl}&noticeNum=${dto.noticeNum}">${dto.subject}</a></td>
 									<td width="100">${dto.userName}</td>
 									<td width="100">${dto.created}</td>
 									<td width="70">${dto.hitCount}</td>
@@ -117,9 +116,17 @@
 							</c:forEach>
 							
 						</table>
+					<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+					   <tr height="35">
+						<td align="center">
+							${dataCount!=0?paging:"등록된 게시물이 없습니다."}
+						</td>
+					   </tr>
+					</table>					
 					</div>
 				</article>
 				<article class="article2">
+				
 					<table class="table3">
 						<tr>
 							<td><button class="btn btn1">새로고침</button></td>

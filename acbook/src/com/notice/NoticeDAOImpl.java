@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.util.DBConn;
 
@@ -32,8 +33,20 @@ public class NoticeDAOImpl implements NoticeDAO {
 			
 			rs.close();
 			pstmt.close();
-
 			sb.setLength(0);
+
+			sb.append("INSERT INTO notice ");
+			sb.append(" (noticeNum, userId, subject, content, hitCount, created) ");
+			sb.append(" VALUES (?, ?, ?, ?, 0, SYSDATE) ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, noticeNum);
+			pstmt.setString(2, dto.getUserId());
+			pstmt.setString(3, dto.getSubject());
+			pstmt.setString(4, dto.getContent());
+			
+			result = pstmt.executeUpdate();
+
 			// 내용 테이블 추가
 			if (dto.getSaveFiles() != null) { // 첨부 파일이 있으면
 				for (int i = 0; i < dto.getSaveFiles().length; i++) {
@@ -44,17 +57,6 @@ public class NoticeDAOImpl implements NoticeDAO {
 				}
 			}
 			
-			sb.append("INSERT INTO notice ");
-			sb.append(" (noticeNum, userId, subject, content, hitCount, created) ");
-			sb.append(" VALUES (?, ?, ?, ?, 0, SYSDATE) ");
-
-			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setInt(1, noticeNum);
-			pstmt.setString(2, dto.getUserId());
-			pstmt.setString(3, dto.getSubject());
-			pstmt.setString(4, dto.getContent());
-
-			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -164,9 +166,15 @@ public class NoticeDAOImpl implements NoticeDAO {
         try {
         	if(condition.equalsIgnoreCase("created")) {
         		keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-        		sql="SELECT NVL(COUNT(*), 0) FROM notice n JOIN member1 m ON n.userId=m.userId WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ";
+        		sql="SELECT NVL(COUNT(*), 0) "
+        				+ " FROM notice n "
+        				+ " JOIN member1 m ON n.userId=m.userId "
+        				+ " WHERE TO_CHAR(created, 'YYYYMMDD') = ?  ";
         	} else {
-        		sql="SELECT NVL(COUNT(*), 0) FROM notice n JOIN member1 m ON n.userId=m.userId WHERE  INSTR(" + condition + ", ?) >= 1 ";
+        		sql="SELECT NVL(COUNT(*), 0) "
+        				+ " FROM notice n "
+        				+ " JOIN member1 m ON n.userId=m.userId "
+        				+ " WHERE  INSTR(" + condition + ", ?) >= 1 ";
         	}
         	
             pstmt=conn.prepareStatement(sql);
@@ -207,7 +215,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 		StringBuilder sb=new StringBuilder();
 		
 		try {
-			sb.append("SELECT n.noticeNum, n.userId, userName, subject, saveFilename, ");
+			// saveFilename 을 제외하고 테이블의 정보 받아서 dto에 담기? (현재 첨부파일이 여러개 있으면 다 리스트에 담김.)
+			sb.append("SELECT n.noticeNum, n.userId, userName, subject, ");
 			sb.append("       hitCount, created  ");
 			sb.append(" FROM notice n "
 					+ " JOIN member1 m ON n.userId=m.userId ");
@@ -221,16 +230,33 @@ public class NoticeDAOImpl implements NoticeDAO {
 			
 			rs=pstmt.executeQuery();
 			
+			// mutiFile 테이블의 내용 전부 리스트로 가져오는 메소드
+			List<NoticeDTO> fileList = listNoticeFile();
+			
 			while(rs.next()) {
 				NoticeDTO dto=new NoticeDTO();
 				
 				dto.setNoticeNum(rs.getInt("noticeNum"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
-				dto.setSubject(rs.getString("subject"));
-				dto.setSaveFilename(rs.getString("saveFilename"));
+				// dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
+				
+				int noticeNum = dto.getNoticeNum();
+				List<String> addSaveFilename = new ArrayList<String>();
+				List<String> addOriginalFilename = new ArrayList<String>();
+				
+				// noticeNum이 동일한 저장파일명, 원본파일명 리스트로 받기
+				for(NoticeDTO fileDto : fileList) {
+					if (noticeNum == fileDto.getNoticeNum()) {
+						addSaveFilename.add(fileDto.getSaveFilename());
+						addOriginalFilename.add(fileDto.getOriginalFilename());
+					}
+				}
+				
+				dto.setSaveFiles(addSaveFilename.toArray(new String[addSaveFilename.size()])); 	
+				dto.setOriginalFiles(addOriginalFilename.toArray(new String[addOriginalFilename.size()]));
 				
 				list.add(dto);
 			}
@@ -251,8 +277,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 				} catch (SQLException e) {
 				}
 			}
-		}
-		
+		}		
 		return list;
 	}
 
@@ -295,7 +320,9 @@ public class NoticeDAOImpl implements NoticeDAO {
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
+				
 				dto.setSaveFilename(rs.getString("saveFilename"));
+				
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created")); // yyyy-MM-dd HH:mm:ss
                 
@@ -323,6 +350,48 @@ public class NoticeDAOImpl implements NoticeDAO {
         return list;
 	}
 
+	public List<NoticeDTO> listNoticeFile(){ // 파일리스트 
+		NoticeDTO dto = new NoticeDTO();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		List<NoticeDTO> fileList = new ArrayList<NoticeDTO>();
+		
+		try {
+			sql = "SELECT noticeNum, fileNum, saveFilename, originalFilename FROM multiFile";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				dto.setNoticeNum(rs.getInt("noticeNum"));
+				dto.setFileNum(rs.getInt("fileNum"));
+				dto.setSaveFilename(rs.getString("saveFilename"));
+				dto.setOriginalFilename(rs.getString("originalFilename"));
+				fileList.add(dto);
+			}		
+			
+		} catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return fileList;
+	}
+	
+	
 	@Override
 	public int updateHitCount(int num) throws SQLException {
 		// TODO Auto-generated method stub
@@ -330,24 +399,62 @@ public class NoticeDAOImpl implements NoticeDAO {
 	}
 
 	@Override
-	public NoticeDTO readNotice(int num) {
+	public NoticeDTO readNotice(int noticeNum) {
 		NoticeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 		
-		sql = "SELECT noticeNum, n.userId, userName, subject, content, saveFilename,originalFilename, filesize, hitCount, created ";
-		sql+= "  FROM notice n "
-				+ " JOIN member1 m ON n.userId=m.userId "
-				+ " LEFT OUTER JOIN mulfiFile f ON n.noticeNum=f.noticeNum "
-				+ " WHERE num = ?";
 		
 		try {
+			sql = "SELECT NVL(COUNT(*),0) FROM multiFile WHERE noticeNum = ? ";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, noticeNum);
+			rs = pstmt.executeQuery();
+			int f_length=0;
+			
+			if (rs.next()) {
+				f_length = rs.getInt(1);
+			}
+			
+			rs.close();
+			pstmt.close();
+			
+			sql = "SELECT f.noticeNum, fileNum, saveFilename, originalFilename FROM multiFile "
+					+ " FROM multiFile f "
+					+ "	JOIN notice n ON n.noticeNum = f.noticeNum "
+					+ " WHERE noticeNum = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, noticeNum);
+			rs = pstmt.executeQuery();		
+			
+			while(rs.next()) {
+				String saveFilename = rs.getString(2);
+				String saveFiles[] = new String[f_length];
+				
+				String originalFilename = rs.getString(3);
+				String originalFiles[] = new String[f_length];
+				
+				dto.setSaveFiles(saveFiles);
+				dto.setOriginalFiles(originalFiles);
+			}			
+			
+			rs.close();
+			pstmt.close();
+			
+			
+			sql = "SELECT n.noticeNum, n.userId, userName, subject, content, "
+					+ " fileNum, saveFilename, originalFilename, hitCount, created "
+					+ " FROM notice n "
+					+ " JOIN member1 m ON n.userId=m.userId "
+					+ " LEFT OUTER JOIN mulfiFile f ON n.noticeNum=f.noticeNum "
+					+ " WHERE noticeNum = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, noticeNum);
 			
 			rs = pstmt.executeQuery();
-			
+
 			if( rs.next()) {
 				dto = new NoticeDTO();
 				
@@ -355,7 +462,8 @@ public class NoticeDAOImpl implements NoticeDAO {
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
-				dto.setContent(rs.getString("content"));
+				dto.setContent(rs.getString("content"));	
+				dto.setFileNum(rs.getInt("fileNum"));
 				dto.setSaveFilename(rs.getString("saveFilename"));
 				dto.setOriginalFilename(rs.getString("originalFilename"));
 				dto.setHitCount(rs.getInt("hitCount"));

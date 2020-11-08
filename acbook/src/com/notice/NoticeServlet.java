@@ -91,8 +91,19 @@ public class NoticeServlet extends MyUploadServlet {
 		}
 
 		// 한페이지 표시할 데이터 개수
-        String numPerPage=req.getParameter("rows");
-        int rows = numPerPage == null ? 10 : Integer.parseInt(numPerPage);
+//        String numPerPage = req.getParameter("rows");
+        int rows = 10;
+//        if (numPerPage!=null) {
+//        	rows = Integer.parseInt(numPerPage);
+//		}
+//        = numPerPage == null ? 10 : Integer.parseInt(numPerPage);
+//        int npp;
+//        if (numPerPage==null) {
+//			npp=10;
+//		} else {
+//			npp= Integer.parseInt(numPerPage);
+//		}
+//        int rows = npp;
         
 		int dataCount, total_page;
 		
@@ -149,8 +160,8 @@ public class NoticeServlet extends MyUploadServlet {
 		String listUrl;
 		String articleUrl;
 		
-		listUrl=cp+"/notice/list.do?rows="+rows;
-		articleUrl=cp+"/notice/article.do?page=" +current_page+"&rows="+rows;
+		listUrl=cp+"/notice/list.do";
+		articleUrl=cp+"/notice/article.do?page=" +current_page;
 		if(keyword.length()!=0) {
 			query="condition="+condition+"&keyword="+URLEncoder.encode(keyword,"utf-8");
 			
@@ -170,7 +181,7 @@ public class NoticeServlet extends MyUploadServlet {
 		req.setAttribute("paging", paging);
 		req.setAttribute("condition", condition);
 		req.setAttribute("keyword", keyword);
-		req.setAttribute("rows", rows);
+		//req.setAttribute("rows", rows);
 		
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/notice/list.jsp");
@@ -180,15 +191,15 @@ public class NoticeServlet extends MyUploadServlet {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String cp = req.getContextPath();
-		String rows = req.getParameter("rows");
+		//String rows = req.getParameter("rows");
 
 		if (!info.getUserId().equals("admin")) {
-			resp.sendRedirect(cp + "/notice/list.do?rows=" + rows);
+			resp.sendRedirect(cp + "/notice/list.do?");
 			return;
 		}
 
 		req.setAttribute("mode", "created");
-		req.setAttribute("rows", rows);
+		//req.setAttribute("rows", rows);
 		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 	}
 
@@ -198,10 +209,10 @@ public class NoticeServlet extends MyUploadServlet {
 
 		NoticeDAO dao = new NoticeDAOImpl();
 		String cp = req.getContextPath();
-		String rows = req.getParameter("rows");
+		//String rows = req.getParameter("rows");
 
 		if (!info.getUserId().equals("admin")) {
-			resp.sendRedirect(cp + "/notice/list.do?rows=" + rows);
+			resp.sendRedirect(cp + "/notice/list.do");
 			return;
 		}
 
@@ -226,7 +237,7 @@ public class NoticeServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/notice/list.do?rows=" + rows);
+		resp.sendRedirect(cp + "/notice/list.do");
 	}
 
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -234,11 +245,11 @@ public class NoticeServlet extends MyUploadServlet {
 		String cp = req.getContextPath();
 
 		String page = req.getParameter("page");
-		String rows = req.getParameter("rows");
-		String query = "page=" + page + "&rows=" + rows;
+//		String rows = req.getParameter("rows");
+		String query = "page=" + page;
 
 		try {
-			int num = Integer.parseInt(req.getParameter("num"));
+			int noticeNum = Integer.parseInt(req.getParameter("noticeNum"));
 
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");
@@ -253,10 +264,10 @@ public class NoticeServlet extends MyUploadServlet {
 			}
 
 			// 조회수
-			dao.updateHitCount(num);
+			dao.updateHitCount(noticeNum);
 
 			// 게시물 가져오기
-			NoticeDTO dto = dao.readNotice(num);
+			NoticeDTO dto = dao.readNotice(noticeNum);
 			if (dto == null) {
 				resp.sendRedirect(cp + "/notice/list.do?" + query);
 				return;
@@ -273,7 +284,7 @@ public class NoticeServlet extends MyUploadServlet {
 			// req.setAttribute("nextReadDto", nextReadDto);
 			req.setAttribute("query", query);
 			req.setAttribute("page", page);
-			req.setAttribute("rows", rows);
+			//req.setAttribute("rows", rows);
 
 			forward(req, resp, "/WEB-INF/views/notice/article.jsp");
 			return;
