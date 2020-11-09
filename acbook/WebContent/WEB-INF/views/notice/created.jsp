@@ -81,7 +81,9 @@
 						  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 						      <td width="100" bgcolor="#dde6e6" style="text-align: center;">공지여부</td>
 						      <td style="padding-left:10px;"> 
-						        <input type="checkbox" name="notice" value="1" ${dto.notice==1 ? "checked='checked' ":"" } > 공지
+						      	
+						        <input type="checkbox" name="notice" value="1"  > 공지
+						      
 						      </td>
 						  </tr>
 						
@@ -114,6 +116,11 @@
 							             ${dto.originalFilename}
 							             | <a href="javascript:deleteFile('${dto.noticeNum}');">삭제</a>
 							         </c:if>     
+							         
+							         <c:forEach var="vo" items="${fileList}">
+									${vo.originalFilename} <button onclick="deleteFile('${vo.fileNum}');">파일 삭제</button>
+									</c:forEach>
+							         
 							       </td>
 							  </tr> 
 						  </c:if>
@@ -128,7 +135,6 @@
 						         <c:if test="${mode=='update'}">
 						         	 <input type="hidden" name="noticeNum" value="${dto.noticeNum}">
 						        	 <input type="hidden" name="page" value="${page}">
-						        	 <input type="hidden" name="fileSize" value="${dto.fileSize}">
 						        	 <input type="hidden" name="saveFilename" value="${dto.saveFilename}">
 						        	 <input type="hidden" name="originalFilename" value="${dto.originalFilename}">
 						        </c:if>

@@ -14,11 +14,15 @@ public interface NoticeDAO {
 	
 	public List<NoticeDTO> listNotice(int offset, int rows);
 	public List<NoticeDTO> listNotice(int offset, int rows, String condition, String keyword);
+
+	public List<NoticeDTO> listNoticeFile(int num);
 	
 	public int updateHitCount(int num) throws SQLException;
 	public NoticeDTO readNotice(int num);
 	public NoticeDTO preReadNotice(int num, String condition, String keyword);
 	public NoticeDTO nextReadNotice(int num, String condition, String keyword);
+	
+	public NoticeDTO readFileNotice(int fileNum);
 }
 
 

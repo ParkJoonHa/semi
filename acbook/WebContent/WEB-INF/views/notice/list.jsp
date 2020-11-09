@@ -107,7 +107,7 @@
 							   	  		<input type="checkbox" name="nums" value="${dto.noticeNum}" style="margin-top: 3px;" data-filename="${dto.saveFilename}">
 							  	  </c:if>									
 							   	  	 </td>
-									<td width="50">${dto.noticeNum}</td> <!-- listNum으로 확인 후 고치기 -->
+									<td width="50">${dto.noticeNum}</td> <!-- 이후에 listNum으로 확인 후 고치기 -->
 									<td><a href="${articleUrl}&noticeNum=${dto.noticeNum}">${dto.subject}</a></td>
 									<td width="100">${dto.userName}</td>
 									<td width="100">${dto.created}</td>
