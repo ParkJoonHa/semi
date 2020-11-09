@@ -21,20 +21,12 @@ public class NoticeDTO {
 	private String originalFilename;
 
 	// 추가
-	private int[] fileNums;
 	private String[] saveFiles;
 	private String[] originalFiles;
 
 	private long filesize;
 	private long gap;
 
-	public int[] getFileNums() {
-		return fileNums;
-	}
-	
-	public void setFileNums(int[] fileNums) {
-		this.fileNums = fileNums;
-	}
 	public String getUserName() {
 		return userName;
 	}

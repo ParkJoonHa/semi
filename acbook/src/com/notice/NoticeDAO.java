@@ -8,6 +8,8 @@ public interface NoticeDAO {
 	public int insertFile(NoticeDTO dto, int noticeNum) throws SQLException;
 	public int updateNotice(NoticeDTO dto) throws SQLException;
 	public int deleteNotice(int num, String userId) throws SQLException;
+	public int deleteFile(int fileNum) throws SQLException;
+
 	
 	public int dataCount();
 	public int dataCount(String condition, String keyword);

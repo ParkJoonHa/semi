@@ -164,6 +164,33 @@ public class NoticeDAOImpl implements NoticeDAO {
 		}
 		return result;
 	}
+	
+	@Override
+	public int deleteFile(int fileNum) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql="DELETE FROM multiFile WHERE fileNum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, fileNum);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return result;
+	}
 
 	@Override
 	public int dataCount() {

@@ -334,7 +334,7 @@ public class NoticeServlet extends MyUploadServlet {
 			//req.setAttribute("rows", rows);
 			
 			req.setAttribute("mode", "update");
-			req.setAttribute("filelist", fileList);
+			req.setAttribute("fileList", fileList);
 			
 			forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 			return;
@@ -370,10 +370,10 @@ public class NoticeServlet extends MyUploadServlet {
 			Part p = req.getPart("upload");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if(map != null) {
-				if(req.getParameter("saveFilename").length()!=0) {
+//				if(req.getParameter("saveFilename").length()!=0) {
 					// 기존파일 삭제
-					FileManager.doFiledelete(pathname, req.getParameter("saveFilename"));
-				}
+//					FileManager.doFiledelete(pathname, req.getParameter("saveFilename"));
+//				}
 
 				// 새로운 파일
 				String saveFilename = map.get("saveFilename");
@@ -383,6 +383,7 @@ public class NoticeServlet extends MyUploadServlet {
 			}
 
 			dao.updateNotice(dto);
+			dao.insertFile(dto, noticeNum);	
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -401,8 +402,18 @@ public class NoticeServlet extends MyUploadServlet {
 		//String rows=req.getParameter("rows");
 		
 		try {
-			int noticeNum=Integer.parseInt(req.getParameter("noticeNum"));
-			NoticeDTO dto=dao.readNotice(noticeNum);
+			int fileNum=Integer.parseInt(req.getParameter("fileNum"));
+			NoticeDTO vo=dao.readFileNotice(fileNum);
+			
+			// 파일삭제 (서버)
+			FileManager.doFiledelete(pathname, vo.getSaveFilename());
+			
+			// 파일삭제 (테이블)
+			dao.deleteFile(fileNum);
+			
+			int noticeNum = Integer.parseInt(req.getParameter("noticeNum"));
+			NoticeDTO dto = dao.readNotice(noticeNum);
+			
 			if(dto==null) {
 				resp.sendRedirect(cp+"/notice/list.do?page="+page);
 				return;
@@ -412,13 +423,7 @@ public class NoticeServlet extends MyUploadServlet {
 				resp.sendRedirect(cp+"/notice/list.do?page="+page);
 				return;
 			}
-			
-			// 파일삭제
-			FileManager.doFiledelete(pathname, dto.getSaveFilename());
-			
-			// 파일명과 파일크기 변경
-			dto.setOriginalFilename("");
-			dto.setSaveFilename("");
+
 			dao.updateNotice(dto);
 			
 			req.setAttribute("dto", dto);
@@ -427,7 +432,8 @@ public class NoticeServlet extends MyUploadServlet {
 			
 			req.setAttribute("mode", "update");
 
-			forward(req, resp, "/WEB-INF/views/notice/created.jsp");
+			forward(req, resp, "/WEB-INF/views/notice/update.jsp");
+			
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -473,9 +479,9 @@ public class NoticeServlet extends MyUploadServlet {
 				return;
 			}
 			
-			if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0) {
-				FileManager.doFiledelete(pathname, dto.getSaveFilename());
-			}
+//			if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0) {
+//				FileManager.doFiledelete(pathname, dto.getSaveFilename());
+//			}
 			
 			dao.deleteNotice(noticeNum, info.getUserId());
 		} catch (Exception e) {
@@ -511,7 +517,7 @@ public class NoticeServlet extends MyUploadServlet {
 	}
 	
 	private void deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		
 	}
 
 }

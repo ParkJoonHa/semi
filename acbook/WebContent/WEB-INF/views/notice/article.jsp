@@ -17,8 +17,9 @@
 <title>Document</title>
 
 <script type="text/javascript">
+
 <c:if test="${sessionScope.member.userId=='admin'}">
-function deleteNotice(num) {
+function deleteNotice(noticeNum) {
 	if(confirm("게시물을 삭제 하시겠습니까 ?")) {
 		var url="${pageContext.request.contextPath}/notice/delete.do?noticeNum="+noticeNum+"&${query}";
 		location.href=url;
