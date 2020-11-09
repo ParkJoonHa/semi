@@ -6,10 +6,15 @@ import java.util.List;
 public interface QnaDAO {
 	// 질문등록
 	public int insertQna(QnaDTO dto) throws SQLException;
+	// 답변등록
+	public int insertAnswer(QnaDTO dto) throws SQLException;
 	// 질문수정
 	public int updateQna(QnaDTO dto) throws SQLException;
 	// 질문삭제
-	public int deleteQna(int num, String userId) throws SQLException;
+	public int deleteQna(int qnaNum) throws SQLException;
+	// 답변삭제
+	public int deleteAnswer(int qnaNum) throws SQLException;
+	
 	
 	//전체 데이터
 	public int dataCount();
@@ -20,6 +25,9 @@ public interface QnaDAO {
 	public List<QnaDTO> listQna(int offset, int rows);
 	public List<QnaDTO> listQna(int offset, int rows, String condition, String keyword);
 	
-	// 수정
-	public QnaDTO readQna(int num);
+	// 데이터 읽어오는 용도
+	public QnaDTO readQna(int qnaNum, int status);
+	
+	// 답변글 읽어옴
+	public QnaDTO readAnswer(int qnaNum);
 }

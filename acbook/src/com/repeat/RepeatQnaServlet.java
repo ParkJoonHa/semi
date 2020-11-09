@@ -29,7 +29,7 @@ public class RepeatQnaServlet extends MyServlet {
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		if(uri.indexOf("list.do") == -1 && info == null) {
+		if(uri.indexOf("list.do") != -1 && info == null) {
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
