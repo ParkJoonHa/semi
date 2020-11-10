@@ -83,7 +83,7 @@ function deleteNotice(noticeNum) {
 							<td colspan="2" align="left" style="padding-left: 5px;">이전글
 								: <c:if test="${not empty preReadDto}">
 									<a
-										href="${pageContext.request.contextPath}/notice/article.do?${query}&noticeNum=${preReadDto.num}">${preReadDto.subject}</a>
+										href="${pageContext.request.contextPath}/notice/article.do?${query}&noticeNum=${preReadDto.noticeNum}">${preReadDto.subject}</a>
 								</c:if>
 							</td>
 						</tr>
@@ -92,7 +92,7 @@ function deleteNotice(noticeNum) {
 							<td colspan="2" align="left" style="padding-left: 5px;">다음글
 								: <c:if test="${not empty nextReadDto}">
 									<a
-										href="${pageContext.request.contextPath}/notice/article.do?${query}&noticeNum=${nextReadDto.num}">${nextReadDto.subject}</a>
+										href="${pageContext.request.contextPath}/notice/article.do?${query}&noticeNum=${nextReadDto.noticeNum}">${nextReadDto.subject}</a>
 								</c:if>
 							</td>
 						</tr>

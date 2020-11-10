@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.util.DBConn;
 
@@ -172,5 +174,79 @@ public class MemberDAOImpl implements MemberDAO {
 			}
 		}
 		return dto;
+	}
+
+	@Override
+	public List<MemberDTO> ListMember() throws SQLException {
+		List<MemberDTO> list = new ArrayList<MemberDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = null;
+		
+		try {
+			sb.append("SELECT m1.userId, userName, userPwd, ");
+			sb.append("  status, c_date, m_date, ");
+			sb.append("  TO_CHAR(birth, 'YYYY-MM-DD') birth, ");
+			sb.append("  email, tel, zip_code, addr1, addr2 ");
+			sb.append("  FROM member1 m1 ");
+			sb.append("  LEFT OUTER JOIN member2 m2 ");
+			sb.append("  ON m1.userId=m2.userId ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				MemberDTO dto = new MemberDTO();
+				dto.setUserId(rs.getString("userId"));
+				dto.setUserPwd(rs.getString("userPwd"));
+				dto.setUserName(rs.getString("userName"));
+				dto.setStatus(rs.getInt("status"));
+				dto.setC_date(rs.getString("c_date"));
+				dto.setM_date(rs.getString("m_date"));
+				dto.setBirth(rs.getString("birth"));
+				dto.setTel(rs.getString("tel"));
+				if (dto.getTel() != null) {
+					String[] ss = dto.getTel().split("-");
+					if (ss.length == 3) {
+						dto.setTel1(ss[0]);
+						dto.setTel2(ss[1]);
+						dto.setTel3(ss[2]);
+					}
+				}
+				dto.setEmail(rs.getString("email"));
+				if (dto.getEmail() != null) {
+					String[] ss = dto.getEmail().split("@");
+					if (ss.length == 2) {
+						dto.setEmail1(ss[0]);
+						dto.setEmail2(ss[1]);
+					}
+				}
+				dto.setZip_code(rs.getString("zip_code"));
+				dto.setAddr1(rs.getString("addr1"));
+				dto.setAddr2(rs.getString("addr2"));
+				
+				list.add(dto);
+			}
+		} catch (SQLIntegrityConstraintViolationException e) {
+			e.printStackTrace();
+		} catch (SQLDataException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return list;
 	}
 }

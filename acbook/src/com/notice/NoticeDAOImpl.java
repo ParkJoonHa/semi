@@ -562,14 +562,128 @@ public class NoticeDAOImpl implements NoticeDAO {
 
 	@Override
 	public NoticeDTO preReadNotice(int num, String condition, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+    	NoticeDTO dto=null;
+
+        PreparedStatement pstmt=null;
+        ResultSet rs=null;
+        StringBuilder sb=new StringBuilder();
+
+        try {
+            if(keyword.length() != 0) {
+                sb.append("SELECT noticeNum, subject FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+                if(condition.equalsIgnoreCase("created")) {
+                	keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
+                	sb.append(" WHERE (TO_CHAR(created, 'YYYYMMDD') = ?)  ");
+                } else {
+                	sb.append(" WHERE (INSTR(" + condition + ", ?) >= 1)  ");
+                }
+                sb.append("         AND (noticeNum > ? )  ");
+                sb.append(" ORDER BY noticeNum ASC  ");
+                sb.append(" FETCH  FIRST  1  ROWS  ONLY");
+
+                pstmt=conn.prepareStatement(sb.toString());
+                pstmt.setString(1, keyword);
+                pstmt.setInt(2, num);
+			} else {
+                sb.append("SELECT noticeNum, subject FROM notice n JOIN member1 m ON n.userId=m.userId  ");                
+                sb.append(" WHERE noticeNum > ?  ");
+                sb.append(" ORDER BY noticeNum ASC  ");
+                sb.append(" FETCH  FIRST  1  ROWS  ONLY");
+
+                pstmt=conn.prepareStatement(sb.toString());
+                pstmt.setInt(1, num);
+			}
+
+            rs=pstmt.executeQuery();
+
+            if(rs.next()) {
+                dto=new NoticeDTO();
+                dto.setNoticeNum(rs.getInt("noticeNum"));
+                dto.setSubject(rs.getString("subject"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+    
+        return dto;
 	}
 
 	@Override
 	public NoticeDTO nextReadNotice(int num, String condition, String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+    	NoticeDTO dto=null;
+
+        PreparedStatement pstmt=null;
+        ResultSet rs=null;
+        StringBuilder sb=new StringBuilder();
+
+        try {
+            if(keyword.length() != 0) {
+                sb.append("SELECT noticeNum, subject FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+                if(condition.equalsIgnoreCase("created")) {
+                	keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
+                	sb.append(" WHERE (TO_CHAR(created, 'YYYYMMDD') = ?)  ");
+                } else {
+                	sb.append(" WHERE (INSTR(" + condition + ", ?) >= 1)  ");
+                }
+                sb.append("         AND (noticeNum < ? )  ");
+                sb.append(" ORDER BY noticeNum DESC  ");
+                sb.append(" FETCH  FIRST  1  ROWS  ONLY");
+
+                pstmt=conn.prepareStatement(sb.toString());
+                pstmt.setString(1, keyword);
+                pstmt.setInt(2, num);
+			} else {
+                sb.append("SELECT noticeNum, subject FROM notice n JOIN member1 m ON n.userId=m.userId  ");                
+                sb.append(" WHERE noticeNum < ?  ");
+                sb.append(" ORDER BY noticeNum DESC  ");
+                sb.append(" FETCH  FIRST  1  ROWS  ONLY");
+
+                pstmt=conn.prepareStatement(sb.toString());
+                pstmt.setInt(1, num);
+			}
+
+            rs=pstmt.executeQuery();
+
+            if(rs.next()) {
+                dto=new NoticeDTO();
+                dto.setNoticeNum(rs.getInt("noticeNum"));
+                dto.setSubject(rs.getString("subject"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+    
+        return dto;
 	}
 
 	@Override

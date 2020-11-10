@@ -142,6 +142,7 @@ public class NoticeServlet extends MyUploadServlet {
 				gap = (curDate.getTime() - date.getTime()) / (1000 * 60 * 60); // 시간
 				dto.setGap(gap);
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 
 			dto.setCreated(dto.getCreated().substring(0, 10));
@@ -271,12 +272,12 @@ public class NoticeServlet extends MyUploadServlet {
 			List<NoticeDTO> fileList = dao.listNoticeFile(noticeNum);
 
 			// 이전글/다음글
-			// NoticeDTO preReadDto = dao.preReadNotice(dto.getNum(), condition, keyword);
-			// NoticeDTO nextReadDto = dao.nextReadNotice(dto.getNum(), condition, keyword);
+			NoticeDTO preReadDto = dao.preReadNotice(dto.getNoticeNum(), condition, keyword);
+			NoticeDTO nextReadDto = dao.nextReadNotice(dto.getNoticeNum(), condition, keyword);
 
 			req.setAttribute("dto", dto);
-			// req.setAttribute("preReadDto", preReadDto);
-			// req.setAttribute("nextReadDto", nextReadDto);
+			req.setAttribute("preReadDto", preReadDto);
+			req.setAttribute("nextReadDto", nextReadDto);
 			req.setAttribute("query", query);
 			req.setAttribute("page", page);
 			req.setAttribute("rows", rows);
@@ -516,14 +517,6 @@ public class NoticeServlet extends MyUploadServlet {
 				query+="&condition="+condition+"&keyword="+
 			               URLEncoder.encode(keyword, "UTF-8");
 			}
-			
-			// 업로드된 파일 지우기
-//			String []ff=req.getParameterValues("filenames");
-//			if(ff!=null) {
-//				for(String f : ff) {
-//					FileManager.doFiledelete(pathname, f);
-//				}
-//			}
 			
 			// 게시글 지우기
 			String []nn=req.getParameterValues("noticeNums");
