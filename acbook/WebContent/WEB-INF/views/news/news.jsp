@@ -66,7 +66,7 @@
 
 				</article>
 				<article class="article2">
-					<form name="articleForm" method="post">
+					<form  action="${pageContext.request.contextPath}/news/main.do" name="articleForm" method="post">
 						<table class="table3">
 							<tr>
 								<td><button class="btn btn1" type="reset">새로고침</button></td>

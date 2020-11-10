@@ -17,9 +17,10 @@ public class NewsDTO {
 	private String userName;
 	private String subject;
 	private String content;
-	private String photoFileName;
 	private String created;
 	private String hitCount;
+	
+	private String photoFileName;
 	private String originalFilename;
 	private long fileSize;
 	private long gap;

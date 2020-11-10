@@ -19,14 +19,14 @@ public class NewsDAOImpl implements NewsDAO{
 		String sql;
 		
 		try {
-			sql="INSERT INTO news( newsNum, userId , subject, content, photoFileName, created, hitCount, originalFilename, filesize) VALUES(news_seq.NEXTVAL,?,?,?,?,SYSDATE,0,?,?)";
+			sql="INSERT INTO news( newsNum, userId , subject, content, photoFileName, created, hitCount, originalFilename) VALUES(news_seq.NEXTVAL,?,?,?,?,SYSDATE,0,?)";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getUserId());
 			pstmt.setString(2, dto.getSubject());
 			pstmt.setString(3, dto.getContent());
 			pstmt.setString(4, dto.getPhotoFileName());
 			pstmt.setString(5, dto.getOriginalFilename());
-			pstmt.setLong(6, dto.getFileSize());
+		
 			
 			result=pstmt.executeUpdate();
 			
@@ -52,11 +52,14 @@ public class NewsDAOImpl implements NewsDAO{
 		String sql;
 		
 		try {
-			sql="UPDATE news SET subject=? ,content=? WHERE newsNum=?";
+			sql="UPDATE news SET subject=? ,content=?,photoFileName=?, originalFilename=? WHERE newsNum=? ";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getNewsNum());
+			pstmt.setString(3, dto.getPhotoFileName());
+			pstmt.setString(4, dto.getOriginalFilename());
+			pstmt.setInt(5, dto.getNewsNum());
+		
 			
 			result=pstmt.executeUpdate();
 			
@@ -282,6 +285,7 @@ public class NewsDAOImpl implements NewsDAO{
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
+				dto.setCreated(rs.getString("created"));
 				dto.setPhotoFileName(rs.getString("photoFileName"));
 				list.add(dto);
 				
@@ -340,7 +344,7 @@ public class NewsDAOImpl implements NewsDAO{
 		ResultSet rs=null;
 		
 		try {
-			sql="SELECT newsNum, n.userId,userName,subject,content,photoFilename,created,hitCount,originalFilename,filesize"
+			sql="SELECT newsNum, n.userId,userName,subject,content,photoFilename,created,hitCount,originalFilename"
 			  + " FROM news n"
 			  + " JOIN member1 m ON n.userId =m.userId WHERE newsNum=? ";
 			pstmt=conn.prepareStatement(sql);
@@ -355,9 +359,10 @@ public class NewsDAOImpl implements NewsDAO{
 				dto.setSubject(rs.getNString("subject"));
 				dto.setContent(rs.getString("content"));
 				dto.setPhotoFileName(rs.getNString("photoFileName"));
+				dto.setOriginalFilename(rs.getString("originalFilename"));
 				dto.setCreated(rs.getString("created"));
 				dto.setHitCount(rs.getString("hitCount"));
-				dto.setFileSize(rs.getLong("filesize"));
+				
 			}
 			
 		} catch (Exception e) {

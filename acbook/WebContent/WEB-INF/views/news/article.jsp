@@ -46,6 +46,14 @@
 							<tr class="articleTableTR">
 								<td colspan="6">${dto.content}</td>
 							</tr>
+							<tr height="35" style="border-bottom: 1px solid #cccccc;">
+								<td colspan="2" align="left" style="padding-left: 5px;">
+									첨&nbsp;&nbsp;부 : 
+									<c:if test="${not empty dto.photoFileName}">
+										<a href="${pageContext.request.contextPath}/news/download.do?newsNum=${dto.newsNum}">${dto.originalFilename}</a>
+		                            </c:if>
+								</td>
+							</tr>
 						</table>
 					</article>
 					<article class="articleBody">

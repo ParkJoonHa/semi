@@ -2,6 +2,7 @@ package com.news;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -80,10 +81,13 @@ public class NewsServlet extends MyUploadServlet {
 			updateSubmit(req, resp);
 		} else if (uri.indexOf("delete.do") != -1) {
 			delete(req, resp);
+		} else if (uri.indexOf("download.do") != -1) {
+			download(req, resp);
 		}
+			
 	}
 
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		NewsDAO dao = new NewsDAOImpl();
 		MyUtil util = new MyUtil();
 		String cp = req.getContextPath();
@@ -174,14 +178,14 @@ public class NewsServlet extends MyUploadServlet {
 
 	}
 
-	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("mode", "created");
 		String path = "/WEB-INF/views/news/created.jsp";
 		forward(req, resp, path);
 
 	}
 
-	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+	public void createdSubmit(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
 		NewsDAO dao = new NewsDAOImpl();
 		NewsDTO dto = new NewsDTO();
 		
@@ -195,15 +199,16 @@ public class NewsServlet extends MyUploadServlet {
 
 			String filename = null;
 			
-			Part p = req.getPart("selectFile");
+			Part p = req.getPart("upload");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if (map != null) {
-				filename = map.get("saveFilename");
+				filename = map.get("photoFileName");
 				String originalFilename = map.get("originalFilename");
-				long size=p.getSize();
+				
 				dto.setPhotoFileName(filename);
 				dto.setOriginalFilename(originalFilename);
-				dto.setFileSize(size);
+				
+				dao.insertNews(dto);
 			}
 			dao.insertNews(dto);
 
@@ -214,7 +219,7 @@ public class NewsServlet extends MyUploadServlet {
 	    resp.sendRedirect(cp+"/news/main.do");
 	}
 
-	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		NewsDAO dao=new NewsDAOImpl();
 		String cp=req.getContextPath();
 		
@@ -250,13 +255,12 @@ public class NewsServlet extends MyUploadServlet {
 		
 			NewsDTO preReadDto=dao.preReadNews(newsNum, condition, keyword);
 			NewsDTO nextReadDto=dao.nextReadNews(newsNum, condition, keyword);
-			
+		
 			req.setAttribute("dto", dto);
 			req.setAttribute("preReadDto", preReadDto);
 			req.setAttribute("nextReadDto", nextReadDto);
 			req.setAttribute("query", query);
 			req.setAttribute("page", page);
-			
 			String path="/WEB-INF/views/news/article.jsp";
 			forward(req, resp, path);
 			return;
@@ -267,7 +271,7 @@ public class NewsServlet extends MyUploadServlet {
 		
 	}
 
-	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		NewsDAO dao=new NewsDAOImpl();
 		String cp=req.getContextPath();
 		String page=req.getParameter("page");
@@ -310,7 +314,7 @@ public class NewsServlet extends MyUploadServlet {
 		resp.sendRedirect(cp+"/board/main.do?"+query);
 	}
 
-	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();
 		String page=req.getParameter("page");
 		String query="page="+page;
@@ -338,12 +342,11 @@ public class NewsServlet extends MyUploadServlet {
 			dto.setContent(req.getParameter("content"));
 			dto.setPhotoFileName(req.getParameter("photoFileName"));
 			dto.setOriginalFilename(req.getParameter("originalFilename"));
-			dto.setFileSize(Long.parseLong(req.getParameter("fileSize")));
 			
 			Part p= req.getPart("upload");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if(map != null) {
-				if(req.getParameter("saveFilename").length()!=0) {
+				if(req.getParameter("photoFileName").length()!=0) {
 					// 기존파일 삭제
 					FileManager.doFiledelete(pathname, req.getParameter("photoFileName"));
 				}
@@ -351,10 +354,9 @@ public class NewsServlet extends MyUploadServlet {
 				// 새로운 파일
 				String photoFileName = map.get("photoFileName");
 				String originalFilename = map.get("originalFilename");
-				long size = p.getSize();
 				dto.setPhotoFileName(photoFileName);
 		    	dto.setOriginalFilename(originalFilename);
-		    	dto.setFileSize(size);
+		    
 			}
 			dao.updateNews(dto);
 			
@@ -363,55 +365,9 @@ public class NewsServlet extends MyUploadServlet {
 		}
 		resp.sendRedirect(cp+"/news/main.do?"+query);
 	}
-//	private void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		// 수정에서 파일만 삭제
-//		HttpSession session=req.getSession();
-//		SessionInfo info=(SessionInfo)session.getAttribute("member");
-//		
-//		NewsDAO dao=new NewsDAOImpl();
-//		String cp=req.getContextPath();
-//	
-//		String page=req.getParameter("page");
-//		String rows=req.getParameter("rows");
-//		
-//		try {
-//			int newsNum=Integer.parseInt(req.getParameter("newsNum"));
-//			NewsDTO dto=dao.readNews(newsNum);
-//			if(dto==null) {
-//				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
-//				return;
-//			}
-//			
-//			if(info.getUserId().equals(dto.getUserId())) {
-//				resp.sendRedirect(cp+"/news/main.do?page="+page+"&rows="+rows);
-//				return;
-//			}
-//			
-//			// 파일삭제
-//			FileManager.doFiledelete(pathname, dto.getPhotoFileName());
-//			
-//			// 파일명과 파일크기 변경
-//			dto.setOriginalFilename("");
-//			dto.setPhotoFileName("");
-//			dto.setFileSize(0);
-//			dao.updateNews(dto);
-//			
-//			req.setAttribute("dto", dto);
-//			req.setAttribute("page", page);
-//			req.setAttribute("rows", rows);
-//			
-//			req.setAttribute("mode", "update");
-//
-//			forward(req, resp, "/WEB-INF/views/news/created.jsp");
-//			return;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		resp.sendRedirect(cp+"/news/main.do?page="+page+"&rows="+rows);
-//	}
 
-	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	
+	public void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();
 		String page=req.getParameter("page");
 		String quary="page="+page;
@@ -439,6 +395,26 @@ public class NewsServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 		resp.sendRedirect(cp+"/news/main.do?"+quary);
-		
 	}
+	public void download(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 파일 다운로드
+		NewsDAO dao=new NewsDAOImpl();
+		int newsNum=Integer.parseInt(req.getParameter("newsNum"));
+		
+		NewsDTO dto=dao.readNews(newsNum);
+		boolean b=false;
+		if(dto!=null) {
+			b = FileManager.doFiledownload(dto.getPhotoFileName(),
+					dto.getOriginalFilename(), pathname, resp);
+		}
+		
+		if(! b) {
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out=resp.getWriter();
+			out.print("<script>alert('파일다운로드가 실패 했습니다.');history.back();</script>");
+		}
+	}
+	
 }
+
+
