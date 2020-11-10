@@ -65,22 +65,22 @@
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
-				 제목 : ${dto.a_subject}
+				 제목 : ${dtoanswer.a_subject}
 			    </td>
 			</tr>
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td width="50%" align="left" style="padding-left: 5px;">
-			       작성자 : ${dto.userName}
+			       작성자 : ${dtoanswer.userName}
 			    </td>
 			    <td width="50%" align="right" style="padding-right: 5px;">
-			        ${dto.a_created}
+			        ${dtoanswer.a_created}
 			    </td>
 			</tr>
 			
 			<tr style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
-			      ${dto.a_content}
+			      ${dtoanswer.a_content}
 			   </td>
 			</tr>
 			
@@ -94,7 +94,9 @@
 			    <c:if test="${sessionScope.member.userId == dto.userId && dto.status == 0}">
 			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/update.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">수정</button>
 			    </c:if>
+			    <c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.userId == 'admin'}">
 			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/delete.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">삭제</button>
+			    </c:if>
 			    </td>
 			
 			    <td align="right">

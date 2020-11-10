@@ -102,5 +102,4 @@ public class QnaDTO {
 		this.a_created = a_created;
 	}
 	
-	
 }

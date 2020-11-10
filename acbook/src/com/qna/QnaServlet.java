@@ -168,7 +168,6 @@ public class QnaServlet extends MyServlet {
 		
 		try {
 			int qnaNum = Integer.parseInt(req.getParameter("qnaNum"));
-			int status = Integer.parseInt(req.getParameter("status"));
 
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");
@@ -182,21 +181,24 @@ public class QnaServlet extends MyServlet {
 				query += "condition="+condition+"&keyword="+URLEncoder.encode(keyword, "utf-8");
 			}
 			
-			QnaDTO dto = dao.readQna(qnaNum, status);
-
+			QnaDTO dto = dao.readQna(qnaNum);
+			QnaDTO dtoanswer = dao.readAnswer(qnaNum);
 			if(dto == null) {
 				resp.sendRedirect(cp+"/qna/list.do?"+query);
 				return;
 			}
 			dto.setQ_content(dto.getQ_content().replaceAll("\n", "<br>"));
 			
-			if(dto.getStatus() == 1) {
-				dto.setA_content(dto.getA_content().replaceAll("\n", "<br>"));
-			}
+//			if(dtoanswer == null) {
+//				resp.sendRedirect(cp+"/qna/list.do?"+query);
+//				return;
+//			}
+//			dtoanswer.setA_content(dtoanswer.getA_content().replaceAll("\n", "<br>"));
 			
 			
 			
 			req.setAttribute("dto", dto);
+			req.setAttribute("dtoanswer", dtoanswer);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
 			
@@ -219,9 +221,8 @@ public class QnaServlet extends MyServlet {
 	    
 	    try {
 	    	int qnaNum = Integer.parseInt(req.getParameter("qnaNum"));
-	    	int status = Integer.parseInt(req.getParameter("status")); 
 			
-	    	QnaDTO dto = dao.readQna(qnaNum, status);
+	    	QnaDTO dto = dao.readQna(qnaNum);
 	    	
 	    	if(dto == null || ! dto.getUserId().equals(info.getUserId())) {
 	    		resp.sendRedirect(cp+"/qna/list.do?page="+page);
@@ -270,7 +271,6 @@ public class QnaServlet extends MyServlet {
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
-			int status = Integer.parseInt(req.getParameter("status"));
 			String condition = req.getParameter("contition");
 			String keyword = req.getParameter("keyword");
 			if(condition == null) {
@@ -283,7 +283,7 @@ public class QnaServlet extends MyServlet {
 			}
 			
 			int qnaNum = Integer.parseInt(req.getParameter("qnaNum"));
-			QnaDTO dto = dao.readQna(qnaNum, status);
+			QnaDTO dto = dao.readQna(qnaNum);
 			
 			if(dto == null) {
 				resp.sendRedirect(cp+"/qna/list.do?"+query);
@@ -302,15 +302,16 @@ public class QnaServlet extends MyServlet {
 	
 	protected void answerForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int qnaNum = Integer.parseInt(req.getParameter("qnaNum"));
-		int status = Integer.parseInt(req.getParameter("status"));
+		String answerName = req.getParameter("answerName");
 		String page = req.getParameter("page");
 		QnaDAO dao = new QnaDAOImpl();
 		QnaDTO dto = new QnaDTO();
-		dto = dao.readQna(qnaNum, status);
+		dto = dao.readQna(qnaNum);
 		
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
 		req.setAttribute("qnaNum", qnaNum);
+		req.setAttribute("answerName", answerName);
 		req.setAttribute("mode", "created");
 		String path = "/WEB-INF/views/qna/answer.jsp";
 		forward(req, resp, path);

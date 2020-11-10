@@ -26,7 +26,7 @@ public interface QnaDAO {
 	public List<QnaDTO> listQna(int offset, int rows, String condition, String keyword);
 	
 	// 데이터 읽어오는 용도
-	public QnaDTO readQna(int qnaNum, int status);
+	public QnaDTO readQna(int qnaNum);
 	
 	// 답변글 읽어옴
 	public QnaDTO readAnswer(int qnaNum);
