@@ -164,8 +164,8 @@ public class MemberServlet extends HttpServlet{
 
 	protected void myPageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 내 정보 페이지
-		
-		
+		String path="/WEB-INF/views/member/myPage.jsp";
+		forward(req, resp, path);
 	}	
 	
 	protected void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -176,10 +176,32 @@ public class MemberServlet extends HttpServlet{
 	
 	protected void pwdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 패스워드 검사
+		
 	}	
 	
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 회원 정보 수정 폼
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		MemberDAO dao = new MemberDAOImpl();
+		String cp = req.getContextPath();
+		
+		try {
+			String userId = info.getUserId();
+			MemberDTO dto = dao.readMember(userId);
+			
+			if (userId == null) {
+				resp.sendRedirect(cp+"/member/login.do");
+				return;
+			}
+
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}	
 	
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
