@@ -191,7 +191,42 @@ public class NoticeDAOImpl implements NoticeDAO {
 		}
 		return result;
 	}
-
+	
+	@Override
+	public int deleteBoardList(int[] nums) throws SQLException{
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM notice WHERE noticeNum IN (";
+			for(int i=0; i<nums.length; i++) {
+				sql += "?,";
+			}
+			sql = sql.substring(0, sql.length()-1) + ")";
+			
+			pstmt=conn.prepareStatement(sql);
+			for(int i=0; i<nums.length; i++) {
+				pstmt.setInt(i+1, nums[i]);
+			}
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	@Override
 	public int dataCount() {
 		int result =0;
@@ -344,10 +379,10 @@ public class NoticeDAOImpl implements NoticeDAO {
         StringBuilder sb=new StringBuilder();
 
         try {
-			sb.append("SELECT n.noticeNum, n.userId, userName, subject, saveFilename, ");
+			sb.append("SELECT n.noticeNum, n.userId, userName, subject, ");
 			sb.append("       hitCount, created  ");
 			sb.append(" FROM notice n "
-					+ " JOIN member1 m ON n.userId=m.userId  ");
+					+ " JOIN member1 m ON n.userId=m.userId ");
 		//	sb.append(" LEFT OUTER JOIN multiFile f ON n.noticeNum = f.noticeNum  ");
 			
 			if(condition.equalsIgnoreCase("created")) {

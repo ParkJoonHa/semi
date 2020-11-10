@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 @MultipartConfig(
-	location = "c:/temp",		// ÆÄÀÏÀ» ÀÓ½Ã·Î ÀúÀåÇÒ °æ·Î(»ý·«°¡´É. ±âº»°ª ""), ÁöÁ¤µÈ °æ·Î°¡ ¾øÀ¸¸é ¾÷·Îµå°¡ ¾ÈµÊ
-	fileSizeThreshold = 1024*1024,		// ¾÷·ÎµåµÈ ÆÄÀÏÀÌ ÀÓ½Ã·Î ¼­¹ö¿¡ ÀúÀåµÇÁö ¾Ê°í ¸Þ¸ð¸®¿¡¼­ ½ºÆ®¸²À¸·Î ¹Ù·Î Àü´ÞµÇ´Â Å©±â
-	maxFileSize = 1024*1024*5,			// ¾÷·ÎµåµÈ ÇÏ³ªÀÇ ÆÄÀÏ Å©±â. ±âº» ¿ë·® Á¦ÇÑ ¾øÀ½
-	maxRequestSize = 1024*1024*10	// Æû ÀüÃ¼ ¿ë·®
+	location = "c:/temp",		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½âº»ï¿½ï¿½ ""), ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµå°¡ ï¿½Èµï¿½
+	fileSizeThreshold = 1024*1024,		// ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½Þ¸ð¸®¿ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ÞµÇ´ï¿½ Å©ï¿½ï¿½
+	maxFileSize = 1024*1024*5,			// ï¿½ï¿½ï¿½Îµï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½. ï¿½âº» ï¿½ë·® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	maxRequestSize = 1024*1024*10	// ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ë·®
 )
 public abstract class MyUploadServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -37,23 +37,23 @@ public abstract class MyUploadServlet extends HttpServlet{
 	}
 
 	protected void forward(HttpServletRequest req, HttpServletResponse resp, String path) throws ServletException, IOException {
-		// Æ÷¿öµùÀ» À§ÇÑ ¸Þ¼Òµå
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½
 		RequestDispatcher rd=req.getRequestDispatcher(path);
 		rd.forward(req, resp);
 	}
 	
 	/**
-	 * ´ÜÀÏ ÆÄÀÏ ¾÷·Îµå
-	 * @param p					Part °´Ã¼
-	 * @param pathname	¼­¹ö¿¡ ÆÄÀÏÀ» ÀúÀåÇÒ °æ·Î
-	 * @return					¼­¹ö¿¡ ÀúÀåµÈ ÆÄÀÏ¸í, Å¬¶óÀÌ¾ðÆ®°¡ ¾÷·ÎµåÇÑ ÆÄÀÏ¸í
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
+	 * @param p					Part ï¿½ï¿½Ã¼
+	 * @param pathname	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	 * @return					ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½
 	 */
 	protected Map<String, String> doFileUpload(Part p, String pathname) throws ServletException, IOException {
 		Map<String, String> map = null;
 		
 		try {
 			File f=new File(pathname);
-			if(! f.exists()) { // Æú´õ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
+			if(! f.exists()) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				f.mkdirs();
 			}
 			
@@ -80,16 +80,16 @@ public abstract class MyUploadServlet extends HttpServlet{
 	}
 
 	/**
-	 * ´ÙÁß ÆÄÀÏ ¾÷·Îµå
-	 * @param parts				Å¬¶óÀÌ¾ðÆ®°¡ ¼­¹ö·Î Àü¼ÛÇÑ ¸ðµç Part °´Ã¼
-	 * @param pathname		¼­¹ö¿¡ ÆÄÀÏÀ» ÀúÀåÇÒ °æ·Î 
-	 * @return						¼­¹ö¿¡ ÀúÀåµÈ ÆÄÀÏ¸í, Å¬¶óÀÌ¾ðÆ®°¡ ¿Ã¸° ÆÄÀÏ¸í
+	 * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½
+	 * @param parts				Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Part ï¿½ï¿½Ã¼
+	 * @param pathname		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+	 * @return						ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½
 	 */
 	protected Map<String, String[]> doFileUpload(Collection<Part> parts, String pathname) throws ServletException, IOException {
 		Map<String, String[]> map = null;
 		try {
 			File f=new File(pathname);
-			if(! f.exists()) { // Æú´õ°¡ Á¸ÀçÇÏÁö ¾ÊÀ¸¸é
+			if(! f.exists()) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				f.mkdirs();
 			}
 			
@@ -104,8 +104,8 @@ public abstract class MyUploadServlet extends HttpServlet{
 			         // multipart
 			      }				
 */
-				// contentType °¡ null ÀÎ °æ¿ì´Â ÆÄÀÏÀÌ ¾Æ´Ñ °æ¿ìÀÌ´Ù.(<input type="text"... µî)
-				if(contentType != null) { // ÆÄÀÏÀÌ¸é
+				// contentType ï¿½ï¿½ null ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.(<input type="text"... ï¿½ï¿½)
+				if(contentType != null) { // ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 					original = getOriginalFilename(p);
 					if(original == null || original.length() == 0 ) continue;
 					
@@ -120,7 +120,7 @@ public abstract class MyUploadServlet extends HttpServlet{
 					
 					listOriginal.add(original);
 					listSave.add(save);
-					// Long size = p.getSize()); // ÆÄÀÏ Å©±â
+					// Long size = p.getSize()); // ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 				}
 			}		
 			

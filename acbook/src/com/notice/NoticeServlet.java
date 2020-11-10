@@ -94,19 +94,8 @@ public class NoticeServlet extends MyUploadServlet {
 		}
 
 		// 한페이지 표시할 데이터 개수
-//        String numPerPage = req.getParameter("rows");
-		int rows = 10;
-//        if (numPerPage!=null) {
-//        	rows = Integer.parseInt(numPerPage);
-//		}
-//        = numPerPage == null ? 10 : Integer.parseInt(numPerPage);
-//        int npp;
-//        if (numPerPage==null) {
-//			npp=10;
-//		} else {
-//			npp= Integer.parseInt(numPerPage);
-//		}
-//        int rows = npp;
+        String numPerPage = req.getParameter("rows");
+        int rows = (numPerPage == null) ? 10 : Integer.parseInt(numPerPage);
 
 		int dataCount, total_page;
 
@@ -163,8 +152,8 @@ public class NoticeServlet extends MyUploadServlet {
 		String listUrl;
 		String articleUrl;
 
-		listUrl = cp + "/notice/list.do";
-		articleUrl = cp + "/notice/article.do?page=" + current_page;
+		listUrl = cp + "/notice/list.do?rows="+rows;
+		articleUrl = cp + "/notice/article.do?page=" + current_page + "&rows=" +  rows;
 		if (keyword.length() != 0) {
 			query = "condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "utf-8");
 
@@ -184,7 +173,7 @@ public class NoticeServlet extends MyUploadServlet {
 		req.setAttribute("paging", paging);
 		req.setAttribute("condition", condition);
 		req.setAttribute("keyword", keyword);
-		// req.setAttribute("rows", rows);
+		req.setAttribute("rows", rows);
 
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/views/notice/list.jsp");
@@ -194,15 +183,15 @@ public class NoticeServlet extends MyUploadServlet {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		String cp = req.getContextPath();
-		// String rows = req.getParameter("rows");
+		String rows = req.getParameter("rows");
 
 		if (!info.getUserId().equals("admin")) {
-			resp.sendRedirect(cp + "/notice/list.do?");
+			resp.sendRedirect(cp + "/notice/list.do?rows="+rows);
 			return;
 		}
 
 		req.setAttribute("mode", "created");
-		// req.setAttribute("rows", rows);
+		req.setAttribute("rows", rows);
 		forward(req, resp, "/WEB-INF/views/notice/created.jsp");
 	}
 
@@ -212,10 +201,10 @@ public class NoticeServlet extends MyUploadServlet {
 
 		NoticeDAO dao = new NoticeDAOImpl();
 		String cp = req.getContextPath();
-		// String rows = req.getParameter("rows");
+		String rows = req.getParameter("rows");
 
 		if (!info.getUserId().equals("admin")) {
-			resp.sendRedirect(cp + "/notice/list.do");
+			resp.sendRedirect(cp + "/notice/list.do?rows="+rows);
 			return;
 		}
 
@@ -240,7 +229,7 @@ public class NoticeServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/notice/list.do");
+		resp.sendRedirect(cp + "/notice/list.do?rows="+rows);
 	}
 
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -248,8 +237,8 @@ public class NoticeServlet extends MyUploadServlet {
 		String cp = req.getContextPath();
 
 		String page = req.getParameter("page");
-//		String rows = req.getParameter("rows");
-		String query = "page=" + page;
+		String rows = req.getParameter("rows");
+		String query = "page=" + page + "&rows=" + rows;
 
 		try {
 			int noticeNum = Integer.parseInt(req.getParameter("noticeNum"));
@@ -290,7 +279,7 @@ public class NoticeServlet extends MyUploadServlet {
 			// req.setAttribute("nextReadDto", nextReadDto);
 			req.setAttribute("query", query);
 			req.setAttribute("page", page);
-			// req.setAttribute("rows", rows);
+			req.setAttribute("rows", rows);
 			req.setAttribute("fileList", fileList);
 
 			forward(req, resp, "/WEB-INF/views/notice/article.jsp");
@@ -310,20 +299,20 @@ public class NoticeServlet extends MyUploadServlet {
 		String cp=req.getContextPath();
 		
 		String page=req.getParameter("page");
-		//String rows=req.getParameter("rows");
+		String rows=req.getParameter("rows");
 		
 		try {
 			int noticeNum=Integer.parseInt(req.getParameter("noticeNum"));
 			
 			NoticeDTO dto=dao.readNotice(noticeNum);
 			if(dto==null) {
-				resp.sendRedirect(cp+"/notice/list.do?page="+page);
+				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 				return;
 			}
 			
 			// 글을 등록한 사람만 수정 가능
 			if(! info.getUserId().equals(dto.getUserId())) {
-				resp.sendRedirect(cp+"/notice/list.do?page="+page);
+				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 				return;
 			}
 			
@@ -331,7 +320,7 @@ public class NoticeServlet extends MyUploadServlet {
 			
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
-			//req.setAttribute("rows", rows);
+			req.setAttribute("rows", rows);
 			
 			req.setAttribute("mode", "update");
 			req.setAttribute("fileList", fileList);
@@ -341,7 +330,7 @@ public class NoticeServlet extends MyUploadServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		resp.sendRedirect(cp+"/notice/list.do?page="+page);
+		resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 	}
 
 	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -351,10 +340,10 @@ public class NoticeServlet extends MyUploadServlet {
 		NoticeDTO dto=new NoticeDTO();
 		
 		String page=req.getParameter("page");
-//		String rows=req.getParameter("rows");
+		String rows=req.getParameter("rows");
 		
 		if(req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp+"/notice/list.do?page="+page);
+			resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 			return;
 		}
 		
@@ -370,12 +359,6 @@ public class NoticeServlet extends MyUploadServlet {
 			Part p = req.getPart("upload");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if(map != null) {
-//				if(req.getParameter("saveFilename").length()!=0) {
-					// 기존파일 삭제
-//					FileManager.doFiledelete(pathname, req.getParameter("saveFilename"));
-//				}
-
-				// 새로운 파일
 				String saveFilename = map.get("saveFilename");
 				String originalFilename = map.get("originalFilename");
 				dto.setSaveFilename(saveFilename);
@@ -388,7 +371,7 @@ public class NoticeServlet extends MyUploadServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		resp.sendRedirect(cp+"/notice/list.do?page="+page);		
+		resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);		
 	}
 
 	private void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -399,7 +382,7 @@ public class NoticeServlet extends MyUploadServlet {
 		String cp=req.getContextPath();
 	
 		String page=req.getParameter("page");
-		//String rows=req.getParameter("rows");
+		String rows=req.getParameter("rows");
 		
 		try {
 			int fileNum=Integer.parseInt(req.getParameter("fileNum"));
@@ -415,12 +398,12 @@ public class NoticeServlet extends MyUploadServlet {
 			NoticeDTO dto = dao.readNotice(noticeNum);
 			
 			if(dto==null) {
-				resp.sendRedirect(cp+"/notice/list.do?page="+page);
+				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 				return;
 			}
 			
 			if(info.getUserId().equals(dto.getUserId())) {
-				resp.sendRedirect(cp+"/notice/list.do?page="+page);
+				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 				return;
 			}
 
@@ -428,18 +411,17 @@ public class NoticeServlet extends MyUploadServlet {
 			
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
-			//req.setAttribute("rows", rows);
+			req.setAttribute("rows", rows);
 			
 			req.setAttribute("mode", "update");
 
 			forward(req, resp, "/WEB-INF/views/notice/update.jsp");
-			
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp+"/notice/list.do?page="+page);
+		resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
 	}
 
 	private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -450,8 +432,8 @@ public class NoticeServlet extends MyUploadServlet {
 		String cp=req.getContextPath();
 		
 		String page=req.getParameter("page");
-		//String rows=req.getParameter("rows");
-		String query="page="+page;
+		String rows=req.getParameter("rows");
+		String query="page="+page+"&rows="+rows;
 		
 		try {
 			int noticeNum=Integer.parseInt(req.getParameter("noticeNum"));
@@ -478,10 +460,6 @@ public class NoticeServlet extends MyUploadServlet {
 				resp.sendRedirect(cp+"/notice/list.do?"+query);
 				return;
 			}
-			
-//			if(dto.getSaveFilename()!=null && dto.getSaveFilename().length()!=0) {
-//				FileManager.doFiledelete(pathname, dto.getSaveFilename());
-//			}
 			
 			dao.deleteNotice(noticeNum, info.getUserId());
 		} catch (Exception e) {
@@ -517,7 +495,51 @@ public class NoticeServlet extends MyUploadServlet {
 	}
 	
 	private void deleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		String cp=req.getContextPath();
 		
+		if(! info.getUserId().equals("admin")) {
+			resp.sendRedirect(cp+"/notice/list.do");
+			return;
+		}
+		
+		String page=req.getParameter("page");
+		String rows=req.getParameter("rows");
+		String query="rows="+rows+"&page="+page;
+		
+		String condition=req.getParameter("condition");
+		String keyword=req.getParameter("keyword");
+		
+		try {
+			if(keyword!=null && keyword.length()!=0) {
+				query+="&condition="+condition+"&keyword="+
+			               URLEncoder.encode(keyword, "UTF-8");
+			}
+			
+			// 업로드된 파일 지우기
+//			String []ff=req.getParameterValues("filenames");
+//			if(ff!=null) {
+//				for(String f : ff) {
+//					FileManager.doFiledelete(pathname, f);
+//				}
+//			}
+			
+			// 게시글 지우기
+			String []nn=req.getParameterValues("noticeNums");
+			int nums[]=null;
+			nums=new int[nn.length];
+			for(int i=0; i<nn.length; i++)
+				nums[i]=Integer.parseInt(nn[i]);
+			
+			NoticeDAO dao=new NoticeDAOImpl();
+			dao.deleteBoardList(nums);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp+"/notice/list.do?"+query);
 	}
-
-}
+	
+	}

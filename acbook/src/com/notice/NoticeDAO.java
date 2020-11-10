@@ -9,6 +9,7 @@ public interface NoticeDAO {
 	public int updateNotice(NoticeDTO dto) throws SQLException;
 	public int deleteNotice(int num, String userId) throws SQLException;
 	public int deleteFile(int fileNum) throws SQLException;
+	public int deleteBoardList(int[] nums) throws SQLException;
 
 	
 	public int dataCount();

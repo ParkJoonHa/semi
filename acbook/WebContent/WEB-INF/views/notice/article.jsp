@@ -104,7 +104,7 @@ function deleteNotice(noticeNum) {
 							<td width="300" align="left"><c:if
 									test="${sessionScope.member.userId==dto.userId}">
 									<button type="button" class="btn"
-										onclick="javascript:location.href='${pageContext.request.contextPath}/notice/update.do?noticeNum=${dto.noticeNum}&page=${page}';">수정</button>
+										onclick="javascript:location.href='${pageContext.request.contextPath}/notice/update.do?noticeNum=${dto.noticeNum}&page=${page}&rows=${rows}';">수정</button>
 								</c:if> <c:if 
 									test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
 									<button type="button" class="btn"

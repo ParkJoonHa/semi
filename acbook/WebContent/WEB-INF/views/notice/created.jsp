@@ -143,7 +143,8 @@
 												value="${dto.saveFilename}">
 											<input type="hidden" name="originalFilename"
 												value="${dto.originalFilename}">
-										</c:if> <input type="hidden" name="rows" value="${rows}">
+										</c:if> 
+										<input type="hidden" name="rows" value="${rows}">
 									</td>
 								</tr>
 							</table>
