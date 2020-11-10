@@ -138,8 +138,12 @@ public class RepeatQnaServlet extends MyServlet {
 		String rows = req.getParameter("rows");
 		
 		//세션 객체
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
+
+		HttpSession session=req.getSession();
+	      SessionInfo info=(SessionInfo)session.getAttribute("member");
+
+		
+
 		
 		// admin(관리자)가 아니면 글을 작성할 수 없음
 		if(! info.getUserId().equals("admin")) {
@@ -157,11 +161,11 @@ public class RepeatQnaServlet extends MyServlet {
 		RepeatQnaDTO dto = new RepeatQnaDTO();
 		String cp = req.getContextPath();
 		
+		HttpSession session=req.getSession();
+	    SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
 		try {
 			// 세션 객체
-			HttpSession session = req.getSession();
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			
 			dto.setUserId(info.getUserId());
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
@@ -238,11 +242,11 @@ public class RepeatQnaServlet extends MyServlet {
 		String page = req.getParameter("page");
 		String query = "page="+page;
 		
+		HttpSession session=req.getSession();
+	      SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
 		try {
-			// 세션 객체
-			HttpSession session = req.getSession();
-			SessionInfo info = (SessionInfo)session.getAttribute("member");
-			
+			// 세션 객체			
 			int num = Integer.parseInt(req.getParameter("repeatNum"));
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");

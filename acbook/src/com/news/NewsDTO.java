@@ -12,13 +12,49 @@ package com.news;
  */
 public class NewsDTO {
 	private int newsNum;
+	private int listNum;
 	private String userId;
 	private String userName;
 	private String subject;
 	private String content;
 	private String photoFileName;
 	private String created;
+	private String hitCount;
+	private String originalFilename;
+	private long fileSize;
+	private long gap;
 	
+	
+	public long getFileSize() {
+		return fileSize;
+	}
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
+	public String getHitCount() {
+		return hitCount;
+	}
+	public void setHitCount(String hitCount) {
+		this.hitCount = hitCount;
+	}
 	public int getNewsNum() {
 		return newsNum;
 	}

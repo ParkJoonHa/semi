@@ -44,6 +44,7 @@ main {
 
 section {
 	width:1100px;
+	height:850px;
 	border: 3px solid #597372;
 	margin: 10px ;
 	padding: 20px;
@@ -55,9 +56,11 @@ h1 {
 	margin: 10px 10px;
 	width: 115px;
 	border-bottom: 8px solid #597372;
+	
 }
 
 .article1 {
+
 	margin: 20px 10px;
 	padding: 20px;
 	height: 80%;
@@ -190,3 +193,38 @@ a:hover, a:active {
 	font-weight: 600;
 	text-shadow: 0 1px 3px #ffeadb;
 }
+/*article body Start */
+.articleBody{
+	margin: 20px 10px;
+	padding: 20px;
+	
+	box-sizing: border-box;
+	border: 3px solid #597372;
+	background-color: white;
+}
+.article1-1{
+	margin: 20px 10px;
+	padding: 20px;
+	height: 70%;
+	box-sizing: border-box;
+	border: 3px solid #597372;
+	background-color: white;
+}
+.article3{
+	background: red;
+}
+.articleTable{
+width: 100%;
+	
+}
+.articleTable2{
+	width:100%;
+	margin: 20px auto;
+	padding: 10px auto;
+	box-sizing: border-box;
+}
+.articleTableTR{
+	height: 500px;
+}
+
+ 
