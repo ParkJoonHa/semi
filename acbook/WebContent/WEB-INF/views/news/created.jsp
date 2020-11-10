@@ -88,7 +88,7 @@ function sendOk() {
 								<td align="center">
 									<button class="btn btn3" type="button" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 									<button class="btn btn3" type="reset">다시입력</button>
-									<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}'/news/main.do;">${mode=='update'?'수정취소':'등록취소' }</button>
+									<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/main.do';">${mode=='update'?'수정취소':'등록취소' }</button>
 								</td>
 							</tr>
 						</table>

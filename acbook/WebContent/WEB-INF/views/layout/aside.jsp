@@ -27,7 +27,7 @@ $(function(){
             <li class="list-menu"><a href="${pageContext.request.contextPath}/boast/list.do">자랑게시판</a></li> <!-- 커뮤니티 묶기 -->
             <li class="list-menu"><a href="">자유게시판</a></li>
             <li class="list-menu"><a href="${pageContext.request.contextPath}/news/main.do">정보게시판</a></li>
-            <li class="list-menu"><a href="">Q&A</a></li>
+            <li class="list-menu"><a href="${pageContext.request.contextPath}/qna/list.do">Q&A</a></li>
             <li class="list-menu"><a href="${pageContext.request.contextPath}/repeat/list.do">자주하는 질문</a></li>
         </ul>
     </div>

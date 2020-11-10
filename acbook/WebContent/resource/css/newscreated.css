@@ -38,8 +38,9 @@ input, textarea {
 }
 
 .td2 input {
-	width: 70px;
-	border: 0; 
+	width: 200px;
+	height:22px;
+	color:black;
 	margin-left: 30px;
 	
 	

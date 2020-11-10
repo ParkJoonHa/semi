@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.member.SessionInfo;
+import com.util.FileManager;
 import com.util.MyUploadServlet;
 import com.util.MyUtil;
 
@@ -139,7 +140,7 @@ public class NewsServlet extends MyUploadServlet {
 				gap=(curDate.getTime()- date.getTime())/(1000*60*60);
 				dto.setGap(gap);
 			} catch (Exception e) {
-				
+				e.printStackTrace();
 			}
 			  dto.setCreated(dto.getCreated().substring(0,10));
 			  
@@ -181,8 +182,8 @@ public class NewsServlet extends MyUploadServlet {
 	}
 
 	protected void createdSubmit(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
-		NewsDTO dto = new NewsDTO();
 		NewsDAO dao = new NewsDAOImpl();
+		NewsDTO dto = new NewsDTO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -193,11 +194,16 @@ public class NewsServlet extends MyUploadServlet {
 			dto.setContent(req.getParameter("content"));
 
 			String filename = null;
+			
 			Part p = req.getPart("selectFile");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if (map != null) {
 				filename = map.get("saveFilename");
+				String originalFilename = map.get("originalFilename");
+				long size=p.getSize();
 				dto.setPhotoFileName(filename);
+				dto.setOriginalFilename(originalFilename);
+				dto.setFileSize(size);
 			}
 			dao.insertNews(dto);
 
@@ -330,7 +336,26 @@ public class NewsServlet extends MyUploadServlet {
 			dto.setNewsNum(Integer.parseInt(req.getParameter("newsNum")));
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
+			dto.setPhotoFileName(req.getParameter("photoFileName"));
+			dto.setOriginalFilename(req.getParameter("originalFilename"));
+			dto.setFileSize(Long.parseLong(req.getParameter("fileSize")));
 			
+			Part p= req.getPart("upload");
+			Map<String, String> map = doFileUpload(p, pathname);
+			if(map != null) {
+				if(req.getParameter("saveFilename").length()!=0) {
+					// 기존파일 삭제
+					FileManager.doFiledelete(pathname, req.getParameter("photoFileName"));
+				}
+
+				// 새로운 파일
+				String photoFileName = map.get("photoFileName");
+				String originalFilename = map.get("originalFilename");
+				long size = p.getSize();
+				dto.setPhotoFileName(photoFileName);
+		    	dto.setOriginalFilename(originalFilename);
+		    	dto.setFileSize(size);
+			}
 			dao.updateNews(dto);
 			
 		} catch (Exception e) {
@@ -338,6 +363,53 @@ public class NewsServlet extends MyUploadServlet {
 		}
 		resp.sendRedirect(cp+"/news/main.do?"+query);
 	}
+//	private void deleteFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		// 수정에서 파일만 삭제
+//		HttpSession session=req.getSession();
+//		SessionInfo info=(SessionInfo)session.getAttribute("member");
+//		
+//		NewsDAO dao=new NewsDAOImpl();
+//		String cp=req.getContextPath();
+//	
+//		String page=req.getParameter("page");
+//		String rows=req.getParameter("rows");
+//		
+//		try {
+//			int newsNum=Integer.parseInt(req.getParameter("newsNum"));
+//			NewsDTO dto=dao.readNews(newsNum);
+//			if(dto==null) {
+//				resp.sendRedirect(cp+"/notice/list.do?page="+page+"&rows="+rows);
+//				return;
+//			}
+//			
+//			if(info.getUserId().equals(dto.getUserId())) {
+//				resp.sendRedirect(cp+"/news/main.do?page="+page+"&rows="+rows);
+//				return;
+//			}
+//			
+//			// 파일삭제
+//			FileManager.doFiledelete(pathname, dto.getPhotoFileName());
+//			
+//			// 파일명과 파일크기 변경
+//			dto.setOriginalFilename("");
+//			dto.setPhotoFileName("");
+//			dto.setFileSize(0);
+//			dao.updateNews(dto);
+//			
+//			req.setAttribute("dto", dto);
+//			req.setAttribute("page", page);
+//			req.setAttribute("rows", rows);
+//			
+//			req.setAttribute("mode", "update");
+//
+//			forward(req, resp, "/WEB-INF/views/news/created.jsp");
+//			return;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//		resp.sendRedirect(cp+"/news/main.do?page="+page+"&rows="+rows);
+//	}
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp=req.getContextPath();

@@ -33,46 +33,55 @@
 					<div class="innerNav">
 						<h3>공유도 공유하는 정보 공유!</h3>
 					</div>
-					<article class="article1">
-						<table border="1">
+					<article class="article1-1">
+						<table class="articleTable" border="1">
 							<tr>
-								<td><span>제목</span></td>
+								<td><span>제목 :</span></td>
 								<td><span>${dto.subject}</span></td>
-								<td><span>작성자</span></td>
+								<td><span>작성자 :</span></td>
 								<td><span>${dto.userName}</span></td>
 								<td><span>${dto.created}</span></td>
-								<td><span>${dto.hitCount}</span></td>
+								<td>조회수:<span>${dto.hitCount}</span></td>
 							</tr>
-							<tr>
-								<td>${dto.content}</td>
-							</tr>
-						</table>
-					</article>
-					<article class="article2">
-						<table border="1">
-							<tr>
-								<td>
-									<button type="button" onclick="script:location.href='${pageContext.request.contextPath}/news/update.do?page=${page}&newsNum=${dto.newsNum}';">수정</button>
-								</td>
-								<td>
-									<button type="button" onclick="script:location.href='${pageContext.request.contextPath}/news/delete.do?page=${page}&newsNum=${dto.newsNum}';">삭제</button>
-								</td>
+							<tr class="articleTableTR">
+								<td colspan="6">${dto.content}</td>
 							</tr>
 						</table>
 					</article>
-					<article class="article2">
-						<table border="1">
-							<tr>
-								<td><span>공유글 목록</span></td>
-								<td><a href="#">전체글 보기</a></td>
-							</tr>
-							<tr>
-								<td><a href="#"> 이전게시</a></td>
-							</tr>
-							<tr>
-								<td><a href="#"> 이전게시</a></td>
-							</tr>
-						</table>
+					<article class="articleBody">
+						<article class="article3">
+							<table border="1">
+								<tr>
+									<td>
+										<button type="button"
+											onclick="script:location.href='${pageContext.request.contextPath}/news/update.do?page=${page}&newsNum=${dto.newsNum}';">수정</button>
+									</td>
+									<td>
+										<button type="button"
+											onclick="script:location.href='${pageContext.request.contextPath}/news/delete.do?page=${page}&newsNum=${dto.newsNum}';">삭제</button>
+									</td>
+								</tr>
+							</table>
+						</article>
+						<article class="article4">
+							<table class="articleTable2" border="1">
+								<tr>
+									<td><span>공유글 목록</span></td>
+									<td><a
+										href="javascript:location.href='${pageContext.request.contextPath}/news/main.do';">전체글
+											보기</a></td>
+								</tr>
+								<tr>
+									<td>이전글: <a
+										href="${pageContext.request.contextPath}/news/article.do?${query}&newsNum=${preReadDto.newsNum}">${preReadDto.subject}</a></td>
+								</tr>
+								<tr>
+									<td>다음글:<a
+										href="${pageContext.request.contextPath}/news/article.do?${qurey}&newsNum=${nextReadDto.newsNum}">
+											${nextReadDto.subject}</a></td>
+								</tr>
+							</table>
+						</article>
 					</article>
 				</section>
 			</form>

@@ -20,9 +20,23 @@ public class NewsDTO {
 	private String photoFileName;
 	private String created;
 	private String hitCount;
+	private String originalFilename;
+	private long fileSize;
 	private long gap;
 	
 	
+	public long getFileSize() {
+		return fileSize;
+	}
+	public void setFileSize(long fileSize) {
+		this.fileSize = fileSize;
+	}
+	public String getOriginalFilename() {
+		return originalFilename;
+	}
+	public void setOriginalFilename(String originalFilename) {
+		this.originalFilename = originalFilename;
+	}
 	public int getListNum() {
 		return listNum;
 	}

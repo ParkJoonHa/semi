@@ -9,10 +9,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/layout.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resource/css/layout.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
+<script type="text/javascript">
+	function send(){
+		var f=document.articleForm;
+		f.submit();
+	}
+</script>
 <title>Document</title>
 
 </head>
@@ -23,7 +30,7 @@
 		<header class="header-font">
 			<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 		</header>
-		
+
 		<main>
 			<aside>
 				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
@@ -34,16 +41,16 @@
 					<h3>공유도 공유하는 정보 공유</h3>
 				</div>
 				<article class="article1">
-					<div>
-						<table class="table1">
-							<tr>
-								<td width="50">번호</td>
-								<td>제 &nbsp;목</td>
-								<td width="100">작성자</td>
-								<td width="100">작성일</td>
-								<td width="70">조회수</td>
-							</tr>
-						</table>
+
+					<table class="table1">
+						<tr>
+							<td width="50">번호</td>
+							<td>제 &nbsp;목</td>
+							<td width="100">작성자</td>
+							<td width="100">작성일</td>
+							<td width="70">조회수</td>
+						</tr>
+					</table>
 					<c:forEach var="dto" items="${list}">
 						<table class="table2">
 							<tr>
@@ -51,34 +58,50 @@
 								<td><a href="${articleUrl}&newsNum=${dto.newsNum}">${dto.subject}</a></td>
 								<td width="100">${dto.userName}</td>
 								<td width="100">${dto.created}</td>
-								<td width="70">1</td>
+								<td width="70">${dto.hitCount}</td>
 							</tr>
-							
+
 						</table>
 					</c:forEach>
-					</div>
+
 				</article>
 				<article class="article2">
-			
-					<table class="table3">
-						<tr>
-							<td><button class="btn btn1">새로고침</button></td>
-							<td align="right"><select name="" id="serch">
-									<option value="#">검색</option>
-									<option value="">작성자 검색</option>
-									<option value="">제목으로 검색</option>
-							</select></td>
-							<td align="center" width="300"><input class="ipt"
-								type="text" name=""></td>
-							<td>
-								<button class="btn btn2" type="button">검색</button>
-							</td>
-							<td align="right">
-								<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/created.do';">글올리기</button>
-							</td>
-						</tr>
-					</table>
-			
+					<form name="articleForm" method="post">
+						<table class="table3">
+							<tr>
+								<td><button class="btn btn1" type="reset">새로고침</button></td>
+								<td align="right"><select name="condition" id="serch">
+										<option value="all"
+											${condition=="all" ? "selected='selected' ": ""}>제목+내용</option>
+										<option value="subject"
+											${condition=="subject" ? "selected='selected' ": ""}>제목</option>
+										<option value="userName"
+											${condition=="userName" ? "selected='selected' ": ""}>작성자</option>
+										<option value="content"
+											${condition=="content" ? "selected='selected' ": ""}>내용</option>
+										<option value="created"
+											${condition=="created" ? "selected='selected' ": ""}>등록일</option>
+								</select>
+								
+								</td>
+								<td align="center" width="300"><input class="ipt"
+									type="text" name="keyword" value="${keyword }"></td>
+								<td>
+									<button class="btn btn2" type="button" onclick="send();">검색</button>
+								</td>
+								<td align="right">
+									<button class="btn btn3" type="button"
+										onclick="javascript:location.href='${pageContext.request.contextPath}/news/created.do';">글올리기</button>
+								</td>
+							</tr>
+						</table>
+						<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+							<tr height="35">
+								<td align="center">${dataCount==0?"등록된 게시물이 없습니다.":paging }
+								</td>
+							</tr>
+						</table>
+					</form>
 				</article>
 			</section>
 		</main>
