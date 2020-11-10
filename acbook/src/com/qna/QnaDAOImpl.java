@@ -365,56 +365,13 @@ public class QnaDAOImpl implements QnaDAO {
 	
 
 	@Override
-	public QnaDTO readQna(int qnaNum, int status) {
+	public QnaDTO readQna(int qnaNum) {
 		QnaDTO dto = new QnaDTO();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			if(status == 1) {
-//				dto = readAnswer(qnaNum);
-//				sb.append("SELECT qnaNum, q.userId, userName, q_subject, q_content, q_created, q.status ");
-//				sb.append(" FROM qna q JOIN member1 m1 ON q.userId = m1.userId ");
-//				sb.append(" WHERE qnaNum = ? ");
-//				pstmt = conn.prepareStatement(sb.toString());
-//				pstmt.setInt(1, qnaNum);
-//				rs = pstmt.executeQuery();
-//				if(rs.next()) {
-//					dto.setQnaNum(rs.getInt("qnaNum"));
-//					dto.setUserId(rs.getString("userId"));
-//					dto.setUserName(rs.getString("userName"));
-//					dto.setQ_subject(rs.getString("q_subject"));
-//					dto.setQ_content(rs.getString("q_content"));
-//					dto.setQ_created(rs.getString("q_created"));
-//					dto.setStatus(rs.getInt("status"));
-//				}
-				
-				sb.append("SELECT q.qnaNum, q.userId, userName, q_subject, q_content, q_created, q.status, answerNum, a_subject, a_content, a_created ");
-				sb.append("FROM qna q ");
-				sb.append("JOIN member1 m1 ON q.userId = m1.userId ");
-				sb.append("JOIN answer a ON q.qnaNum = a.qnaNum ");
-				sb.append("WHERE q.qnaNum = ?");
-				
-				pstmt = conn.prepareStatement(sb.toString());
-				pstmt.setInt(1, qnaNum);
-				rs = pstmt.executeQuery();
-				if(rs.next()) {
-					dto.setQnaNum(rs.getInt("qnaNum"));
-					dto.setUserId(rs.getString("userId"));
-					dto.setUserName(rs.getString("userName"));
-					dto.setQ_subject(rs.getString("q_subject"));
-					dto.setQ_content(rs.getString("q_content"));
-					dto.setQ_created(rs.getString("q_created"));
-					dto.setAnswerNum(rs.getInt("answerNum"));
-					dto.setA_subject(rs.getString("a_subject"));
-					dto.setA_content(rs.getString("a_content"));
-					dto.setA_created(rs.getString("a_created"));
-					dto.setStatus(rs.getInt("status"));
-				}
-				
-				
-			} else {
 				sb.append("SELECT qnaNum, q.userId, userName, q_subject, q_content, q_created, q.status ");
 				sb.append(" FROM qna q JOIN member1 m1 ON q.userId = m1.userId ");
 				sb.append(" WHERE qnaNum = ? ");
@@ -430,8 +387,7 @@ public class QnaDAOImpl implements QnaDAO {
 					dto.setQ_created(rs.getString("q_created"));
 					dto.setStatus(rs.getInt("status"));
 				}
-			
-			}
+				
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -463,6 +419,7 @@ public class QnaDAOImpl implements QnaDAO {
 			sb.append(" FROM answer a JOIN member1 m1 ON a.userId = m1.userId ");
 			sb.append(" WHERE qnaNum = ? ");
 			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, qnaNum);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -493,8 +450,6 @@ public class QnaDAOImpl implements QnaDAO {
 		
 		return dto;
 	}
-
-	
 
 	
 

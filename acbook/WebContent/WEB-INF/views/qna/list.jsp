@@ -20,9 +20,17 @@
 		
 		f.submit();
 	}
-	function userCheck() {
-		var str = "${dto.userId}";
+	
+	function userCheck(user, articleUrl, qnaNum, status) {
 		
+		var path = articleUrl+"&qnaNum="+qnaNum+ "&status="+status;
+		
+		if(user != "${sessionScope.member.userId}" && "${sessionScope.member.userId}" != "admin") {
+			alert("권한이 없습니다.");
+			return;
+		}
+		
+		location.href = path;
 	}
 </script>
 </head>
@@ -56,13 +64,13 @@
 								<td width="70">답변상태</td>
 							</tr>
 						</table>
-
+						<form name="listForm" method="post">
 						<table class="table2">
 							<c:forEach var="dto" items="${list}">
 							<tr>
 								<td width="50">${dto.qnaNum}</td>
 								<td>
-								<a href="${articleUrl}&qnaNum=${dto.qnaNum}&status=${dto.status}">${dto.q_subject}</a>
+								<a href="javascript:userCheck('${dto.userId}', '${articleUrl}', '${dto.qnaNum}', '${dto.status}');">${dto.q_subject}</a>
 								</td>
 								<td width="100">${dto.userName}</td>
 								<td width="100">${dto.q_created}</td>
@@ -70,6 +78,7 @@
 							</tr>
 							</c:forEach>
 						</table>
+						</form>
 						
 						<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			   <tr height="35">
