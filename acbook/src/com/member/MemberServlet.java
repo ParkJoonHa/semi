@@ -51,6 +51,9 @@ public class MemberServlet extends HttpServlet{
 		} else if(uri.indexOf("member_ok.do")!= -1) {
 			memberSubmit(req, resp);
 			
+		} else if(uri.indexOf("myPage.do")!= -1) {
+			myPageForm(req, resp);
+			
 		} else if(uri.indexOf("pwd.do")!= -1) {
 			pwdForm(req, resp);
 			
@@ -157,6 +160,10 @@ public class MemberServlet extends HttpServlet{
 			req.setAttribute("message", "데이터 추가에 실패했습니다.");
 		}
 		resp.sendRedirect(cp+"/member/member.do");
+	}	
+
+	protected void myPageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 내 정보 페이지
 	}	
 	
 	protected void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

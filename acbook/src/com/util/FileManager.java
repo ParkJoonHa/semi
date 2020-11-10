@@ -24,7 +24,7 @@ public class FileManager {
 		OutputStream os = null;
 		
 		try {
-			originalFilename=new String(	originalFilename.getBytes("euc-kr"), "8859_1");
+			originalFilename=new String(originalFilename.getBytes("euc-kr"), "8859_1");
 			pathname=pathname+File.separator+saveFilename;
 			File f=new File(pathname);
 			if(! f.exists()) {
