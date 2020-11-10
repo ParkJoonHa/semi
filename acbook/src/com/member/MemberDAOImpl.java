@@ -92,14 +92,102 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateMember(MemberDTO dto) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
 		
-		return 0;
+		try {
+			
+			conn.setAutoCommit(false);
+			
+			//member1
+			sql = "UPDATE member1 SET userName=?, userPwd=?, m_date=SYSDATE WHERE userId = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getUserName());
+			pstmt.setString(2, dto.getUserPwd());
+			pstmt.setString(3, dto.getUserId());
+			
+			result = pstmt.executeUpdate();
+			pstmt.close();
+			pstmt=null;
+			
+			//member2
+			sql = "UPDATE member2 SET birth=?, email=?, tel=?, zip_code=?, addr1=?, addr2=? WHERE userId=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getBirth());
+			pstmt.setString(2, dto.getEmail());
+			pstmt.setString(3, dto.getTel());
+			pstmt.setString(4, dto.getZip_code());
+			pstmt.setString(5, dto.getAddr1());
+			pstmt.setString(6, dto.getAddr2());
+			pstmt.setString(7, dto.getUserId());
+			
+			result += pstmt.executeUpdate();
+			
+			conn.commit();	
+			
+		} catch (SQLIntegrityConstraintViolationException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} catch (SQLDataException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (Exception e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
+		}
+		return result;
 	}
 
 	@Override
 	public int deleteMember(String userId, String userPwd) throws SQLException {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM member1 WHERE userId=? AND userPwd=?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userPwd);
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -181,7 +269,7 @@ public class MemberDAOImpl implements MemberDAO {
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		StringBuilder sb = null;
+		StringBuilder sb = new StringBuilder();
 		
 		try {
 			sb.append("SELECT m1.userId, userName, userPwd, ");
