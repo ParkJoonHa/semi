@@ -65,6 +65,9 @@ public class MemberServlet extends HttpServlet{
 			
 		} else if(uri.indexOf("update_ok.do")!= -1) {
 			updateSubmit(req, resp);
+
+		} else if(uri.indexOf("delete.do")!= -1) {
+			deleteForm(req, resp);
 	
 		} else if(uri.indexOf("userIdCheck.do")!= -1) {
 			userIdCheck(req, resp);
@@ -173,10 +176,10 @@ public class MemberServlet extends HttpServlet{
 		String cp = req.getContextPath();
 		String mode = req.getParameter("mode");
 		
-		if (mode == "update") {
+		if (mode.equals("update")) {
 			req.setAttribute("mode", "update");	
 			
-		} else if (mode == "delete") {
+		} else if (mode.equals("delete")) {
 			req.setAttribute("mode", "delete");	
 			
 		} else {
@@ -206,17 +209,25 @@ public class MemberServlet extends HttpServlet{
 				forward(req, resp, path);
 				return;
 			}	
+			// 아래 쓸모없는 코드 같은데 졸려서 확인 못하겠음 내일 확인
+			//
+			//
+			//
+			//
+			//
 			
-			if (mode!=null || mode == "update") {
-				String path = "/WEB-INF/views/member/"+mode+".jsp";
+			if (mode!=null || mode.equals("update")) {
+				req.setAttribute("mode", mode);
+				String path = "/WEB-INF/views/member/member.jsp";
 				forward(req, resp, path);
 				return;
 				
-			} else if (mode!=null || mode== "delete") {
+			} else if (mode!=null || mode.equals("delete")) {
 				dao.deleteMember(userId, userPwd);
 				resp.sendRedirect(cp);
 				return;
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -240,8 +251,9 @@ public class MemberServlet extends HttpServlet{
 				return;
 			}
 			req.setAttribute("dto", dto);		
+			req.setAttribute("mode", "update");
 			
-			forward(req, resp, "/WEB-INF/views/member.jsp");
+			forward(req, resp, "/WEB-INF/views/member/member.jsp");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -274,8 +286,8 @@ public class MemberServlet extends HttpServlet{
 			dto.setAddr2(req.getParameter("addr2"));
 			
 			dao.updateMember(dto);		
-			req.setAttribute("dto", dto);
-			forward(req, resp, "/WEB-INF/views/member/member.jsp");
+			// req.setAttribute("dto", dto);
+			// forward(req, resp, "/WEB-INF/views/member/member.jsp");
 			
 			resp.sendRedirect(cp); // index.jsp -> main.do
 			
@@ -290,6 +302,31 @@ public class MemberServlet extends HttpServlet{
 		}
 		resp.sendRedirect(cp+"/member/member.do");	
 	}	
+
+	protected void deleteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 회원 탈퇴
+		MemberDAO dao = new MemberDAOImpl();
+		String cp = req.getContextPath();
+		
+		try {			
+			String userId = req.getParameter("userId");
+			String userPwd = req.getParameter("userPwd");
+			
+			MemberDTO dto = dao.readMember(userId);
+			
+			if (dto.getUserPwd().equals(userPwd)) {
+				dao.deleteMember(userId, userPwd);
+				resp.sendRedirect(cp);
+				return;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		req.setAttribute("message", "패스워드가 일치하지 않습니다.");
+		forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+		
+	}		
 
 	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 회원 아이디 중복 검사

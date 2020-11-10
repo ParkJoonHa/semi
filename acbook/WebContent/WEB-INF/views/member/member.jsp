@@ -280,7 +280,7 @@ function userIdCheck() {
 			      </td>
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
-			            <input type="text" name="zip" id="zip" value="${dto.zip}"
+			            <input type="text" name="zip" id="zip" value="${dto.zip_code}"
 			                       class="boxTF" readonly="readonly">
 			            <button type="button" class="btn" onclick="daumPostcode();">우편번호</button>          
 			        </p>

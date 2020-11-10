@@ -52,7 +52,7 @@
             return;
         }
 
-        f.action = "${pageContext.request.contextPath}/member/${mode}Submit";
+        f.action = "${pageContext.request.contextPath}/member/${mode}.do";
         f.submit();
 	}
 </script>
