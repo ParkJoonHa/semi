@@ -11,12 +11,12 @@
 				
 				<a href="${pageContext.request.contextPath}/member/login.do">로그인</a>
 					&nbsp;&nbsp;|&nbsp;&nbsp; 
-				<a href="${pageContext.request.contextPath}/member/">회원가입</a>
+				<a href="${pageContext.request.contextPath}/member/member.do">회원가입</a>
 				
 			</c:if>
 
 			<c:if test="${not empty sessionScope.member}">
-				<td width="200" align="left"><a href="${pageContext.request.contextPath}">마이페이지</a></td>
+				<td width="200" align="left"><a href="${pageContext.request.contextPath}/member/myPage.do">마이페이지</a></td>
 				<td width="200" align="right"><span>${sessionScope.member.userName}</span> 님</td>
 				<td width="200" align="left">&nbsp;|&nbsp;<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></td>
 			</c:if>

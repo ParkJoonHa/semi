@@ -164,6 +164,8 @@ public class MemberServlet extends HttpServlet{
 
 	protected void myPageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 내 정보 페이지
+		
+		
 	}	
 	
 	protected void pwdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
