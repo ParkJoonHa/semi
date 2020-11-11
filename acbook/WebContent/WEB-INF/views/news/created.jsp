@@ -16,6 +16,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resource/css/newscreated.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
 <title>Document</title>
 
 <script type="text/javascript">
@@ -79,8 +80,11 @@
 								</tr>
 								<tr>
 									<td class="td1" height="20">이미지파일</td>
-									<td class="td2" align="left"><input name="upload"
-										type="file" accept="image/*"></td>
+									<td class="td2" align="left">
+									<label for="ex_file">
+									<input id="ex_file" name="upload" type="file" accept="image/*">
+									</label>
+									</td>
 								</tr>
 							</table>
 						</article>

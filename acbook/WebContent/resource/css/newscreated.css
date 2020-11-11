@@ -7,8 +7,8 @@
 
 .newsTable {
 	width: 80%;
-	height: 400px;
-	margin: 70px auto;
+	height: 540px;
+	margin: 50px auto;
 	text-align: center;
 	border-collapse: collapse;
 	background:rgba(255,255,255,0.3);
@@ -31,7 +31,7 @@ input, textarea {
 	width: 90%;
 	height: 85%;
     border: 0px;
-	border-radius: 15px;
+	border-radius: 5px;
 	background: rgba(10,10,10,0.1);
 	backdrop-filter:sturate(180%) blur(3px);
 }
@@ -41,6 +41,4 @@ input, textarea {
 	height:22px;
 	color:black;
 	margin-left: 30px;
-	
-	
 }

@@ -13,7 +13,7 @@
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/css/newscreated.css">
+	href="${pageContext.request.contextPath}/resource/css/.css">
 <title>Document</title>
 </head>
 <body>
@@ -33,11 +33,11 @@
 					<div class="innerNav">
 						<h3>공유도 공유하는 정보 공유!</h3>
 					</div>
-					<article class="article1-1">
-						<table class="articleTable" border="1">
+					<article class="article1">
+						<table class="articleTable">
 							<tr>
-								<td><span>제목 :</span></td>
-								<td><span>${dto.subject}</span></td>
+								<td width="30" align="left"><span>제목 :</span></td>
+								<td width="50" align="left"><span>${dto.subject}</span></td>
 								<td><span>작성자 :</span></td>
 								<td><span>${dto.userName}</span></td>
 								<td><span>${dto.created}</span></td>

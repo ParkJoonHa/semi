@@ -36,6 +36,8 @@
 					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 				</aside>
 
+						<form action="${pageContext.request.contextPath}/news/main.do"
+							name="articleForm" method="post">
 				<section class="newsSection">
 					<div class="innerNav">
 						<h3>공유도 공유하는 정보 공유</h3>
@@ -66,8 +68,6 @@
 
 					</article>
 					<article class="article2">
-						<form action="${pageContext.request.contextPath}/news/main.do"
-							name="articleForm" method="post">
 							<table class="table3">
 								<tr>
 									<td><button class="btn btn1" type="reset"></button></td>
@@ -102,9 +102,9 @@
 									</td>
 								</tr>
 							</table>
-						</form>
 					</article>
 				</section>
+						</form>
 			</main>
 
 			<footer>
