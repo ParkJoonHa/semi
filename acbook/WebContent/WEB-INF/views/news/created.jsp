@@ -16,7 +16,8 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resource/css/newscreated.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
 <title>Document</title>
 
 <script type="text/javascript">
@@ -47,7 +48,6 @@
 <body>
 	<div id="mainBody">
 		<div id="mainBody2">
-
 			<header class="header-font">
 				<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 			</header>
@@ -60,7 +60,7 @@
 				<form name="newsForm" method="post" enctype="multipart/form-data">
 					<section class="createdSection">
 						<div class="innerNav">
-							<h3>공유도 공유하는 정보 공유!</h3>
+							<h1>공유도 공유하는 정보 공유!</h1>
 						</div>
 						<article class="article1">
 							<table class="newsTable">
@@ -80,11 +80,10 @@
 								</tr>
 								<tr>
 									<td class="td1" height="20">이미지파일</td>
-									<td class="td2" align="left">
-									<label for="ex_file">
-									<input id="ex_file" name="upload" type="file" accept="image/*">
-									</label>
-									</td>
+									<td class="td2" align="left"><label for="ex_file">
+											<input id="ex_file" name="upload" type="file"
+											accept="image/*">
+									</label></td>
 								</tr>
 							</table>
 						</article>

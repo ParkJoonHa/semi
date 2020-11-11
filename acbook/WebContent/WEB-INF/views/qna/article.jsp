@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/qnaarticle.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
@@ -52,8 +53,8 @@ function deleteQna(qnaNum, status) {
 				<article class="article1">
 					<!-- 여기가 게시글 올리는곳 -->
 					<div style="overflow: scroll; width: 1000px; height: 600px;">
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			<table class="articleTable" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<tr class="articleTableTR1" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
 				 제목 : ${dto.q_subject}
 			    </td>
@@ -68,15 +69,15 @@ function deleteQna(qnaNum, status) {
 			    </td>
 			</tr>
 			
-			<tr style="border-bottom: 1px solid #cccccc;">
-			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			<tr class="articleTableTR2 TR2" style="border-bottom: 1px solid #cccccc;">
+			  <td  colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			      ${dto.q_content}
 			   </td>
 			</tr>
 			
 			<c:if test="${dto.status == 1}">
-			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			<table class="articleTable" style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<tr class="articleTableTR1" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
 				 제목 : ${dtoanswer.a_subject}
 			    </td>
@@ -91,7 +92,7 @@ function deleteQna(qnaNum, status) {
 			    </td>
 			</tr>
 			
-			<tr style="border-bottom: 1px solid #cccccc;">
+			<tr class="articleTableTR2 TR2" style="border-bottom: 1px solid #cccccc;">
 			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			      ${dtoanswer.a_content}
 			   </td>
@@ -102,18 +103,18 @@ function deleteQna(qnaNum, status) {
 			<tr height="45">
 			    <td align="left">
 			    <c:if test="${sessionScope.member.userId == 'admin' && dto.status == 0}">
-			    	<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/answer.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">답변작성</button>
+			    	<button type="button" class="btn articlebtn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/answer.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">답변작성</button>
 			    </c:if>
 			    <c:if test="${sessionScope.member.userId == dto.userId && dto.status == 0}">
-			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/update.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">수정</button>
+			          <button type="button" class="btn articlebtn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/update.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">수정</button>
 			    </c:if>
 			    <c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.userId == 'admin'}">
-			          <button type="button" class="btn" onclick="deleteQna('${dto.qnaNum}', '${dto.status}');">삭제</button>
+			          <button type="button" class="btn articlebtn" onclick="deleteQna('${dto.qnaNum}', '${dto.status}');">삭제</button>
 			    </c:if>
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">리스트</button>
+			        <button type="button" class="btn articlebtn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">리스트</button>
 			    </td>
 			</tr>
 			

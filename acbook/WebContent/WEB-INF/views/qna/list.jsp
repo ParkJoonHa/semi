@@ -52,12 +52,11 @@
 				<form name="searchForm"
 					action="${pageContext.request.contextPath}/qna/list.do"
 					method="post">
-					<section>
+					<section class="newsSection">
 						<div class="innerNav">
 							<h1>QNA</h1>
 						</div>
 						<article class="article1">
-							<div>
 								<table class="table1">
 									<tr>
 										<td width="50">번호</td>
@@ -77,28 +76,18 @@
 											</td>
 											<td width="100">${dto.userName}</td>
 											<td width="100">${dto.q_created}</td>
-											<td width="70">${dto.status=='0'?'답변대기':'답변완료'}</td>
+											<td width="70" style="color:${dto.status==0?'rgb(179, 179, 179)':' rgb(176, 255, 255)'};">${dto.status=='0'?'답변대기':'답변완료'}</td>
 										</tr>
 									</c:forEach>
 								</table>
-<!--하는  -->
-
-								<table
-									style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-									<tr height="35">
-										<td align="center">${dataCount==0?"등록된 게시물이 없습니다.":paging}
-										</td>
-									</tr>
-								</table>
-							</div>
 						</article>
 						<article class="article2">
 
 							<table class="table3">
 								<tr>
 									<td><button type="button" class="btn btn1"
-											onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">새로고침</button></td>
-									<td align="right"><select name="condition">
+											onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';"></button></td>
+									<td align="right"><select name="condition" id="serch">
 											<option value="all"
 												${condition=="all"?"selected='selected'":""}>제목+내용</option>
 											<option value="subject"
@@ -122,6 +111,13 @@
 									</td>
 								</tr>
 							</table>
+							<table
+									style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+									<tr height="35">
+										<td align="center">${dataCount==0?"등록된 게시물이 없습니다.":paging}
+										</td>
+									</tr>
+								</table>
 						</article>
 					</section>
 				</form>

@@ -9,13 +9,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resource/css/newscreated.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resource/css/layout.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
 <script type="text/javascript">
 function sendOk() {
-	var f = document.repeatForm
+	var f = document.newsForm
 	
 	var str = f.subject.value;
     if(!str) {
@@ -42,71 +44,64 @@ function sendOk() {
 <body>
 
 	<div id="mainBody">
-
+<div id="mainBody2">
 		<header class="header-font">
 			<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 		</header>
 		
 		<main>
-			<aside>
-				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
-			</aside>
+				<aside>
+					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
+				</aside>
 
-			<section>
-				<div class="innerNav">
-					<h1>자주묻는 질문</h1>
-				</div>
-				<article class="article1">
-					<!-- 여기가 게시글 올리는곳 -->
-					<div>
-						<form name="repeatForm" method="post">
-					  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
-					  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-					      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
-					      <td style="padding-left:10px;"> 
-					        <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
-					      </td>
-					  </tr>
-					
-					  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
-					      <td style="padding-left:10px;"> 
-					         	${sessionScope.member.userName}
-					      </td>
-					  </tr>
-					
-					  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
-					      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
-					      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-					        <textarea name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
-					      </td>
-					  </tr>
-					  </table>
-					  <table class="table3">
-						<tr>
-							<td align="center">
-							<input type="hidden" name="repeatNum" value="${dto.repeatNum}">
-							<input type="hidden" name="page" value="${page}">
-					        <button type="button" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
-					        <button type="reset" class="btn">다시입력</button>
-					        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/repeat/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
-					      </td>
-						</tr>
-					</table>
-			</form>
-					</div>
-				</article>
-				<article class="article2">
-					
-				</article>
-			</section>
-		</main>
+				<form name="newsForm" method="post">
+					<section class="createdSection">
+						<div class="innerNav">
+							<h1>QNA 등록</h1>
+						</div>
+
+						<article class="article1">
+							<table class="newsTable">
+								<tr class="tr1" height="20">
+									<td class="td1">제목</td>
+									<td><input type="text" name="subject"
+										class="createdInput" value="${dto.subject}"></td>
+								</tr>
+
+								<tr height="20">
+									<td class="td1">작성자</td>
+									<td class="td2" align="left"><span>${sessionScope.member.userName}</span></td>
+								</tr>
+
+								<tr height="200">
+									<td class="td1">내용</td>
+									<td><textarea name="content">${dto.content}</textarea></td>
+								</tr>
+							</table>
+						</article>
+						<article class="article2">
+							<table class="table3">
+								
+								<tr>
+									<td align="center">
+										<button type="button" class="btn btn3" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
+										<button type="reset" class="btn btn3">다시입력</button>
+										<button type="button" class="btn btn3"
+											onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+									</td>
+								</tr>
+							</table>
+
+						</article>
+					</section>
+				</form>
+			</main>
 
 		<footer>
 			<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 		</footer>
 	</div>
-
+</div>
 
 </body>
 

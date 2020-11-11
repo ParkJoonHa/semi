@@ -40,10 +40,9 @@
 							name="articleForm" method="post">
 				<section class="newsSection">
 					<div class="innerNav">
-						<h3>공유도 공유하는 정보 공유</h3>
+						<h1>공유도 공유하는 정보 공유</h1>
 					</div>
 					<article class="article1">
-
 						<table class="table1">
 							<tr>
 								<td width="50">번호</td>

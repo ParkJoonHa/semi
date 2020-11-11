@@ -50,20 +50,20 @@ h3{
 }
 .table2 {
 	width: 100%;
-	margin: 5px auto;
+	margin: 50px auto;
 	height: 50px;
 	text-align: center;
 }
 
 .table2 tr {
-	height: 30px;
+	height: 40px;
 }
 .table3{
 	width:100%;
 }
 
 .newsSection {
-	max-height:850px;
+	min-height:500px;
     height:800px;
 	margin: 10px ;
 	padding: 20px;
@@ -74,7 +74,7 @@ h3{
 
 h1 {
 	margin: 10px 10px;
-	width: 115px;
+	max-width: 300px;
 	text-shadow: 1px 1px 8px black;
 }
 
@@ -324,6 +324,7 @@ i{
 }
 form{
 	width:1200px;
+	min-height:800px;
 }
 .acctheader{
 	margin:0px auto;
