@@ -222,12 +222,13 @@ footer {
 	height: 30px;
 }
 a{
-	color: #676768;
+	color: #212121;
 	text-decoration: none;
+	
 }
 
 .at {
-	color: #676768;
+	color: #212121;
 	text-decoration: none;
 	transition:0.5s;
 	
@@ -253,15 +254,15 @@ a{
 }
 .articleTable{
     width: 100%;
-    background-color: rgba(125,155,234,0.2);
-	color: gray;
+	color: #5e5e5e;
 	height: 30px;
 	font-size: 14px;
 	font-weight: bold;
 	text-align: center;
 	white-space: nowrap;
-	border-bottom: 3px solid rgba(125,155,234,0.1);
 	border-top: 3px solid rgba(125,155,234,0.1);
+	border-spacing: 0;
+	border-collapse: collapse;
 	
 }
 .articleTable2{
@@ -270,20 +271,35 @@ a{
 	padding: 10px auto;
 	box-sizing: border-box;
 }
-.articleTableTR{
-	height: 500px;
+.articleTableTR1{
+	background-color: rgba(125,155,234,0.2);
+	border-bottom: 3px solid rgba(125,155,234,0.1);
+	
 }
-.articleTableTR td{
+.articleTableTR2{
+	height: 550px;
+	background: rgba(255,255,255,0.4);
+	
+}
+.articleTableTR2 td{
 	text-align: left;
-	
+}
+.articleTableTR3{
+	width:100%;
+	background-color: rgba(125,155,234,0.2);
+	color:white;
+	border-top:3px solid rgba(125,155,234,0.1);
 	
 }
-
+i{
+	color:black;
+	font-size:20px;
+}
 form{
 	width:1200px;
 }
 .articleTable td{
-	background: rgba(255,255,255,0.3);
+
 }
 
 

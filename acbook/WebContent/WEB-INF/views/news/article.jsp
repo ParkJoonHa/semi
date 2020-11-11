@@ -14,6 +14,7 @@
 	rel="stylesheet">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resource/css/.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"/>
 <title>Document</title>
 </head>
 <body>
@@ -35,20 +36,20 @@
 					</div>
 					<article class="article1">
 						<table class="articleTable">
-							<tr>
+							<tr class="articleTableTR1">
 								<td width="30" align="left"><span>제목 :</span></td>
 								<td width="50" align="left"><span>${dto.subject}</span></td>
-								<td><span>작성자 :</span></td>
-								<td><span>${dto.userName}</span></td>
+								<td align="right"><span>작성자 :</span></td>
+								<td align="left"><span>${dto.userName}</span></td>
 								<td><span>${dto.created}</span></td>
-								<td>조회수:<span>${dto.hitCount}</span></td>
+								<td width="60">조회수:<span>${dto.hitCount}</span></td>
 							</tr>
-							<tr class="articleTableTR">
+							<tr class="articleTableTR2">
 								<td colspan="6">${dto.content}</td>
 							</tr>
-							<tr height="35" style="border-bottom: 1px solid #cccccc;">
-								<td colspan="2" align="left" style="padding-left: 5px;">
-									첨&nbsp;&nbsp;부 : 
+							<tr class="articleTableTR3" height="35" style="border-bottom: 1px solid #cccccc;">
+								<td colspan="3" align="left" style="padding-left: 5px;">
+									<i class="fas fa-file-image"></i> : 
 									<c:if test="${not empty dto.photoFileName}">
 										<a href="${pageContext.request.contextPath}/news/download.do?newsNum=${dto.newsNum}">${dto.originalFilename}</a>
 		                            </c:if>
