@@ -1,4 +1,4 @@
-package com.boast;
+package com.free;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,86 +7,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.boastreply.BoastReplyDTO;
+import com.freereply.FreeReplyDTO;
 import com.util.DBConn;
 
-public class BoastDAOImpl implements BoastDAO {
+public class FreeDAOImpl implements FreeDAO {
 	private Connection conn = DBConn.getConnection();
 
 	@Override
-	public int insertboast(BoastDTO dto) throws SQLException {
+	public int insertFree(FreeDTO dto) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql;
-		int boastNum = 0;
+		String sql = "";
 
 		try {
-			sql = "SELECT boast_seq.NEXTVAL FROM dual";
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				boastNum = rs.getInt(1);
-			}
-
-			pstmt.close();
-			rs.close();
-
-			sql = "INSERT INTO boast(boastNum, userId, subject, content, hitCount, created) "
-					+ " VALUES (?, ?, ?, ?, 0, SYSDATE)";
+			sql = "INSERT INTO free(freeNum, userId, subject, content, hitCount, created) VALUES (free_seq.NEXTVAL, ?, ?, ?, 0, SYSDATE)";
 
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boastNum);
-			pstmt.setString(2, dto.getUserId());
-			pstmt.setString(3, dto.getSubject());
-			pstmt.setString(4, dto.getContent());
+			pstmt.setString(1, dto.getUserId());
+			pstmt.setString(2, dto.getSubject());
+			pstmt.setString(3, dto.getContent());
 
 			result = pstmt.executeUpdate();
 
-			if (dto.getSaveFiles() != null) {
-				for (int i = 0; i < dto.getSaveFiles().length; i++) {
-					dto.setSaveFilename(dto.getSaveFiles()[i]);
-					dto.setOriginalFilename(dto.getOriginalFiles()[i]);
-
-					insertFile(dto, boastNum);
-				}
-			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw e;
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
-			}
-		}
-
-		return result;
-	}
-
-	public int insertFile(BoastDTO dto, int boastNum) throws SQLException {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql;
-
-		try {
-			sql = "INSERT INTO boastFile " + "  (fileNum, boastNum, saveFilename, originalFilename) "
-					+ "   VALUES (boastFile_seq.NEXTVAL, ?, ?, ? ) ";
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boastNum);
-			pstmt.setString(2, dto.getSaveFilename());
-			pstmt.setString(3, dto.getOriginalFilename());
-
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
 		} finally {
 			if (pstmt != null) {
 				try {
 					pstmt.close();
-				} catch (SQLException e) {
+				} catch (Exception e2) {
 				}
 			}
 		}
@@ -94,32 +43,20 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public int updateboast(BoastDTO dto) throws SQLException {
+	public int updateFree(FreeDTO dto) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = "";
 
 		try {
-//			이미지 초기화
-			deleteImg(dto.getBoastNum());
-			
-			sql = "UPDATE boast SET subject = ?, content = ? WHERE boastNum = ?";
+
+			sql = "UPDATE free SET subject = ?, content = ? WHERE freeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getBoastNum());
+			pstmt.setInt(3, dto.getFreeNum());
 
 			result = pstmt.executeUpdate();
-			
-			if (dto.getSaveFiles() != null) {
-				for (int i = 0; i < dto.getSaveFiles().length; i++) {
-					dto.setSaveFilename(dto.getSaveFiles()[i]);
-					dto.setOriginalFilename(dto.getOriginalFiles()[i]);
-
-					insertFile(dto, dto.getBoastNum());
-				}
-			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -135,46 +72,17 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public int deleteboast(int num) throws SQLException {
+	public int deleteFree(int freeNum) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = "";
 
 		try {
-//			이미지 제거
-			deleteImg(num);
 			
-			sql = "DELETE FROM boast WHERE boastNum = ?";
+			sql = "DELETE FROM free WHERE freeNum = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, freeNum);
 
-			result = pstmt.executeUpdate();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-
-		return result;
-	}
-	
-	public int deleteImg(int num) throws SQLException {
-		int result = 0;
-		PreparedStatement pstmt = null;
-		String sql = "";
-
-		try {
-//			이미지 제거
-			sql = "DELETE FROM boastFile WHERE boastNum = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
-			
 			result = pstmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -199,7 +107,7 @@ public class BoastDAOImpl implements BoastDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) cnt FROM boast";
+			sql = "SELECT COUNT(*) cnt FROM free";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -234,7 +142,7 @@ public class BoastDAOImpl implements BoastDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) FROM boast b  " + " JOIN member1 m ON b.userId = m.userId ";
+			sql = "SELECT COUNT(*) FROM free f  " + " JOIN member1 m1 ON f.userId = m1.userId ";
 
 			if (condition.equals("created")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
@@ -277,62 +185,28 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public List<BoastDTO> list(int offset, int rows) {
-		List<BoastDTO> list = new ArrayList<BoastDTO>();
+	public List<FreeDTO> listFree(int offset, int rows) {
+		List<FreeDTO> list = new ArrayList<FreeDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append("SELECT boastNum, userName, subject, hitCount, TO_CHAR(created, 'YYYY-MM-DD') formatDate, ");
-			sb.append("(SELECT COUNT(*) FROM boastreply WHERE boastNum = b.boastNum) replycnt, ");
-			sb.append("(SELECT COUNT(*) FROM boastlike WHERE boastNum = b.boastNum) likecnt ");
-			sb.append("FROM boast b ");
-			sb.append("JOIN member1 m ON b.userId = m.userId ");
-			sb.append("WHERE ROWNUM <= 3 ");
-			sb.append("ORDER BY likecnt DESC, boastNum DESC ");
-
-			pstmt = conn.prepareStatement(sb.toString());
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-				BoastDTO dto = new BoastDTO();
-				
-				if(rs.getInt("likecnt") > 0) {
-					dto.setBoastNum(rs.getInt("boastNum"));
-					dto.setUserName(rs.getString("userName"));
-					dto.setSubject(rs.getString("subject"));
-					dto.setHitCount(rs.getInt("hitCount"));
-					dto.setCreated(rs.getString("formatDate"));
-					dto.setReplyCount(rs.getInt("replycnt"));
-				} else {
-					dto.setSubject("해당 글이 없습니다.");
-					dto.setBoastNum(0);
-				}
-				
-
-				list.add(dto);
-			}
-			
-			sb.setLength(0);
-			pstmt.close();
-			rs.close();
-			
-			sb.append("SELECT boastNum, userName, subject, hitCount, TO_CHAR(created, 'YYYY-MM-DD') formatDate, (SELECT COUNT(*) FROM boastreply WHERE boastNum = b.boastNum) replycnt ");
-			sb.append("FROM boast b ");
-			sb.append("JOIN member1 m ON b.userId = m.userId ");
-			sb.append("ORDER BY boastNum DESC ");
+			sb.append(
+					"SELECT freeNum, userName, subject, hitCount, TO_CHAR(created, 'YYYY-MM-DD') formatDate, (SELECT COUNT(*) FROM freereply WHERE freeNum = f.freeNum) replycnt ");
+			sb.append("FROM free f ");
+			sb.append("JOIN member1 m1 ON f.userId = m1.userId ");
+			sb.append("ORDER BY freeNum DESC ");
 			sb.append("OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
-			
+
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, offset);
 			pstmt.setInt(2, rows);
-			
+
 			rs = pstmt.executeQuery();
-			
 			while (rs.next()) {
-				BoastDTO dto = new BoastDTO();
-				dto.setBoastNum(rs.getInt("boastNum"));
+				FreeDTO dto = new FreeDTO();
+				dto.setFreeNum(rs.getInt("freeNum"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
@@ -363,16 +237,17 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public List<BoastDTO> list(int offset, int rows, String condition, String keyword) {
-		List<BoastDTO> list = new ArrayList<BoastDTO>();
+	public List<FreeDTO> listFree(int offset, int rows, String condition, String keyword) {
+		List<FreeDTO> list = new ArrayList<FreeDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 
 		try {
-			sb.append("SELECT boastNum, userName, subject, hitCount,TO_CHAR(created, 'YYYY-MM-DD') formatDate, (SELECT COUNT(*) FROM boastreply WHERE boastNum = b.boastNum) replycnt ");
-			sb.append(" FROM boast b ");
-			sb.append(" JOIN member1 m ON b.userId = m.userId ");
+			sb.append(
+					"SELECT freeNum, userName, subject, hitCount,TO_CHAR(created, 'YYYY-MM-DD') formatDate, (SELECT COUNT(*) FROM freereply WHERE freeNum = f.freeNum) replycnt ");
+			sb.append(" FROM free f ");
+			sb.append(" JOIN member1 m1 ON f.userId = m1.userId ");
 
 			if (condition.equals("created")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
@@ -383,7 +258,7 @@ public class BoastDAOImpl implements BoastDAO {
 				sb.append("  WHERE INSTR(" + condition + ", ?) >= 1 ");
 			}
 
-			sb.append(" ORDER BY boastNum DESC");
+			sb.append(" ORDER BY freeNum DESC");
 			sb.append(" OFFSET ? ROWS FETCH FIRST ? ROWS ONLY");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -400,8 +275,8 @@ public class BoastDAOImpl implements BoastDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				BoastDTO dto = new BoastDTO();
-				dto.setBoastNum(rs.getInt("boastNum"));
+				FreeDTO dto = new FreeDTO();
+				dto.setFreeNum(rs.getInt("freeNum"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
@@ -438,7 +313,7 @@ public class BoastDAOImpl implements BoastDAO {
 		String sql = "";
 
 		try {
-			sql = "UPDATE boast SET hitCount = (hitCount + 1) WHERE boastNum = ?";
+			sql = "UPDATE free SET hitCount = (hitCount + 1) WHERE freeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
 
@@ -458,42 +333,33 @@ public class BoastDAOImpl implements BoastDAO {
 		return result;
 	}
 
-//	BOASTNUM NOT NULL NUMBER         
-//	USERID   NOT NULL VARCHAR2(50)   
-//	SUBJECT  NOT NULL VARCHAR2(255)  
-//	CONTENT  NOT NULL VARCHAR2(4000) 
-//	CREATED           DATE           
-//	HITCOUNT NOT NULL NUMBER(5)
-
 	@Override
-	public BoastDTO readBoast(int num) {
-		BoastDTO dto = null;
+	public FreeDTO readFree(int num) {
+		FreeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "";
 
 		try {
-			sql = "SELECT boastNum, b.userId, userName, subject, content, created, hitCount, (SELECT COUNT(*) FROM boastlike WHERE boastNum = ?) likeCount FROM boast b JOIN member1 m1 ON b.userId = m1.userId WHERE boastNum = ?";
+			sql = "SELECT freeNum, f.userId, userName, subject, content, created, hitCount FROM free f JOIN member1 m1 ON f.userId = m1.userId WHERE freeNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num);
-			pstmt.setInt(2, num);
 
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto = new BoastDTO();
+				dto = new FreeDTO();
 
-				dto.setBoastNum(rs.getInt("boastNum"));
+				dto.setFreeNum(rs.getInt("freeNum"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
 				dto.setCreated(rs.getString("created"));
 				dto.setHitCount(rs.getInt("hitCount"));
-				dto.setLikeCount(rs.getInt("likeCount"));
 			}
 
-			updateHitCount(dto.getBoastNum());
+			updateHitCount(dto.getFreeNum());
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -516,50 +382,20 @@ public class BoastDAOImpl implements BoastDAO {
 		return dto;
 	}
 
-	public List<BoastImgDTO> readImg(int boastNum) throws SQLException {
-		List<BoastImgDTO> list = new ArrayList<BoastImgDTO>();
-		BoastImgDTO dto = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "";
-
-		try {
-			sql = "SELECT fileNum, boastNum, saveFileName, originalFileName FROM boastFile WHERE boastNum = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boastNum);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				dto = new BoastImgDTO();
-				dto.setFileNum(rs.getInt("fileNum"));
-				dto.setBoastNum(rs.getInt("boastNum"));
-				dto.setSaveFileName(rs.getString("saveFileName"));
-				dto.setOriginalFileName(rs.getString("originalFileName"));
-
-				list.add(dto);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return list;
-	}
-
 	@Override
-	public BoastDTO preReadBoast(int num, String condition, String keyword) {
-		BoastDTO dto = null;
+	public FreeDTO preReadFree(int num, String condition, String keyword) {
+		FreeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "";
 
 		try {
 			if (keyword.length() == 0) {
-				sql = "SELECT boastNum, b.userId, userName, subject, content FROM boast b JOIN member1 m1 ON b.userId = m1.userId WHERE boastNum > ? AND ROWNUM = 1 ORDER BY boastNum ASC";
+				sql = "SELECT freeNum, f.userId, userName, subject, content FROM free f JOIN member1 m1 ON f.userId = m1.userId WHERE freeNum > ? AND ROWNUM = 1 ORDER BY freeNum ASC";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, num);
 			} else {
-				sql = "SELECT boastNum, b.userId, userName, subject, content FROM boast b JOIN member1 m1 ON b.userId = m1.userId WHERE boastNum > ? AND INSTR(?, ?) >= 0 AND ROWNUM = 1 ORDER BY boastNum ASC";
+				sql = "SELECT freeNum, f.userId, userName, subject, content FROM free f JOIN member1 m1 ON f.userId = m1.userId WHERE freeNum > ? AND INSTR(?, ?) >= 0 AND ROWNUM = 1 ORDER BY freeNum ASC";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, num);
 				pstmt.setString(2, condition);
@@ -569,8 +405,8 @@ public class BoastDAOImpl implements BoastDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto = new BoastDTO();
-				dto.setBoastNum(rs.getInt("boastNum"));
+				dto = new FreeDTO();
+				dto.setFreeNum(rs.getInt("freeNum"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
@@ -598,19 +434,19 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public BoastDTO nextReadBoast(int num, String condition, String keyword) {
-		BoastDTO dto = null;
+	public FreeDTO nextReadFree(int num, String condition, String keyword) {
+		FreeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "";
 
 		try {
 			if (keyword.length() == 0) {
-				sql = "SELECT boastNum, b.userId, userName, subject, content FROM boast b JOIN member1 m1 ON b.userId = m1.userId WHERE boastNum < ? AND ROWNUM = 1 ORDER BY boastNum DESC";
+				sql = "SELECT freeNum, f.userId, userName, subject, content FROM free f JOIN member1 m1 ON f.userId = m1.userId WHERE freeNum < ? AND ROWNUM = 1 ORDER BY freeNum DESC";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, num);
 			} else {
-				sql = "SELECT boastNum, b.userId, userName, subject, content FROM boast b JOIN member1 m1 ON b.userId = m1.userId WHERE boastNum < ? AND INSTR(?, ?) >= 0 AND ROWNUM = 1 ORDER BY boastNum DESC";
+				sql = "SELECT freeNum, f.userId, userName, subject, content FROM free f JOIN member1 m1 ON f.userId = m1.userId WHERE freeNum < ? AND INSTR(?, ?) >= 0 AND ROWNUM = 1 ORDER BY freeNum DESC";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, num);
 				pstmt.setString(2, condition);
@@ -620,8 +456,8 @@ public class BoastDAOImpl implements BoastDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto = new BoastDTO();
-				dto.setBoastNum(rs.getInt("boastNum"));
+				dto = new FreeDTO();
+				dto.setFreeNum(rs.getInt("freeNum"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));
@@ -649,15 +485,15 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public int insertReply(BoastReplyDTO dto) throws SQLException {
+	public int insertReply(FreeReplyDTO dto) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = "";
 
 		try {
-			sql = "INSERT INTO boastreply(replyNum, boastNum, userId, content, created) VALUES(boastreply_seq.NEXTVAL, ?, ?, ?, SYSDATE)";
+			sql = "INSERT INTO freereply(replyNum, freeNum, userId, content, created) VALUES(freereply_seq.NEXTVAL, ?, ?, ?, SYSDATE)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, dto.getBoastNum());
+			pstmt.setInt(1, dto.getFreeNum());
 			pstmt.setString(2, dto.getUserId());
 			pstmt.setString(3, dto.getContent());
 
@@ -683,7 +519,7 @@ public class BoastDAOImpl implements BoastDAO {
 		String sql = "";
 
 		try {
-			sql = "DELETE boastreply WHERE replyNum = ?";
+			sql = "DELETE freereply WHERE replyNum = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, replyNum);
 
@@ -703,23 +539,23 @@ public class BoastDAOImpl implements BoastDAO {
 	}
 
 	@Override
-	public List<BoastReplyDTO> replyList(int boastNum) throws SQLException {
-		List<BoastReplyDTO> replyList = new ArrayList<BoastReplyDTO>();
+	public List<FreeReplyDTO> replyList(int freeNum) throws SQLException {
+		List<FreeReplyDTO> replyList = new ArrayList<FreeReplyDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql = "";
 
 		try {
-			sql = "SELECT boastNum, content, created, replyNum, b.userId, userName " + "FROM boastreply b "
-					+ "JOIN member1 m1 ON b.userId = m1.userId " + "WHERE b.boastNum = ?" + "ORDER BY replyNum DESC";
+			sql = "SELECT freeNum, content, created, replyNum, f.userId, userName " + "FROM freereply f "
+					+ "JOIN member1 m1 ON f.userId = m1.userId " + "WHERE f.freeNum = ?" + "ORDER BY replyNum DESC";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boastNum);
+			pstmt.setInt(1, freeNum);
 
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				BoastReplyDTO dto = new BoastReplyDTO();
-				dto.setBoastNum(rs.getInt("boastNum"));
+				FreeReplyDTO dto = new FreeReplyDTO();
+				dto.setFreeNum(rs.getInt("freeNum"));
 				dto.setContent(rs.getString("content"));
 				dto.setCreated(rs.getString("created"));
 				dto.setReplyNum(rs.getInt("replyNum"));
@@ -749,53 +585,5 @@ public class BoastDAOImpl implements BoastDAO {
 
 		return replyList;
 	}
-	
-	public int like(int boastNum, String userId) throws SQLException {
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int result = 0;
-		String sql = "";
 
-		try {
-			sql = "SELECT COUNT(*) FROM boastlike WHERE boastNum = ? AND userId = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boastNum);
-			pstmt.setString(2, userId);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				result = rs.getInt(1);
-			}
-			
-			pstmt.close();
-			rs.close();
-			
-			if(result != 0) {
-				sql = "DELETE FROM boastlike WHERE boastNum = ? AND userId = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, boastNum);
-				pstmt.setString(2, userId);
-				pstmt.executeQuery();
-			} else {
-				sql = "INSERT INTO boastlike(boastNum, userId) VALUES(?, ?)";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, boastNum);
-				pstmt.setString(2, userId);
-				pstmt.executeQuery();
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (pstmt != null) {
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-
-		return result;
-	}
-	
 }

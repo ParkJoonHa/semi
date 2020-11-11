@@ -18,19 +18,8 @@
 	function searchList() {
 		var f=document.searchForm;
 		
+		f.action="${pageContext.request.contextPath}/free/list.do";
 		f.submit();
-	}
-	
-	function userCheck(user, articleUrl, qnaNum, status) {
-		
-		var path = articleUrl+"&qnaNum="+qnaNum+ "&status="+status;
-		
-		if(user != "${sessionScope.member.userId}" && "${sessionScope.member.userId}" != "admin") {
-			alert("권한이 없습니다.");
-			return;
-		}
-		
-		location.href = path;
 	}
 </script>
 </head>
@@ -50,7 +39,7 @@
 
 			<section>
 				<div class="innerNav">
-					<h1>QNA</h1>
+					<h1>자유 게시판</h1>
 				</div>
 				<article class="article1">
 					<!-- 여기가 게시글 올리는곳 -->
@@ -61,24 +50,21 @@
 								<td>제 &nbsp;목</td>
 								<td width="100">작성자</td>
 								<td width="100">작성일</td>
-								<td width="70">답변상태</td>
+								<td width="70">조회수</td>
 							</tr>
 						</table>
-						<form name="listForm" method="post">
+
 						<table class="table2">
 							<c:forEach var="dto" items="${list}">
 							<tr>
-								<td width="50">${dto.qnaNum}</td>
-								<td>
-								<a href="javascript:userCheck('${dto.userId}', '${articleUrl}', '${dto.qnaNum}', '${dto.status}');">${dto.q_subject}</a>
-								</td>
+								<td width="50">${dto.freeNum}</td>
+								<td style="text-align: left;"><a href="${articleUrl}&num=${dto.freeNum}">${dto.subject} [${dto.replyCount}]</a></td>
 								<td width="100">${dto.userName}</td>
-								<td width="100">${dto.q_created}</td>
-								<td width="70">${dto.status=='0'?'답변대기':'답변완료'}</td>
+								<td width="100">${dto.created}</td>
+								<td width="70">${dto.hitCount}</td>
 							</tr>
 							</c:forEach>
 						</table>
-						</form>
 						
 						<table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			   <tr height="35">
@@ -90,33 +76,35 @@
 					</div>
 				</article>
 				<article class="article2">
-				<form name="searchForm" action="${pageContext.request.contextPath}/qna/list.do" method="post">
+				<form name="searchForm" method="post">
 					<table class="table3">
+						
 						<tr>
-							<td><button type="button" class="btn btn1" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">새로고침</button></td>
-							<td align="right">
-							
-							<select name="condition">
+							<td><button class="btn btn1" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/free/list.do';">새로고침</button></td>
+								<td align="right">
+								<select name="condition">
 									<option value="all"  ${condition=="all"?"selected='selected'":""}>제목+내용</option>
 			                 		<option value="subject"  ${condition=="subject"?"selected='selected'":""}>제목</option>
 			                		<option value="userName" ${condition=="userName"?"selected='selected'":""}>작성자</option>
 			               			<option value="content"  ${condition=="content"?"selected='selected'":""}>내용</option>
-			                 		<option value="q_created"  ${condition=="q_created"?"selected='selected'":""}>등록일</option>
-							</select>
-							
-							</td>
-							<td align="center" width="300">
-							<input class="ipt" type="text" name="keyword" value="${keyword}"></td>
+			                 		<option value="created"  ${condition=="created"?"selected='selected'":""}>등록일</option>
+								</select>
+								</td>
+								<td align="center" width="300">
+								<input class="ipt" type="text" name="keyword" value="${keyword}">
+								</td>
+								
 							<td>
 								<button class="btn btn2" type="button" onclick="searchList();">검색</button>
 							</td>
 							
 							<td align="right">
-								<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/created.do';">글올리기</button>
+								<button class="btn btn3" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/free/created.do';">글올리기</button>
 							</td>
 						</tr>
+						
 					</table>
-				</form>
+					</form>
 				</article>
 			</section>
 		</main>

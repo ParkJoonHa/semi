@@ -51,15 +51,23 @@
 								<td width="70">조회수</td>
 							</tr>
 						</table>
-
 						<table class="table2">
 							<c:forEach var="dto" items="${list}">
 							<tr>
-								<td width="50">${dto.boastNum}</td>
-								<td style="text-align: left;"><a href="${articleUrl}&num=${dto.boastNum}">${dto.subject} [${dto.replyCount}]</a></td>
-								<td width="100">${dto.userName}</td>
-								<td width="100">${dto.created}</td>
-								<td width="70">${dto.hitCount}</td>
+								<c:if test="${dto.boastNum == 0}">
+									<td width="50"></td>
+									<td style="text-align: left;">${dto.subject}</td>
+									<td width="100"></td>
+									<td width="100"></td>
+									<td width="70"></td>
+								</c:if>
+								<c:if test="${dto.boastNum > 0}">
+									<td width="50">${dto.boastNum}</td>
+									<td style="text-align: left;"><a href="${articleUrl}&num=${dto.boastNum}">${dto.subject} [${dto.replyCount}]</a></td>
+									<td width="100">${dto.userName}</td>
+									<td width="100">${dto.created}</td>
+									<td width="70">${dto.hitCount}</td>
+								</c:if>
 							</tr>
 							</c:forEach>
 						</table>
@@ -77,7 +85,7 @@
 				<form name="searchForm" action="${pageContext.request.contextPath}/boast/list.do" method="post">
 					<table class="table3">
 						<tr>
-							<td><button class="btn btn1" onclick="javascript:location.href='${pageContext.request.contextPath}/boast/list.do';">새로고침</button></td>
+							<td><button class="btn btn1" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/boast/list.do';">새로고침</button></td>
 							<td align="right">
 							
 							<select name="condition">

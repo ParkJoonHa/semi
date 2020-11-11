@@ -26,9 +26,9 @@ $(function(){
 	$(".row-subject").click(function(){
 		if($(this).next("tr").is(":hidden")) {
 			$(".row-subject").next("tr").hide(300);
-			$(this).next("tr").show(300);
+			$(this).next("tr").show(200);
 		} else {
-			$(this).next("tr").hide(300);
+			$(this).next("tr").hide(200);
 		}
 	});
 });
@@ -100,7 +100,7 @@ $(function(){
 					<table class="table3">
 						<tr>
 							<td>
-							<button class="btn btn1" onclick="jacascript:location.href='${pageContext.request.contextPath}/repeat/list.do';">새로고침</button>
+							<button class="btn btn1" type="button" onclick="jacascript:location.href='${pageContext.request.contextPath}/repeat/list.do';">새로고침</button>
 							</td>
 							<td align="right">
 							<select name="condition" id="selectCondi">
