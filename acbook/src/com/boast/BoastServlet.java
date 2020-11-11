@@ -63,6 +63,8 @@ public class BoastServlet extends HttpServlet {
 		pathname = root + "uploads" + File.separator + "boast";
 		
 		if(info==null) {
+			String path = "/WEB-INF/views/member/login.jsp";
+			forward(req, resp, path);
 			return;
 		}
 
