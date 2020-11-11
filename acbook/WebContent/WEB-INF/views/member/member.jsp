@@ -143,7 +143,26 @@ function changeEmail() {
 }
 
 function userIdCheck() {
+	var f = document.memberForm;
 	
+	var str;
+
+	str = f.userId.value;
+	str = str.trim();
+	if(!str) {
+		alert("아이디를 입력하세요. ");
+		f.userId.focus();
+		return;
+	}
+	if(!/^[a-z][a-z0-9_]{4,9}$/i.test(str)) { 
+		alert("아이디는 5~10자이며 첫글자는 영문자이어야 합니다.");
+		f.userId.focus();
+		return;
+	}
+	f.userId.value = str;
+	
+	f.action = "${pageContext.request.contextPath}/member/userIdCheck.do";
+    f.submit();
 }
 </script>
 </head>
@@ -172,6 +191,12 @@ function userIdCheck() {
                          onchange="userIdCheck();" style="width: 95%;"
                          ${mode=="update" ? "readonly='readonly' ":""}
                          maxlength="15" class="boxTF" placeholder="아이디">
+                         
+                         <c:if test="${mode!='update'}">
+                         	<button type="submit" onclick="userIdCheck();">아이디 중복확인</button>                         	
+                         	<p style="color:${idCheckMessage=='사용가능'?'blue':'red'};">${idCheckMessage}</p>
+                         </c:if>
+                         
 			        </p>
 			        <p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
 			      </td>

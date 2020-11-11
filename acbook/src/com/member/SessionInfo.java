@@ -2,6 +2,7 @@ package com.member;
 public class SessionInfo {
 	private String userId;
 	private String userName;
+	private int status;
 	
 	public String getUserId() {
 		return userId;
@@ -14,5 +15,11 @@ public class SessionInfo {
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+	public int getStatus() {
+		return status;
+	}
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }
