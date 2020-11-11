@@ -21,16 +21,7 @@ $(function(){
 
     <div class="menu">
         <ul class = "menu-bar list">
-<<<<<<< HEAD
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/main/main.do">HOME</a></li>
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/account/listM.do">가계부</a></li>
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/boast/list.do">자랑게시판</a></li> <!-- 커뮤니티 묶기 -->
-            <li class="list-menu"><a class="at" href="">자유게시판</a></li>
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/news/main.do">정보게시판</a></li>
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/qna/list.do">Q&A</a></li>
-            <li class="list-menu"><a class="at" href="${pageContext.request.contextPath}/repeat/list.do">자주하는 질문</a></li>
-=======
+
             <li class="list-menu"><a href="${pageContext.request.contextPath}/main/main.do">HOME</a></li>
             <li class="list-menu"><a href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
             <li class="list-menu"><a href="${pageContext.request.contextPath}/account/listM.do">가계부</a></li>
@@ -39,6 +30,5 @@ $(function(){
             <li class="list-menu"><a href="${pageContext.request.contextPath}/news/main.do">정보게시판</a></li>
             <li class="list-menu"><a href="${pageContext.request.contextPath}/qna/list.do">Q&A</a></li>
             <li class="list-menu"><a href="${pageContext.request.contextPath}/repeat/list.do">자주하는 질문</a></li>
->>>>>>> branch 'master' of https://github.com:443/ParkJoonHa/semi.git
         </ul>
     </div>
