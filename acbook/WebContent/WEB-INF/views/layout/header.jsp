@@ -5,7 +5,7 @@
 
 
 <div class="header-login">
-	<table>
+	<table class="headerTable">
 		<tr>
 			<c:if test="${empty sessionScope.member}">
 				
@@ -16,9 +16,9 @@
 			</c:if>
 
 			<c:if test="${not empty sessionScope.member}">
-				<td width="250" align="left"><a href="${pageContext.request.contextPath}/member/myPage.do">마이페이지</a></td>
-				<td width="200" align="right"><span>${sessionScope.member.userName}</span> 님</td>
-				<td width="200" align="left">&nbsp;|&nbsp;<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></td>
+				<td width="" align="left"><a href="${pageContext.request.contextPath}/member/myPage.do">마이페이지</a></td>
+				<td width="" align="right"><span>${sessionScope.member.userName}</span> 님</td>
+				<td width="" align="left">&nbsp;|&nbsp;<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a></td>
 			</c:if>
 		</tr>
 	</table>

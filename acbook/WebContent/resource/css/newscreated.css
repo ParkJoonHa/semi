@@ -11,30 +11,29 @@
 	margin: 70px auto;
 	text-align: center;
 	border-collapse: collapse;
-	color:white;
+	background:rgba(255,255,255,0.3);
+	color:gray;
+	border-radius: 15px;
 }
-
-tr {
-	border-bottom: 1px solid #708483;
+form{
+	width:1200px;
 }
-
-.tr1 {
-	border-top: 1px solid #708483;
+.createdSection{
+    min-width:600px;
 }
-
 .td1 {
-	background: #a6c4c3ab;
+	background: ;
 }
-
 span {
 	margin-left: 30px;
 }
-
 input, textarea {
 	width: 90%;
 	height: 85%;
-	border: 1px solid #a6c4c3ab;
-	border-radius: 5px;
+    border: 0px;
+	border-radius: 15px;
+	background: rgba(10,10,10,0.1);
+	backdrop-filter:sturate(180%) blur(3px);
 }
 
 .td2 input {

@@ -20,7 +20,7 @@
 <body>
 	<!-- 메인페이지입니다. -->
 	<div id="mainBody">
-
+		<div id="mainBody2">
 		<header class="header-font">
 			<jsp:include page="/WEB-INF/views/layout/header.jsp" />
 		</header>
@@ -37,6 +37,7 @@
 		<footer>
 			<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 		</footer>
+		</div>
 	</div>
 
 

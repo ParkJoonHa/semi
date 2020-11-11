@@ -11,5 +11,5 @@
 <a href="">약관</a>&nbsp;&nbsp;&nbsp;
 <a href="">설정</a>&nbsp;&nbsp;&nbsp;
 <a href="">고객센터</a>&nbsp;&nbsp;&nbsp;
-© SPRING Corp.
+© LeeKyoungtae JJang Corp.
 </div>
