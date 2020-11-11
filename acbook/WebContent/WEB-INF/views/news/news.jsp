@@ -70,7 +70,7 @@
 					<article class="article2">
 							<table class="table3">
 								<tr>
-									<td><button class="btn btn1" type="reset"></button></td>
+									<td><button class="btn btn1" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/main.do';"></button></td>
 									<td align="right"><select name="condition" id="serch">
 											<option value="all"
 												${condition=="all" ? "selected='selected' ": ""}>제목+내용</option>

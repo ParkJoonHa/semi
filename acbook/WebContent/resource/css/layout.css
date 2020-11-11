@@ -224,6 +224,7 @@ footer {
 a{
 	color: #212121;
 	text-decoration: none;
+	transition:0.5s;
 	
 }
 
@@ -243,14 +244,17 @@ a{
 .articleBody{
 	margin: 20px 10px;
 	padding: 20px;
-	
 	box-sizing: border-box;
-	border: 3px solid #597372;
-	background-color: white;
+	background: rgba(255,255,255,0.2);
+	backdrop-filter: saturate(180%) blur(6px);
 }
 
 .article3{
-	background: red;
+	background: ;
+}
+.article4 a:hover{
+	color:rgb(225, 255, 255);
+	
 }
 .articleTable{
     width: 100%;
@@ -270,6 +274,15 @@ a{
 	margin: 20px auto;
 	padding: 10px auto;
 	box-sizing: border-box;
+	background:rgba(255,255,255,0.3);
+}
+.articleTable2BTN{
+	width:100px;
+	text-align: center;
+	transition:0.5s;
+}
+.articleTable2BTN:hover{
+	background-color: rgba(125,155,234,0.2);
 }
 .articleTableTR1{
 	background-color: rgba(125,155,234,0.2);
@@ -279,6 +292,7 @@ a{
 .articleTableTR2{
 	height: 550px;
 	background: rgba(255,255,255,0.4);
+	font-size: 20px;
 	
 }
 .articleTableTR2 td{
@@ -291,6 +305,20 @@ a{
 	border-top:3px solid rgba(125,155,234,0.1);
 	
 }
+.article3Table{
+	width: 150px;
+}
+.articlebtn{
+	color:#212121;
+	width: 100px;
+	box-sizing: border-box;
+	transition:0.5s;
+	cursor: pointer;
+}
+.articlebtn:hover{
+	color:rgb(225, 255, 255);
+	background-color: rgba(125,155,234,0.2);
+}
 i{
 	color:black;
 	font-size:20px;
@@ -298,11 +326,6 @@ i{
 form{
 	width:1200px;
 }
-.articleTable td{
-
-}
-
-
 .acctheader{
 	margin:0px auto;
     width: 960px;

@@ -59,24 +59,24 @@
 					</article>
 					<article class="articleBody">
 						<article class="article3">
-							<table border="1">
+							<table class="article3Table">
 								<tr>
 									<td>
-										<button type="button"
+										<button type="button" class="btn articlebtn"
 											onclick="script:location.href='${pageContext.request.contextPath}/news/update.do?page=${page}&newsNum=${dto.newsNum}';">수정</button>
 									</td>
 									<td>
-										<button type="button"
+										<button type="button" class="btn articlebtn"
 											onclick="script:location.href='${pageContext.request.contextPath}/news/delete.do?page=${page}&newsNum=${dto.newsNum}';">삭제</button>
 									</td>
 								</tr>
 							</table>
 						</article>
 						<article class="article4">
-							<table class="articleTable2" border="1">
+							<table class="articleTable2">
 								<tr>
 									<td><span>공유글 목록</span></td>
-									<td><a
+									<td class="btn articleTable2BTN"><a
 										href="javascript:location.href='${pageContext.request.contextPath}/news/main.do';">전체글
 											보기</a></td>
 								</tr>
@@ -85,7 +85,7 @@
 										href="${pageContext.request.contextPath}/news/article.do?${query}&newsNum=${preReadDto.newsNum}">${preReadDto.subject}</a></td>
 								</tr>
 								<tr>
-									<td>다음글:<a
+									<td>다음글:<a 
 										href="${pageContext.request.contextPath}/news/article.do?${qurey}&newsNum=${nextReadDto.newsNum}">
 											${nextReadDto.subject}</a></td>
 								</tr>
