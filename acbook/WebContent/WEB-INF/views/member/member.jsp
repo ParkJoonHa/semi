@@ -188,7 +188,7 @@ function userIdCheck() {
 			      <td style="padding: 0 0 15px 15px;">
 			        <p style="margin-top: 1px; margin-bottom: 5px;">
 			            <input type="text" name="userId" id="userId" value="${dto.userId}"
-                         onchange="userIdCheck();" style="width: 95%;"
+                         style="width: 95%;"
                          ${mode=="update" ? "readonly='readonly' ":""}
                          maxlength="15" class="boxTF" placeholder="아이디">
                          

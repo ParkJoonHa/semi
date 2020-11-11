@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/myPage.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
@@ -29,14 +30,14 @@
 				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 			</aside>
 
-			<section>
+			<section class="myPageSection">
 				<div class="innerNav">
 					<h1>My page</h1>
 				</div>
 				
 				<div>
-					<div style="background-color: yellow;">
-						<table>
+					<div class="myPageArticle" >
+						<table class="myPageTable">
 							<tr>
 								<th>MY 정보</th>
 							</tr>
@@ -49,8 +50,8 @@
 							</tr>
 						</table>
 					</div>
-					<div style="background-color: pink;">
-						<table>
+					<div class="myPageArticle">
+						<table class="myPageTable">
 							<tr>
 								<th>MY 소비</th>
 							</tr>						
@@ -62,8 +63,8 @@
 							</tr>
 						</table>
 					</div>
-					<div style="background-color: skyblue;">
-						<table>
+					<div class="myPageArticle" >
+						<table class="myPageTable">
 							<tr>
 								<th>MY 활동</th>
 							</tr>						
@@ -75,8 +76,8 @@
 							</tr>
 						</table>		
 					</div>
-					<div style="background-color: gray;">
-						<table>
+					<div class="myPageArticle">
+						<table class="myPageTable">
 							<tr>
 								<th>MY 질문/답변</th>
 							</tr>						
@@ -84,16 +85,11 @@
 								<td>이미지 넣을 곳</td>
 							</tr>
 							<tr>
-								<td> <a href="">이달의 소비</a> </td>
+								<td> <a href="">내 질문 1</a> </td>
 							</tr>
 						</table>		
 					</div>
 				</div>
-				
-				
-				
-				
-				
 			</section>
 				
 		</main>

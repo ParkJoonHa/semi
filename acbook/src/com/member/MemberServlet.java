@@ -334,8 +334,11 @@ public class MemberServlet extends HttpServlet {
 			}
 			req.setAttribute("idCheckMessage", idCheckMessage);			
 			req.setAttribute("userId", userId);
-			forward(req, resp, "/WEB-INF/views/member/member.jsp");
-			return;
+			//forward(req, resp, "/WEB-INF/views/member/member.jsp");
+			//return;
+			
+			resp.sendRedirect(cp + "/member/member.jsp");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
