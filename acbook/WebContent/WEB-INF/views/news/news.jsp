@@ -42,31 +42,30 @@
 					<div class="innerNav">
 						<h1>공유도 공유하는 정보 공유</h1>
 					</div>
-					<article class="article1">
-						<table class="table1">
-							<tr>
-								<td width="50">번호</td>
-								<td>제 &nbsp;목</td>
-								<td width="100">작성자</td>
-								<td width="100">작성일</td>
-								<td width="70">조회수</td>
-							</tr>
-						</table>
-						<c:forEach var="dto" items="${list}">
-							<table class="table2">
+						<article class="article1">
+							<table class="table1">
 								<tr>
-									<td width="50">${dto.newsNum}</td>
-									<td><a href="${articleUrl}&newsNum=${dto.newsNum}">${dto.subject}</a></td>
-									<td width="100">${dto.userName}</td>
-									<td width="100">${dto.created}</td>
-									<td width="70">${dto.hitCount}</td>
+									<td width="50">번호</td>
+									<td>제 &nbsp;목</td>
+									<td width="100">작성자</td>
+									<td width="100">작성일</td>
+									<td width="70">조회수</td>
 								</tr>
-
 							</table>
-						</c:forEach>
+							<table class="table2">
+								<c:forEach var="dto" items="${list}">
+									<tr>
+										<td width="50">${dto.newsNum}</td>
+										<td><a href="${articleUrl}&newsNum=${dto.newsNum}">${dto.subject}</a></td>
+										<td width="100">${dto.userName}</td>
+										<td width="100">${dto.created}</td>
+										<td width="70">${dto.hitCount}</td>
+									</tr>
+								</c:forEach>
+							</table>
 
-					</article>
-					<article class="article2">
+						</article>
+						<article class="article2">
 							<table class="table3">
 								<tr>
 									<td><button class="btn btn1" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/main.do';"></button></td>
