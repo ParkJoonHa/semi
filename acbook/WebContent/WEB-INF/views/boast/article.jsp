@@ -30,11 +30,11 @@
 		location.href = "${pageContext.request.contextPath}/boast/delete.do?num=" + num;
 	}
 	
-	function replyDelete(replyNum) {
+	function replyDelete(replyNum, userId) {
 		var user = "${sessionScope.member.userId}";
 		
 		if(user != "admin") {
-			if(user != "${dto.userId}") {
+			if(user != userId) {
 				alert("삭제할 권한이 없습니다.");
 				
 				return;
@@ -141,7 +141,7 @@
 			    </td>
 			
 			    <td align="right">
-			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/boast/list.do';">리스트</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/boast/list.do?${query}';">리스트</button>
 			    </td>
 			</tr>
 			</table>
@@ -167,10 +167,10 @@
 			<table style="margin-top: 15px; table-layout:fixed; word-break:break-all;">
             <tr height='35' bgcolor='#eeeeee'>
                 <td width='50%' style='padding-left: 5px; border:1px solid #ccc; border-right:none;'>
-                      <span style='font-weight: 600;'>${dto.userId}</span>
+                      <span style='font-weight: 600;'>${dto.userName}</span>
                 </td>
                 <td width='50%' align='right' style='padding-right: 5px; border:1px solid #ccc; border-left:none;'>
-                      ${dto.created} | <a href="javascript:replyDelete('${dto.replyNum}')">삭제</a>
+                      ${dto.created} | <a href="javascript:replyDelete('${dto.replyNum}', '${dto.userId}')">삭제</a>
                 </td>
              </tr>
 

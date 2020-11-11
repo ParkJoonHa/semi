@@ -44,8 +44,8 @@ public class FreeServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
-		if (info == null) {
-			String path = "/WEB-INF/main.do";
+		if(info==null) {
+			String path = "/WEB-INF/views/member/login.jsp";
 			forward(req, resp, path);
 			return;
 		}
