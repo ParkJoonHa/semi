@@ -316,6 +316,10 @@ public class MemberServlet extends HttpServlet{
 			
 			if (dto.getUserPwd().equals(userPwd)) {
 				dao.deleteMember(userId, userPwd);
+				
+				HttpSession session = req.getSession(); 
+				session.invalidate();
+				
 				resp.sendRedirect(cp);
 				return;
 			}
@@ -324,6 +328,7 @@ public class MemberServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 		req.setAttribute("message", "패스워드가 일치하지 않습니다.");
+				
 		forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
 		
 	}		
