@@ -199,7 +199,6 @@ public class MemberServlet extends HttpServlet{
 		try {
 			String userId = req.getParameter("userID");
 			String userPwd = req.getParameter("userPwd");
-			String mode = req.getParameter("mode");
 			
 			MemberDTO dto = dao.readMember(userId);
 			
@@ -209,24 +208,6 @@ public class MemberServlet extends HttpServlet{
 				forward(req, resp, path);
 				return;
 			}	
-			// 아래 쓸모없는 코드 같은데 졸려서 확인 못하겠음 내일 확인
-			//
-			//
-			//
-			//
-			//
-			
-			if (mode!=null || mode.equals("update")) {
-				req.setAttribute("mode", mode);
-				String path = "/WEB-INF/views/member/member.jsp";
-				forward(req, resp, path);
-				return;
-				
-			} else if (mode!=null || mode.equals("delete")) {
-				dao.deleteMember(userId, userPwd);
-				resp.sendRedirect(cp);
-				return;
-			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -316,6 +297,10 @@ public class MemberServlet extends HttpServlet{
 			
 			if (dto.getUserPwd().equals(userPwd)) {
 				dao.deleteMember(userId, userPwd);
+				
+				HttpSession session = req.getSession(); 
+				session.invalidate();
+				
 				resp.sendRedirect(cp);
 				return;
 			}
@@ -324,6 +309,7 @@ public class MemberServlet extends HttpServlet{
 			e.printStackTrace();
 		}
 		req.setAttribute("message", "패스워드가 일치하지 않습니다.");
+				
 		forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
 		
 	}		

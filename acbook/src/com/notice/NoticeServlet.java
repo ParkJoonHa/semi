@@ -118,12 +118,12 @@ public class NoticeServlet extends MyUploadServlet {
 			list = dao.listNotice(offset, rows);
 		}
 
-		// 공지글
-		// List<NoticeDTO> listNotice=null;
-		// listNotice = dao.listNotice();
-		// for(NoticeDTO dto : listNotice){
-		// dto.setCreated(dto.getCreated().substring(0, 10));
-		// }
+		 //공지글
+		 List<NoticeDTO> listNotice=null;
+		 listNotice = dao.listNotice();
+		 for(NoticeDTO dto : listNotice){
+		 dto.setCreated(dto.getCreated().substring(0, 10));
+		 }
 
 		long gap;
 		Date curDate = new Date();
@@ -138,7 +138,7 @@ public class NoticeServlet extends MyUploadServlet {
 			try {
 				Date date = sdf.parse(dto.getCreated());
 
-				gap = (curDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24); // 일자
+				// gap = (curDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24); // 일자
 				gap = (curDate.getTime() - date.getTime()) / (1000 * 60 * 60); // 시간
 				dto.setGap(gap);
 			} catch (Exception e) {
@@ -166,7 +166,7 @@ public class NoticeServlet extends MyUploadServlet {
 
 		// 포워딩 jsp에 넘길 데이터
 		req.setAttribute("list", list);
-		// req.setAttribute("listNotice", listNotice);
+		req.setAttribute("listNotice", listNotice);
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("page", current_page);
@@ -212,9 +212,9 @@ public class NoticeServlet extends MyUploadServlet {
 		try {
 			NoticeDTO dto = new NoticeDTO();
 			dto.setUserId(info.getUserId());
-			// if(req.getParameter("notice")!=null) { // 공지 선택시 상단에 띄울지
-			// dto.setNotice(Integer.parseInt(req.getParameter("notice")));
-			// }
+			if(req.getParameter("nStatus")!=null) { // 공지 선택시 상단에 띄울지
+				dto.setnStatus(Integer.parseInt(req.getParameter("nStatus")));
+			}
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));
 
@@ -351,6 +351,9 @@ public class NoticeServlet extends MyUploadServlet {
 		try {
 			int noticeNum=Integer.parseInt(req.getParameter("noticeNum"));
 			dto.setNoticeNum(noticeNum);
+			if (req.getParameter("nStatus")!=null) {
+				dto.setnStatus(Integer.parseInt(req.getParameter("nStatus")));
+			}
 
 			dto.setSubject(req.getParameter("subject"));
 			dto.setContent(req.getParameter("content"));

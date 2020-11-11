@@ -15,6 +15,7 @@ public interface NoticeDAO {
 	public int dataCount();
 	public int dataCount(String condition, String keyword);
 	
+	public List<NoticeDTO> listNotice();
 	public List<NoticeDTO> listNotice(int offset, int rows);
 	public List<NoticeDTO> listNotice(int offset, int rows, String condition, String keyword);
 
