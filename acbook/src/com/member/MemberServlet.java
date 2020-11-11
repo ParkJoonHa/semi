@@ -332,16 +332,17 @@ public class MemberServlet extends HttpServlet {
 			} else {
 				idCheckMessage = "사용가능";	
 			}
-			req.setAttribute("idCheckMessage", idCheckMessage);			
+			req.setAttribute("idCheckMessage", idCheckMessage);
+			req.setAttribute("mode", "member");
 			req.setAttribute("userId", userId);
-			//forward(req, resp, "/WEB-INF/views/member/member.jsp");
-			//return;
 			
-			resp.sendRedirect(cp + "/member/member.jsp");
-			
+			forward(req, resp, "/WEB-INF/views/member/member.jsp");
+			return;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		resp.sendRedirect(cp + "/member/member.jsp");
 	}
 }
