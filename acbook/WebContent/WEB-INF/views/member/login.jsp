@@ -80,7 +80,7 @@ function sendLogin() {
                 </tr>
                 
 			    <tr align="center" height="40" >
-			    	<td><span style="color: blue;">${message}</span></td>
+			    	<td><span style="color: #3d7ea6;">${message}</span></td>
 			    </tr>     
 			               
             </table>

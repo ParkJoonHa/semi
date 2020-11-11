@@ -28,6 +28,14 @@
 	backdrop-filter: saturate(0%) blur(3px);
 }
 
+.pwdMainBody{
+	background: rgba(0,0,0,.75);
+	margin: 0 auto;
+	border-radius:5px;
+	backdrop-filter: saturate(0%) blur(3px);
+}
+
+
 .body-title {
 	margin: 15px 0;
 }

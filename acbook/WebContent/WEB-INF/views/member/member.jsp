@@ -10,12 +10,6 @@
 <title>spring</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
-<!-- 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resource/css/style.css"
-	type="text/css">
- -->
-
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resource/css/layout.css"
 	type="text/css">
@@ -217,7 +211,7 @@
 											<c:if test="${mode!='update'}">
 												<button type="submit" onclick="userIdCheck();" class="btn">아이디
 													중복확인</button>
-												<p style="color:${idCheckMessage=='사용가능'?'blue':'red'};">${idCheckMessage}</p>
+												<p style="color:${idCheckMessage=='사용가능'?'#3d7ea6':'red'};">${idCheckMessage}</p>
 											</c:if>
 
 										</p>
