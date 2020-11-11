@@ -14,10 +14,14 @@
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/jquery/css/smoothness/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resource/jquery/css/smoothness/jquery-ui.min.css"
+	type="text/css">
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/util.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resource/js/util.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resource/jquery/js/jquery.min.js"></script>
 
 <script type="text/javascript">
 	function searchList() {
@@ -33,38 +37,45 @@
 	}
 
 	<c:if test="${sessionScope.member.userId=='admin'}">
-	$(function(){
-		$("#chkAll").click(function(){
-			if($(this).is(":checked")) {
+	$(function() {
+		$("#chkAll").click(function() {
+			if ($(this).is(":checked")) {
 				$("input[name=noticeNums]").prop("checked", true);
 			} else {
 				$("input[name=noticeNums]").prop("checked", false);
 			}
 		});
-		
-		$("#btnDeleteList").click(function(){
-			var cnt=$("input[name=noticeNums]:checked").length;
-			if(cnt==0) {
-				alert("삭제할 게시물을 먼저 선택하세요.");
-				return false;
-			}
-			
-			var filename, input;
-			$("input[name=noticeNums]:checked").each(function(index) {
-				filename=$(this).attr("data-filename");
-				if(filename != "") {
-					input="<input type='hidden' name='filenames' value='"+filename+"'>";
-					$("form[name=noticeListForm]").append(input);
-				}
-			});
-			
-			if(confirm("선택한 게시물을 삭제 하시겠습니까 ?")) {
-				var f=document.noticeListForm;
-				f.action="${pageContext.request.contextPath}/notice/deleteList.do";
-				f.submit();
-			}
-			
-		});
+
+		$("#btnDeleteList")
+				.click(
+						function() {
+							var cnt = $("input[name=noticeNums]:checked").length;
+							if (cnt == 0) {
+								alert("삭제할 게시물을 먼저 선택하세요.");
+								return false;
+							}
+
+							var filename, input;
+							$("input[name=noticeNums]:checked")
+									.each(
+											function(index) {
+												filename = $(this).attr(
+														"data-filename");
+												if (filename != "") {
+													input = "<input type='hidden' name='filenames' value='"+filename+"'>";
+													$(
+															"form[name=noticeListForm]")
+															.append(input);
+												}
+											});
+
+							if (confirm("선택한 게시물을 삭제 하시겠습니까 ?")) {
+								var f = document.noticeListForm;
+								f.action = "${pageContext.request.contextPath}/notice/deleteList.do";
+								f.submit();
+							}
+
+						});
 	});
 	</c:if>
 </script>
@@ -141,17 +152,35 @@
 
 
 							<table class="table2">
+								<c:forEach var="dto" items="${listNotice}">
+									<tr align="center" bgcolor="#ffffff" height="35"
+										style="border-bottom: 1px solid #cccccc;">
+										<c:if test="${sessionScope.member.userId=='admin'}">
+											<td><input type="checkbox" name="noticeNums"
+												value="${dto.noticeNum}" style="margin-top: 3px;"></td>
+										</c:if>
+										<td><span
+											style="display: inline-block; padding: 1px 3px; background: #ED4C00; color: #FFFFFF;">공지</span>
+										</td>
+										<td align="left" style="padding-left: 10px;"><a
+											href="${articleUrl}&noticeNum=${dto.noticeNum}">${dto.subject}</a></td>
+										<td>${dto.userName}</td>
+										<td>${dto.created}</td>
+										<td>${dto.hitCount}</td>
+									</tr>
+								</c:forEach>
 								<c:forEach var="dto" items="${list}">
 									<tr>
 										<td width="50"><c:if
 												test="${sessionScope.member.userId=='admin'}">
-												<input type="checkbox" name="noticeNums" value="${dto.noticeNum}"
-													style="margin-top: 3px;"
-													data-filename="${dto.saveFilename}">
+												<input type="checkbox" name="noticeNums"
+													value="${dto.noticeNum}" style="margin-top: 3px;"
+													>
 											</c:if></td>
 										<td width="50">${dto.listNum}</td>
-										<!-- 이후에 listNum으로 확인 후 고치기 -->
-										<td><a href="${articleUrl}&noticeNum=${dto.noticeNum}">${dto.subject}</a></td>
+										<td><a href="${articleUrl}&noticeNum=${dto.noticeNum}">${dto.subject}</a>
+										<c:if test="${dto.gap<1}"><img src="${pageContext.request.contextPath}/resource/images/new.gif"></c:if>
+										</td>
 										<td width="100">${dto.userName}</td>
 										<td width="100">${dto.created}</td>
 										<td width="70">${dto.hitCount}</td>
@@ -187,11 +216,10 @@
 										<option value="created"
 											${condition=="created"?"selected='selected'":"" }>등록일</option>
 								</select></td>
-								<td align="center" width="300">
-								<input class="ipt" type="text" name="keyword"></td>
-								<td>
-			            			<input type="hidden" name="rows" value="${rows}">
-									<button class="btn btn2" type="button" onclick="searchList()">검색</button>						
+								<td align="center" width="300"><input class="ipt"
+									type="text" name="keyword"></td>
+								<td><input type="hidden" name="rows" value="${rows}">
+									<button class="btn btn2" type="button" onclick="searchList()">검색</button>
 								</td>
 								<td align="right">
 									<button class="btn btn3" type="button"
@@ -200,7 +228,7 @@
 							</tr>
 						</table>
 					</article>
-					</form>
+				</form>
 			</section>
 		</main>
 

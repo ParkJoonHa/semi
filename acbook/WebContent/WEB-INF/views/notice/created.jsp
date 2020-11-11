@@ -81,15 +81,13 @@
 										name="subject" maxlength="100" class="boxTF"
 										style="width: 95%;" value="${dto.subject}"></td>
 								</tr>
-
-								<!-- 
+							
 								<tr align="left" height="40"
 									style="border-bottom: 1px solid #cccccc;">
 									<td width="100" bgcolor="#dde6e6" style="text-align: center;">공지여부</td>
 									<td style="padding-left: 10px;"><input type="checkbox"
-										name="notice" value="1"> 공지</td>
+										name="nStatus" value="1"> 공지</td>
 								</tr>
-								 -->
 
 								<tr align="left" height="40"
 									style="border-bottom: 1px solid #cccccc;">

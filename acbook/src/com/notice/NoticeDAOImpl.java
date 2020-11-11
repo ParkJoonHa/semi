@@ -35,14 +35,15 @@ public class NoticeDAOImpl implements NoticeDAO {
 			sb.setLength(0);
 
 			sb.append("INSERT INTO notice ");
-			sb.append(" (noticeNum, userId, subject, content, hitCount, created) ");
-			sb.append(" VALUES (?, ?, ?, ?, 0, SYSDATE) ");
+			sb.append(" (noticeNum, userId, subject, content, hitCount, created, nStatus ) ");
+			sb.append(" VALUES (?, ?, ?, ?, 0, SYSDATE, ?) ");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, noticeNum);
 			pstmt.setString(2, dto.getUserId());
 			pstmt.setString(3, dto.getSubject());
 			pstmt.setString(4, dto.getContent());
+			pstmt.setInt(5, dto.getnStatus());
 			
 			result = pstmt.executeUpdate();
 
@@ -115,13 +116,14 @@ public class NoticeDAOImpl implements NoticeDAO {
 		String sql;
 		
 		try {
-			sql="UPDATE notice SET subject=?, content=? ";
+			sql="UPDATE notice SET subject=?, content=?, nStatus=? ";
 			sql+= " WHERE noticeNum=?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setString(2, dto.getContent());
-			pstmt.setInt(3, dto.getNoticeNum());
+			pstmt.setInt(3, dto.getnStatus());
+			pstmt.setInt(4, dto.getNoticeNum());
 			result = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -313,6 +315,57 @@ public class NoticeDAOImpl implements NoticeDAO {
         return result;
 	}
 
+    // 공지글
+	public List<NoticeDTO> listNotice() {
+		List<NoticeDTO> list=new ArrayList<NoticeDTO>();
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		StringBuilder sb=new StringBuilder();
+		
+		try {
+			sb.append("SELECT noticeNum, n.userId, userName, subject, ");
+			sb.append("       hitCount, created  ");
+			sb.append(" FROM notice n JOIN member1 m ON n.userId=m.userId  ");
+			sb.append(" WHERE nStatus=1  ");
+			sb.append(" ORDER BY noticeNum DESC ");
+
+			pstmt=conn.prepareStatement(sb.toString());
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				NoticeDTO dto=new NoticeDTO();
+				
+				dto.setNoticeNum(rs.getInt("noticeNum"));
+				dto.setUserId(rs.getString("userId"));
+				dto.setUserName(rs.getString("userName"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setCreated(rs.getString("created"));
+				
+				list.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+				
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return list;
+	}
+	
 	@Override
 	public List<NoticeDTO> listNotice(int offset, int rows) {
 		List<NoticeDTO> list=new ArrayList<NoticeDTO>();
@@ -516,7 +569,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 		String sql;
 			
 		try {			
-			sql = "SELECT n.noticeNum, n.userId, userName, subject, content, hitCount, created "
+			sql = "SELECT n.noticeNum,  nStatus, n.userId, userName, subject, content, hitCount, created "
 				//	+ " fileNum, saveFilename, originalFilename "
 					+ " FROM notice n "
 					+ " JOIN member1 m ON n.userId=m.userId "
@@ -532,6 +585,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 				dto = new NoticeDTO();
 				
 				dto.setNoticeNum(rs.getInt("noticeNum"));
+				dto.setnStatus(rs.getInt("nStatus"));
 				dto.setUserId(rs.getString("userId"));
 				dto.setUserName(rs.getString("userName"));
 				dto.setSubject(rs.getString("subject"));

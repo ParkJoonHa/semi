@@ -8,7 +8,7 @@ package com.notice;
  *
  */
 public class NoticeDTO {
-	private int noticeNum, listNum;
+	private int noticeNum, listNum, nStatus;
 	private String userName;
 	private String userId;
 	private String subject;
@@ -145,6 +145,14 @@ public class NoticeDTO {
 
 	public void setCreated(String created) {
 		this.created = created;
+	}
+
+	public int getnStatus() {
+		return nStatus;
+	}
+
+	public void setnStatus(int nStatus) {
+		this.nStatus = nStatus;
 	}
 
 }
