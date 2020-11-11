@@ -93,7 +93,7 @@
 				<form name="searchForm" action="${pageContext.request.contextPath}/qna/list.do" method="post">
 					<table class="table3">
 						<tr>
-							<td><button class="btn btn1" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">새로고침</button></td>
+							<td><button type="button" class="btn btn1" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list.do';">새로고침</button></td>
 							<td align="right">
 							
 							<select name="condition">
