@@ -10,6 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/layout.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/main.css">
 <link
 	href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap"
 	rel="stylesheet">
@@ -28,12 +29,10 @@
 			<aside>
 				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 			</aside>
-
-			<section>
-			<a href="${pageContext.request.contextPath}/news/main.do">news</a>
-			</section>
-				
 		</main>
+		<article class="mainArticle">
+		
+		</article>	
 
 		<footer>
 			<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

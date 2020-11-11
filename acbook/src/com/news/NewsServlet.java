@@ -202,15 +202,17 @@ public class NewsServlet extends MyUploadServlet {
 			Part p = req.getPart("upload");
 			Map<String, String> map = doFileUpload(p, pathname);
 			if (map != null) {
-				filename = map.get("photoFileName");
+				filename = map.get("saveFilename");
 				String originalFilename = map.get("originalFilename");
 				
 				dto.setPhotoFileName(filename);
 				dto.setOriginalFilename(originalFilename);
 				
 				dao.insertNews(dto);
+			}else {
+				
+				dao.insertNews(dto);
 			}
-			dao.insertNews(dto);
 
 		} catch (Exception e) {
 			e.printStackTrace();

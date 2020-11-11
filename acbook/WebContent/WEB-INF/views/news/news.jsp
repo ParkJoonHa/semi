@@ -36,7 +36,7 @@
 				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 			</aside>
 
-			<section>
+			<section class="newsSection">
 				<div class="innerNav">
 					<h3>공유도 공유하는 정보 공유</h3>
 				</div>

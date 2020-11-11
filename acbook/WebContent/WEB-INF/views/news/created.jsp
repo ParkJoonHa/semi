@@ -74,7 +74,7 @@ function sendOk() {
 						</tr>
 						<tr>
 						<td class="td1" height="20">이미지파일</td>
-						<td  class="td2" align="left"> <input name="selectFile" type="file" accept="image/*"> </td>
+						<td  class="td2" align="left"> <input name="upload" type="file" accept="image/*"> </td>
 						</tr>
 					</table>
 				</article>

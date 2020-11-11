@@ -10,7 +10,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resource/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
     <title>Document</title>
@@ -50,6 +50,7 @@ function sendLogin() {
 
 <body>
     <form name="loginForm" method="post" action="">
+    <div class="back">
     <div class="mainBody">
             <table class="logintable">
                 <tr class="tr1">
@@ -58,11 +59,11 @@ function sendLogin() {
                     </td>
                 </tr>
                 <tr class="tr1">
-                    <td class="td1">I d</td>
+                   
                     <td><input name="userId" id="userId" type="text" placeholder="아이디를 입력해주세요."></td>
                 </tr>
                 <tr class="tr1">
-                    <td class="td1">Pwd</td>
+                  
                     <td><input name="userPwd" id="userPwd" type="password" placeholder="비밀번호를 입력해주세요"></td>
                 </tr>
                 <tr>
@@ -83,6 +84,7 @@ function sendLogin() {
 			    </tr>     
 			               
             </table>
+        </div>
         </div>
     </form>
 </body>
