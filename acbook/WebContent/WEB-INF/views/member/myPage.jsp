@@ -31,11 +31,11 @@
 
 			<section>
 				<div class="innerNav">
-					<h1>Mypage</h1>
+					<h1>My page</h1>
 				</div>
 				
 				<div>
-					<div>
+					<div style="background-color: yellow;">
 						<table>
 							<tr>
 								<th>MY 정보</th>
@@ -43,12 +43,13 @@
 							<tr>
 								<td>이미지 넣을 곳</td>
 							</tr>
-							<tr>
-								<td> <a href="">개인정보 확인/수정</a> </td>
+							<tr> 
+								<td> <a href="javascript:location.href='${pageContext.request.contextPath}/member/pwd.do?mode=update';">개인정보 확인 및 수정</a> </td>
+								<td> <a href="javascript:location.href='${pageContext.request.contextPath}/member/pwd.do?mode=delete';">회원 탈퇴</a> </td>
 							</tr>
 						</table>
 					</div>
-					<div>
+					<div style="background-color: pink;">
 						<table>
 							<tr>
 								<th>MY 소비</th>
@@ -61,7 +62,7 @@
 							</tr>
 						</table>
 					</div>
-					<div>
+					<div style="background-color: skyblue;">
 						<table>
 							<tr>
 								<th>MY 활동</th>
@@ -74,7 +75,7 @@
 							</tr>
 						</table>		
 					</div>
-					<div>
+					<div style="background-color: gray;">
 						<table>
 							<tr>
 								<th>MY 질문/답변</th>
