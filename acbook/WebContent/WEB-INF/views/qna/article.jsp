@@ -16,7 +16,20 @@
 <title>Document</title>
 </head>
 <script type="text/javascript">
+function deleteQna(qnaNum, status) {
+	<c:if test="${sessionScope.member.userId == 'admin' || sessionScope.member.userId==dto.userId}">
+		
+		if(confirm("게시물을 삭제 하시겠습니까 ?")) {
+			var url= "${pageContext.request.contextPath}/qna/delete.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}";
+			location.href= url;
+		}
+	</c:if>
 
+	<c:if test="${sessionScope.member.userId != 'admin' && sessionScope.member.userId != dto.userId}">
+		alert('삭제 권한이 없습니다.');
+	</c:if>
+
+	}
 </script>
 
 <body>
@@ -38,7 +51,7 @@
 				</div>
 				<article class="article1">
 					<!-- 여기가 게시글 올리는곳 -->
-					<div style="overflow: scroll; width: 970px; height: 500px;">
+					<div style="overflow: scroll; width: 1000px; height: 600px;">
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center">
@@ -87,7 +100,7 @@
 			</table>
 			</c:if>
 			<tr height="45">
-			    <td>
+			    <td align="left">
 			    <c:if test="${sessionScope.member.userId == 'admin' && dto.status == 0}">
 			    	<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/answer.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">답변작성</button>
 			    </c:if>
@@ -95,7 +108,7 @@
 			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/update.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">수정</button>
 			    </c:if>
 			    <c:if test="${sessionScope.member.userId == dto.userId || sessionScope.member.userId == 'admin'}">
-			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/delete.do?page=${page}&qnaNum=${dto.qnaNum}&status=${dto.status}';">삭제</button>
+			          <button type="button" class="btn" onclick="deleteQna('${dto.qnaNum}', '${dto.status}');">삭제</button>
 			    </c:if>
 			    </td>
 			
