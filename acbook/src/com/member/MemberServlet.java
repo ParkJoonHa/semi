@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.qna.QnaDAO;
+import com.qna.QnaDAOImpl;
+import com.qna.QnaDTO;
 
 @WebServlet("/member/*")
 public class MemberServlet extends HttpServlet {
@@ -91,7 +96,8 @@ public class MemberServlet extends HttpServlet {
 			MemberDTO dto = dao.readMember(userId);
 
 			if (dto != null) { // 일반, 운영자, 임시정지 회원이 로그인 성공한 경우
-				if (dto.getUserPwd().equals(userPwd)) {
+				
+				if (dto.getUserPwd().equals(userPwd) && dto.getStatus()!=3) {
 					HttpSession session = req.getSession();
 
 					SessionInfo info = new SessionInfo();
@@ -99,15 +105,14 @@ public class MemberServlet extends HttpServlet {
 					info.setUserName(dto.getUserName());
 					info.setStatus(dto.getStatus());
 
-					if (dto.getStatus() == 3) { // 영구정지 회원의 경우
-						req.setAttribute("message", "영구정지된 회원입니다. 자세한 사항은 관리자에게 문의바랍니다.");
-						forward(req, resp, "/WEB-INF/views/member/login.jsp");
-						return;
-					}
-
 					session.setAttribute("member", info);
 					resp.sendRedirect(cp);
 					return;
+					
+				} else if(dto.getStatus()==3){
+					req.setAttribute("message", "영구정지된 회원입니다. 자세한 사항은 관리자에게 문의바랍니다.");
+					forward(req, resp, "/WEB-INF/views/member/login.jsp");
+					return;					
 				}
 			}
 		} catch (Exception e) {
@@ -172,6 +177,15 @@ public class MemberServlet extends HttpServlet {
 	protected void myPageForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 내 정보 페이지
 		String path = "/WEB-INF/views/member/myPage.jsp";
+		QnaDAO qdao = new QnaDAOImpl();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String userId = info.getUserId();
+		
+		List<QnaDTO> qlist = qdao.listQna(0, 3, "q.userId", userId);
+		req.setAttribute("qlist", qlist);
+		
 		forward(req, resp, path);
 	}
 
@@ -318,7 +332,6 @@ public class MemberServlet extends HttpServlet {
 
 	}
 
-	// 만들어야 할까...?
 	protected void userIdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 회원 아이디 중복 검사
 		MemberDAO dao = new MemberDAOImpl();

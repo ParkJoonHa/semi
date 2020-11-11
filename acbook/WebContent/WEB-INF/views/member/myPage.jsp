@@ -81,12 +81,18 @@
 							<tr>
 								<th>MY 질문/답변</th>
 							</tr>						
+								<c:forEach var = "qdto" items="${qlist}">
 							<tr>
-								<td>이미지 넣을 곳</td>
+									<td>
+										<a href = "${pageContext.request.contextPath}/qna/article.do?page=1&qnaNum=${qdto.qnaNum}&status=${qdto.status}">
+										
+										<%-- ${qdto.status=='1'? '[답변완료]' : '[답변대기]'}${qdto.q_subject} --%>
+										 ${qdto.status}
+										
+										</a>								
+									</td>
 							</tr>
-							<tr>
-								<td> <a href="">내 질문 1</a> </td>
-							</tr>
+								</c:forEach>
 						</table>		
 					</div>
 				</div>
