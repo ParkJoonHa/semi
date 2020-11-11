@@ -341,6 +341,7 @@ public class QnaDAOImpl implements QnaDAO {
 				dto.setUserName(rs.getString("userName"));
 				dto.setQ_subject(rs.getString("q_subject"));
 				dto.setQ_created(rs.getString("q_created"));
+				dto.setStatus(rs.getInt("status"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {

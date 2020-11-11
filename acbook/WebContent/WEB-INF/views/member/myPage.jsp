@@ -85,10 +85,7 @@
 							<tr>
 									<td>
 										<a href = "${pageContext.request.contextPath}/qna/article.do?page=1&qnaNum=${qdto.qnaNum}&status=${qdto.status}">
-										
-										<%-- ${qdto.status=='1'? '[답변완료]' : '[답변대기]'}${qdto.q_subject} --%>
-										 ${qdto.status}
-										
+											${qdto.status=='1'? '[답변완료]' : '[답변대기]'}${qdto.q_subject}
 										</a>								
 									</td>
 							</tr>
