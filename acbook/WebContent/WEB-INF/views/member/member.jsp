@@ -203,7 +203,7 @@
 							<table
 								style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">아이디</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -226,7 +226,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">패스워드</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -240,7 +240,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">패스워드 확인</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -253,7 +253,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">이름</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -267,7 +267,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">생년월일</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -281,7 +281,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">이메일</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -311,11 +311,11 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">전화번호</label></td>
 									<td style="padding: 0 0 15px 15px;">
-										<p style="margin-top: 1px; margin-bottom: 5px;">
+										<p style="margin-top: 1px; margin-bottom: 5px;"> 
 											<select class="selectField" id="tel1" name="tel1">
 												<option value="">선 택</option>
 												<option value="010"
@@ -338,7 +338,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">우편번호</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -351,7 +351,7 @@
 								</tr>
 
 								<tr>
-									<td width="100" valign="top"
+									<td width="120" valign="top"
 										style="text-align: right; padding-top: 5px;"><label
 										style="font-weight: 900;">주소</label></td>
 									<td style="padding: 0 0 15px 15px;">
@@ -369,7 +369,7 @@
 								</tr>
 								<c:if test="${mode=='created'}">
 									<tr>
-										<td width="100" valign="top"
+										<td width="120" valign="top"
 											style="text-align: right; padding-top: 5px;"><label
 											style="font-weight: 900;">약관동의</label></td>
 										<td style="padding: 0 0 15px 15px;">
@@ -455,11 +455,9 @@
 								}).open();
 					}
 				</script>
-
-
 			</div>
 		</div>
-
+			<div style="height: 50px;"></div>
 			<div class="footer">
 				<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 			</div>

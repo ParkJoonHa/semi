@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 *{
-	color: white;
+	color: #f4f4f2;
 }
 
 .memberContainer {
@@ -21,11 +21,15 @@
 
 .memberMainBody{
 	width:800px;
-	height:800px;
+	height:850px;
 	background: rgba(0,0,0,.75);
 	margin: 0 auto;
 	border-radius:5px;
 	backdrop-filter: saturate(0%) blur(3px);
+}
+
+.body-title {
+	margin: 15px 0;
 }
 
 .iptM {
@@ -41,10 +45,19 @@
 }
 
 input::placeholder {
-	color : white;
+	color : #bbbfca;
+}
+
+input::placeholder{
+	letter-spacing: 3px;
+	text-indent: 10px;
+}
+input:hover{
+	font-size: 5px;
 }
 
 .selectField {
+	color : #bbbfca;
 	background-color: gray;
     border:1px solid #999999;
     padding:3px 5px 3px;
@@ -52,9 +65,59 @@ input::placeholder {
     font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 }
 
+a {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    transition:0.3s;
+}
+
+a:hover, a:active {
+    color: #F28011;
+    text-decoration: none;
+}
+
+.aside-logo a {
+	color: black;
+}
 
 
+.btn {
+    color:white;
+    font-weight:500;
+    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+    text-align:center;
+    cursor:pointer;
+    padding:3px 10px 5px;
+    border-radius:5px;
+    border:0;
+    background:rgb(255, 38, 0);
+    transition:1s;
+    
+}
 
-
-
+.btn:active, .btn:focus, .btn:hover {
+    background-color:#F28011;
+    border-color: #adadad;
+    color: white;
+    transform:scale(1.05);
+}
+.btn[disabled], fieldset[disabled] .btn {
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+.btnConfirm {
+    font-size: 15px; 
+    border:none;
+    color:#ffffff;
+    background:#507CD1;
+    width: 360px;
+    height: 50px;
+    line-height: 50px;
+    border-radius:4px;
+}
 
