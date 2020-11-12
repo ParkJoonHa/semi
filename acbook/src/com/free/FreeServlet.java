@@ -205,6 +205,8 @@ public class FreeServlet extends HttpServlet {
 				resp.sendRedirect(cp + "/free/list.do?page=" + page);
 				return;
 			}
+			
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
 			if (keyword.length() != 0) {
 				query += "&condition=" + condition + "&keyword=" + keyword;

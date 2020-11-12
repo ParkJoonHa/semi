@@ -27,10 +27,9 @@ import com.util.MyUtil;
 
 @WebServlet("/boast/*")
 @MultipartConfig(
-			// ������ �ӽ÷� ������ ���(��������. �⺻�� ""), ������ ��ΰ� ������ ���ε尡 �ȵ�
-		fileSizeThreshold = 1024*1024,		// ���ε�� ������ �ӽ÷� ������ ������� �ʰ� �޸𸮿��� ��Ʈ������ �ٷ� ���޵Ǵ� ũ��
-		maxFileSize = 1024*1024*5,			// ���ε�� �ϳ��� ���� ũ��. �⺻ �뷮 ���� ����
-		maxRequestSize = 1024*1024*10	// �� ��ü �뷮
+		fileSizeThreshold = 1024*1024,
+		maxFileSize = 1024*1024*5,
+		maxRequestSize = 1024*1024*10
 	)
 public class BoastServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -228,6 +227,8 @@ public class BoastServlet extends HttpServlet {
 				resp.sendRedirect(cp + "/boast/list.do?page=" + page);
 				return;
 			}
+			
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 
 			if (keyword.length() != 0) {
 				query += "&condition=" + condition + "&keyword=" + keyword;
@@ -389,7 +390,7 @@ public class BoastServlet extends HttpServlet {
 		
 		try {
 			File f=new File(pathname);
-			if(! f.exists()) { // ������ �������� ������
+			if(! f.exists()) {
 				f.mkdirs();
 			}
 			
@@ -415,17 +416,11 @@ public class BoastServlet extends HttpServlet {
 		return map;
 	}
 
-	/**
-	 * ���� ���� ���ε�
-	 * @param parts				Ŭ���̾�Ʈ�� ������ ������ ��� Part ��ü
-	 * @param pathname		������ ������ ������ ��� 
-	 * @return						������ ����� ���ϸ�, Ŭ���̾�Ʈ�� �ø� ���ϸ�
-	 */
 	protected Map<String, String[]> doFileUpload(Collection<Part> parts, String pathname) throws ServletException, IOException {
 		Map<String, String[]> map = null;
 		try {
 			File f=new File(pathname);
-			if(! f.exists()) { // ������ �������� ������
+			if(! f.exists()) {
 				f.mkdirs();
 			}
 			
@@ -435,13 +430,7 @@ public class BoastServlet extends HttpServlet {
 			
 			for(Part p : parts) {
 				String contentType = p.getContentType();
-/*				
-			      if(contentType != null && contentType.toLowerCase().startsWith("multipart/")) {
-			         // multipart
-			      }				
-*/
-				// contentType �� null �� ���� ������ �ƴ� ����̴�.(<input type="text"... ��)
-				if(contentType != null) { // �����̸�
+				if(contentType != null) {
 					original = getOriginalFilename(p);
 					if(original == null || original.length() == 0 ) continue;
 					
@@ -456,7 +445,6 @@ public class BoastServlet extends HttpServlet {
 					
 					listOriginal.add(original);
 					listSave.add(save);
-					// Long size = p.getSize()); // ���� ũ��
 				}
 			}		
 			

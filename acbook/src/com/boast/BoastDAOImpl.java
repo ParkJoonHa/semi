@@ -289,9 +289,10 @@ public class BoastDAOImpl implements BoastDAO {
 			sb.append("(SELECT COUNT(*) FROM boastlike WHERE boastNum = b.boastNum) likecnt ");
 			sb.append("FROM boast b ");
 			sb.append("JOIN member1 m ON b.userId = m.userId ");
-			sb.append("WHERE ROWNUM <= 3 ");
 			sb.append("ORDER BY likecnt DESC, boastNum DESC ");
+			sb.append("OFFSET 0 ROWS FETCH FIRST 3 ROWS ONLY ");
 
+			System.out.println(sb.toString());
 			pstmt = conn.prepareStatement(sb.toString());
 			rs = pstmt.executeQuery();
 			
@@ -720,7 +721,7 @@ public class BoastDAOImpl implements BoastDAO {
 			while (rs.next()) {
 				BoastReplyDTO dto = new BoastReplyDTO();
 				dto.setBoastNum(rs.getInt("boastNum"));
-				dto.setContent(rs.getString("content"));
+				dto.setContent(rs.getString("content").replaceAll("\n", "<br>"));
 				dto.setCreated(rs.getString("created"));
 				dto.setReplyNum(rs.getInt("replyNum"));
 				dto.setUserId(rs.getString("userId"));
@@ -765,6 +766,7 @@ public class BoastDAOImpl implements BoastDAO {
 			
 			if(rs.next()) {
 				result = rs.getInt(1);
+				System.out.println(result);
 			}
 			
 			pstmt.close();

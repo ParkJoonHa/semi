@@ -556,7 +556,7 @@ public class FreeDAOImpl implements FreeDAO {
 			while (rs.next()) {
 				FreeReplyDTO dto = new FreeReplyDTO();
 				dto.setFreeNum(rs.getInt("freeNum"));
-				dto.setContent(rs.getString("content"));
+				dto.setContent(rs.getString("content").replaceAll("\n", "<br>"));
 				dto.setCreated(rs.getString("created"));
 				dto.setReplyNum(rs.getInt("replyNum"));
 				dto.setUserId(rs.getString("userId"));
