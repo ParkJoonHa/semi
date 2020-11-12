@@ -188,15 +188,10 @@ public class QnaServlet extends MyServlet {
 				return;
 			}
 			dto.setQ_content(dto.getQ_content().replaceAll("\n", "<br>"));
-			
-//			if(dtoanswer == null) {
-//				resp.sendRedirect(cp+"/qna/list.do?"+query);
-//				return;
-//			}
-//			dtoanswer.setA_content(dtoanswer.getA_content().replaceAll("\n", "<br>"));
-			
-			
-			
+			if(dtoanswer != null) {
+				dtoanswer.setA_content(dtoanswer.getA_content().replaceAll("\n", "<br>"));
+			}
+				
 			req.setAttribute("dto", dto);
 			req.setAttribute("dtoanswer", dtoanswer);
 			req.setAttribute("page", page);
