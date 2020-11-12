@@ -13,8 +13,8 @@ public interface AccountDAO {
 	public int dataCount(String userId, String condition, String keyword);
 	
 	public List<AccountDTO > listAccount(int offset, int rows, String userId);
-	public List<AccountDTO > listAccount(String userId, String date);
 	public List<AccountDTO > listAccount(int offset, int rows, String condition, String keyword, String userId);
+	public List<AccountDTO > listAccount(String userId, String date);
 
 	public AccountDTO readAccount(int abNum);
 	public AccountDTO preReadAccount(int abNum, String condition, String keyword);

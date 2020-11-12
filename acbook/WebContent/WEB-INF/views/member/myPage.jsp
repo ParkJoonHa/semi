@@ -42,7 +42,7 @@
 								<td >MY 정보</td>
 							</tr>
 							<tr>
-								<td style=""> <img src="${pageContext.request.contextPath}/resources/css/user.png"> </td>
+								<td style=""> <!--<img src="${pageContext.request.contextPath}/resources/css/user.png">  --> </td>
 							</tr>
 							<tr> 
 								<td> <a href="javascript:location.href='${pageContext.request.contextPath}/member/pwd.do?mode=update';">개인정보 확인 및 수정</a> </td>
