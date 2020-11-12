@@ -83,12 +83,6 @@
 									<td class="td1">내용</td>
 									<td><textarea name="content">${dto.content}</textarea></td>
 								</tr>
-
-								<tr align="left">
-									<td class="td1" height="20" align="center">파&nbsp;&nbsp;&nbsp;&nbsp;일</td>
-									<td class="td2" align="left"><input type="file"
-										name="selectFile" multiple="multiple" onchange="picture();"></td>
-								</tr>
 							</table>
 							</article>
 							<article class="article2">
