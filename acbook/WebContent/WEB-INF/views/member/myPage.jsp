@@ -35,57 +35,36 @@
 					<h1>My page</h1>
 				</div>
 				
-				<div>
+				<div style="margin: auto;">
 					<div class="myPageArticle" >
 						<table class="myPageTable">
-							<tr>
-								<th>MY 정보</th>
+							<tr class = "myPageTrB">
+								<td >MY 정보</td>
 							</tr>
 							<tr>
-								<td>이미지 넣을 곳</td>
+								<td style=""> <img src="${pageContext.request.contextPath}/resources/css/user.png"> </td>
 							</tr>
 							<tr> 
 								<td> <a href="javascript:location.href='${pageContext.request.contextPath}/member/pwd.do?mode=update';">개인정보 확인 및 수정</a> </td>
+								<td width="50"></td>
 								<td> <a href="javascript:location.href='${pageContext.request.contextPath}/member/pwd.do?mode=delete';">회원 탈퇴</a> </td>
 							</tr>
 						</table>
 					</div>
+
 					<div class="myPageArticle">
 						<table class="myPageTable">
-							<tr>
-								<th>MY 소비</th>
+							<tr class = "myPageTrB">
+								<td>MY 질문/답변</td>
 							</tr>						
 							<tr>
-								<td>이미지 넣을 곳</td>
+								<td></td>
 							</tr>
-							<tr>
-								<td> <a href="">이달의 소비</a> </td>
-							</tr>
-						</table>
-					</div>
-					<div class="myPageArticle" >
-						<table class="myPageTable">
-							<tr>
-								<th>MY 활동</th>
-							</tr>						
-							<tr>
-								<td>이미지 넣을 곳</td>
-							</tr>
-							<tr>
-								<td> <a href="">더 보기</a> </td>
-							</tr>
-						</table>		
-					</div>
-					<div class="myPageArticle">
-						<table class="myPageTable">
-							<tr>
-								<th>MY 질문/답변</th>
-							</tr>						
 								<c:forEach var = "qdto" items="${qlist}">
 							<tr>
 									<td>
 										<a href = "${pageContext.request.contextPath}/qna/article.do?page=1&qnaNum=${qdto.qnaNum}&status=${qdto.status}">
-											${qdto.status=='1'? '[답변완료]' : '[답변대기]'}${qdto.q_subject}
+											${qdto.status=='1'? '[답변완료] ' : '[답변대기] '}${qdto.q_subject}
 										</a>								
 									</td>
 							</tr>
