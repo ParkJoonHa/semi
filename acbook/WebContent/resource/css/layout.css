@@ -71,6 +71,9 @@ h3{
 	background: rgba(255,255,255,0.2);
 	backdrop-filter: saturate(180%) blur(6px);
 }
+.newsSection-1{
+	height: 900px;
+}
 
 h1 {
 	margin: 10px 10px;
@@ -79,14 +82,18 @@ h1 {
 }
 
 .article1 {
-
+	
 	margin: 20px 10px;
 	padding: 20px;
 	height: 80%;
 	box-sizing: border-box;
 	border: 3px solid #white;
-	background-color: rgba(255,255,255,0.2);
+ 	background-color: rgba(255,255,255,0.2); 
+
 	backdrop-filter: saturate(180%) blur(6px);
+}
+.article1-1{
+	max-height: 1000px;
 }
 
 .article2 {
@@ -395,4 +402,5 @@ ul.acctmenu li:hover > ul li a:hover {
   color: #F6FFCC;
   text-decoration: none;
 }
- 
+ .table2-10{
+ margin: 0}

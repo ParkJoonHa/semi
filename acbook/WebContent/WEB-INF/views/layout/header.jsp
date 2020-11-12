@@ -26,7 +26,7 @@
 <div class="aside-top">
 	<div class="aside-logo">
 		<a href="${pageContext.request.contextPath}/"> <span
-			class="aside-logo-image">로고 들어갈 자리</span>
+			class="aside-logo-image">내돈이 어디로 가계부</span>
 		</a>
 	</div>
 </div>

@@ -36,12 +36,12 @@
 					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 				</aside>
 
-						<form action="${pageContext.request.contextPath}/news/main.do"
-							name="articleForm" method="post">
-				<section class="newsSection">
-					<div class="innerNav">
-						<h1>공유도 공유하는 정보 공유</h1>
-					</div>
+				<form action="${pageContext.request.contextPath}/news/main.do"
+					name="articleForm" method="post">
+					<section class="newsSection">
+						<div class="innerNav">
+							<h1>공유도 공유하는 정보 공유</h1>
+						</div>
 						<article class="article1">
 							<table class="table1">
 								<tr>
@@ -68,7 +68,8 @@
 						<article class="article2">
 							<table class="table3">
 								<tr>
-									<td><button class="btn btn1" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/news/main.do';"></button></td>
+									<td><button class="btn btn1" type="button"
+											onclick="javascript:location.href='${pageContext.request.contextPath}/news/main.do';"></button></td>
 									<td align="right"><select name="condition" id="serch">
 											<option value="all"
 												${condition=="all" ? "selected='selected' ": ""}>제목+내용</option>
@@ -100,16 +101,16 @@
 									</td>
 								</tr>
 							</table>
-					</article>
-				</section>
-						</form>
+						</article>
+					</section>
+				</form>
 			</main>
 
 			<footer>
 				<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 			</footer>
-			</div>
 		</div>
+	</div>
 </body>
 
 </html>

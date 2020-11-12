@@ -39,7 +39,7 @@
 					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 				</aside>
 				<form name="newsForm" method="post">
-					<section class="createdSection">
+					<section class="newsSection">
 						<div class="innerNav">
 							<h1>자유 게시판</h1>
 						</div>
@@ -68,13 +68,7 @@
 								</c:forEach>
 							</table>
 
-							<table
-								style="width: 100%; margin: 0px auto; border-spacing: 0px;">
-								<tr height="35">
-									<td align="center">${dataCount==0?"등록된 게시물이 없습니다.":paging}
-									</td>
-								</tr>
-							</table>
+							
 						</article>
 						<article class="article2">
 							<table class="table3">
@@ -106,6 +100,13 @@
 									</td>
 								</tr>
 
+							</table>
+							<table
+								style="width: 100%; margin: 0px auto; border-spacing: 0px;">
+								<tr height="35">
+									<td align="center">${dataCount==0?"등록된 게시물이 없습니다.":paging}
+									</td>
+								</tr>
 							</table>
 						</article>
 					</section>

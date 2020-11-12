@@ -94,17 +94,17 @@
 			<aside>
 				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 			</aside>
+			<form name="articleForm"
+				action="${pageContext.request.contextPath}/notice/list.do"
+				method="post">
+				<section>
+					<div class="innerNav">
+						<h1>공지사항</h1>
+					</div>
 
-			<section>
-				<div class="innerNav">
-					<h1>공지사항</h1>
-				</div>
-				<form name="noticeListForm" method="post">
 					<article class="article1">
-						<!-- 여기가 게시글 올리는곳  : 테스 -->
-						<div>
-							<table
-								style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
+						
+							<table class="table1" style="background:rgba(255,255,255,0.3);">
 								<tr height="35">
 									<td align="left" width="50%"><c:if
 											test="${sessionScope.member.userId=='admin'}">
@@ -174,13 +174,14 @@
 										<td width="50"><c:if
 												test="${sessionScope.member.userId=='admin'}">
 												<input type="checkbox" name="noticeNums"
-													value="${dto.noticeNum}" style="margin-top: 3px;"
-													>
+													value="${dto.noticeNum}" style="margin-top: 3px;">
 											</c:if></td>
 										<td width="50">${dto.listNum}</td>
 										<td><a href="${articleUrl}&noticeNum=${dto.noticeNum}">${dto.subject}</a>
-										<c:if test="${dto.gap<1}"><img src="${pageContext.request.contextPath}/resource/images/new.gif"></c:if>
-										</td>
+											<c:if test="${dto.gap<1}">
+												<img
+													src="${pageContext.request.contextPath}/resource/images/new.gif">
+											</c:if></td>
 										<td width="100">${dto.userName}</td>
 										<td width="100">${dto.created}</td>
 										<td width="70">${dto.hitCount}</td>
@@ -195,17 +196,15 @@
 									</td>
 								</tr>
 							</table>
-						</div>
+						
 					</article>
-				</form>
-				<form name="searchForm"
-					action="${pageContext.request.contextPath}/notice/list.do"
-					method="post">
+
+
 					<article class="article2">
 
 						<table class="table3">
 							<tr>
-								<td><button class="btn btn1">새로고침</button></td>
+								<td><button class="btn btn1"></button></td>
 								<td align="right"><select name="condition" id="serch">
 										<option value="subject"
 											${condition=="subject"?"selected='selected'":"" }>제목</option>
@@ -228,8 +227,8 @@
 							</tr>
 						</table>
 					</article>
-				</form>
 			</section>
+			</form>
 		</main>
 
 		<footer>

@@ -60,7 +60,7 @@
 				<form name="newsForm" method="post" enctype="multipart/form-data">
 					<section class="createdSection">
 						<div class="innerNav">
-							<h1>공유도 공유하는 정보 공유!</h1>
+							<h1>게시물 등록</h1>
 						</div>
 						<article class="article1">
 							<table class="newsTable">
@@ -72,7 +72,7 @@
 								<tr height="20">
 									<td class="td1">작성자</td>
 									<td class="td2" align="left"><span>${sessionScope.member.userName}</span></td>
-
+												
 								</tr>
 								<tr height="200">
 									<td class="td1">내 용</td>
