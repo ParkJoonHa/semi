@@ -57,7 +57,7 @@
 					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 				</aside>
 
-				<form name="newsForm" method="post">
+				<form name="qnaForm" method="post">
 					<section class="createdSection">
 						<div class="innerNav">
 							<h1>QNA 등록</h1>
