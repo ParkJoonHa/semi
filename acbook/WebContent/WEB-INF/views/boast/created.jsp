@@ -60,7 +60,7 @@
 				<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 			</aside>
 
-			<form name="newsForm" method="post" enctype="multipart/form-data">
+			<form name="boastForm" method="post" enctype="multipart/form-data">
 				<section class="createdSection">
 					<div class="innerNav">
 						<h1>게시물 등록</h1>

@@ -65,7 +65,7 @@
 					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 				</aside>
 
-				<form name="newsForm" method="post" enctype="multipart/form-data">
+				<form name="noticeForm" method="post" enctype="multipart/form-data">
 
 					<section>
 						<div class="innerNav">

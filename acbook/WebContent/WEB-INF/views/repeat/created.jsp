@@ -17,7 +17,7 @@
 	rel="stylesheet">
 <script type="text/javascript">
 function sendOk() {
-	var f = document.newsForm
+	var f = document.repeatForm
 	
 	var str = f.subject.value;
     if(!str) {
@@ -54,7 +54,7 @@ function sendOk() {
 					<jsp:include page="/WEB-INF/views/layout/aside.jsp" />
 				</aside>
 
-				<form name="newsForm" method="post">
+				<form name="repeatForm" method="post">
 					<section class="createdSection">
 						<div class="innerNav">
 							<h1>QNA 등록</h1>
