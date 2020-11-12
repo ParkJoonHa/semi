@@ -20,7 +20,7 @@
 <title>Document</title>
 <script type="text/javascript">
 	function sendOk() {
-		var f = document.qnaForm;
+		var f = document.newsForm;
 
 		var str = f.q_subject.value;
 		if (!str) {

@@ -36,7 +36,6 @@ function sendOk() {
 	f.action = "${pageContext.request.contextPath}/repeat/${mode}_ok.do"
 	
 	f.submit();
-}
 </script>
 <title>Document</title>
 </head>

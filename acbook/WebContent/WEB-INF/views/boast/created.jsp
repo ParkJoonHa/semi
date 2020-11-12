@@ -19,7 +19,6 @@
 <title>Document</title>
 <script type="text/javascript">
 	function sendOk() {
-		var f = document.boastForm;
 
 		var str = f.subject.value;
 		if (!str) {

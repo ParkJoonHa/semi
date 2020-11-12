@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
 	function sendNotice() {
-		var f = document.noticeForm;
+		var f = document.newsForm;
 
 		var str = f.subject.value;
 		if (!str) {
