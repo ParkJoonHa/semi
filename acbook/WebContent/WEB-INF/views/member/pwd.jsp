@@ -81,20 +81,21 @@
 			</div>
 
 			<div class="container">
-				<div>
-
-					<div style="margin: 70px auto 60px; width: 420px;">
+					<div style="margin: 0 auto;">
 
 						<div style="text-align: center;">
-							<span style="font-weight: bold; font-size: 27px; color: #424951;">패스워드
+							<span style="font-weight: bold; font-size: 27px; color: white;">패스워드
 								재확인</span>
 						</div>
 
-						<form name="pwdForm" method="post" action="">
+
+
+						<div >
+						<form name="pwdForm" method="post" action="" style="margin: 0 auto;">
 							<table class="pwdMainBody"
-								style="width: 100%; margin: 20px auto; padding: 30px; border-collapse: collapse; border: 1px solid #DAD9FF;">
+								style="width: 50%; margin: 20px auto; padding: 30px; border-collapse: collapse; border: 1px solid #DAD9FF; border-radius: 5px;">
 								<tr style="height: 50px;">
-									<td style="padding-left: 30px; text-align: left;">정보보호를 위해
+									<td style="text-align: center; padding-top: 10px;">정보보호를 위해
 										패스워드를 다시 한 번 입력해주세요.</td>
 								</tr>
 
@@ -107,18 +108,17 @@
 								</tr>
 								<tr align="center" height="60">
 									<td>&nbsp; <label for="userPwd" id="lblUserPwd"
-										class="lbl">패스워드</label> <input type="password"
-										name="userPwd" id="userPwd" class="loginTF" maxlength="20"
-										tabindex="2"
+										class="lbl">패스워드</label> <input type="password" name="userPwd"
+										id="userPwd" class="loginTF" maxlength="20" tabindex="2"
 										onfocus="document.getElementById('lblUserPwd').style.display='none';"
 										onblur="bgLabel(this, 'lblUserPwd');"> &nbsp;
 									</td>
 								</tr>
-								<tr align="center" height="65">
+								<tr align="center" height="80">
 									<td>&nbsp;
-										<button type="button" onclick="sendOk();" class="btn btnConfirm">확인</button>
-										<input type="hidden" name="mode" value="${mode}">
-										&nbsp;
+										<button type="button" onclick="sendOk();"
+											class="btn btnConfirm" style="width:120px; height: 40px; line-height: 10px;">확인</button> <input type="hidden"
+										name="mode" value="${mode}"> &nbsp;
 									</td>
 								</tr>
 								<tr align="center" height="10">
@@ -128,17 +128,17 @@
 						</form>
 
 						<table
-							style="width: 100%; margin: 10px auto 0; border-collapse: collapse;">
+							style="width: 50%; margin: 10px auto 0; border-collapse: collapse;">
 							<tr align="center" height="30">
 								<td><span style="color: blue;">${message}</span></td>
 							</tr>
 						</table>
+						</div>
 					</div>
 
-				</div>
 
 			</div>
-			<div style="height: 50px;"></div>
+			<div style="height: 350px;"></div>
 			<div class="footer">
 				<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 			</div>

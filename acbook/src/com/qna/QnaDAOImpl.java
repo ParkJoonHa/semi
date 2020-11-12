@@ -341,6 +341,7 @@ public class QnaDAOImpl implements QnaDAO {
 				dto.setUserName(rs.getString("userName"));
 				dto.setQ_subject(rs.getString("q_subject"));
 				dto.setQ_created(rs.getString("q_created"));
+				dto.setStatus(rs.getInt("status"));
 				list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -366,7 +367,7 @@ public class QnaDAOImpl implements QnaDAO {
 
 	@Override
 	public QnaDTO readQna(int qnaNum) {
-		QnaDTO dto = new QnaDTO();
+		QnaDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
@@ -379,6 +380,7 @@ public class QnaDAOImpl implements QnaDAO {
 				pstmt.setInt(1, qnaNum);
 				rs = pstmt.executeQuery();
 				if(rs.next()) {
+					dto = new QnaDTO();
 					dto.setQnaNum(rs.getInt("qnaNum"));
 					dto.setUserId(rs.getString("userId"));
 					dto.setUserName(rs.getString("userName"));
@@ -409,7 +411,7 @@ public class QnaDAOImpl implements QnaDAO {
 
 	@Override
 	public QnaDTO readAnswer(int qnaNum) {
-		QnaDTO dto = new QnaDTO();
+		QnaDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
@@ -423,6 +425,7 @@ public class QnaDAOImpl implements QnaDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
+				dto = new QnaDTO();
 				dto.setQnaNum(rs.getInt("qnaNum"));
 				dto.setAnswerNum(rs.getInt("answerNum"));
 				dto.setUserId(rs.getString("userId"));
@@ -430,6 +433,7 @@ public class QnaDAOImpl implements QnaDAO {
 				dto.setA_subject(rs.getString("a_subject"));
 				dto.setA_content(rs.getString("a_content"));
 				dto.setA_created(rs.getString("a_created"));
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -2,6 +2,7 @@
 
 
 .myPageSection {
+	width : 1200px;
 	max-height:850px;
     height:800px;
 	margin: 10px ;
@@ -12,6 +13,7 @@
 }
 
 .myPageArticle {
+	width: 450px;
 	margin: 20px 10px;
 	padding: 20px;
 	height: 80%;
@@ -19,4 +21,9 @@
 	border: 3px solid #white;
 	background-color: rgba(255,255,255,0.2);
 	backdrop-filter: saturate(180%) blur(6px);
+}
+
+.myPageTrB {
+	font-weight: 600;
+	text-align: center;
 }
